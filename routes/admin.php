@@ -6,7 +6,24 @@ use Illuminate\Support\Facades\Route;
  * Admin Area
  */
 // Dashboard
-//Route::get('/', 'Admin\DashController@show')->name('dash');
+Route::get('/', 'Admin\DashController@show')->name('dash');
+
+// Servers Listing
+//Route::prefix('servers')->name('servers.')->group(function () {
+//    Route::get('/active', 'Admin\ServerController@active')->name('active');
+//    Route::get('/pending', 'Admin\ServerController@pending')->name('pending');
+//    Route::get('/suspended', 'Admin\ServerController@suspended')->name('suspended');
+//    Route::get('/canceled', 'Admin\ServerController@canceled')->name('canceled');
+//});
+
+// Servers
+//Route::prefix('server/{id}')->name('server.')->group(function () {
+//    Route::get('/', 'Admin\ServerController@show')->name('show');
+//    Route::get('/suspend', 'Admin\ServerController@suspend')->name('suspend');
+//    Route::get('/plan', 'Admin\ServerController@plan')->name('plan');
+//    Route::get('/addons', 'Admin\ServerController@addons')->name('addons');
+//    Route::get('/subdomain', 'Admin\ServerController@subdomain')->name('subdomain');
+//});
 
 // Clients
 //Route::prefix('client')->name('client.')->group(function () {
@@ -27,23 +44,6 @@ use Illuminate\Support\Facades\Route;
 //Route::prefix('affiliate')->name('affiliate.')->group(function () {
 //    Route::get('/', 'Admin\AffiliateController@show')->name('show');
 //    Route::post('/', 'Admin\AffiliateController@store');
-//});
-
-// Servers Listing
-//Route::prefix('servers')->name('servers.')->group(function () {
-//    Route::get('/active', 'Admin\ServerController@active')->name('active');
-//    Route::get('/pending', 'Admin\ServerController@pending')->name('pending');
-//    Route::get('/suspended', 'Admin\ServerController@suspended')->name('suspended');
-//    Route::get('/canceled', 'Admin\ServerController@canceled')->name('canceled');
-//});
-
-// Servers
-//Route::prefix('server/{id}')->name('server.')->group(function () {
-//    Route::get('/', 'Admin\ServerController@show')->name('show');
-//    Route::get('/suspend', 'Admin\ServerController@suspend')->name('suspend');
-//    Route::get('/plan', 'Admin\ServerController@plan')->name('plan');
-//    Route::get('/addons', 'Admin\ServerController@addons')->name('addons');
-//    Route::get('/subdomain', 'Admin\ServerController@subdomain')->name('subdomain');
 //});
 
 // Server Plans
@@ -123,17 +123,7 @@ use Illuminate\Support\Facades\Route;
 //    });
 //});
 
-// Gateway
-//Route::prefix('gateway')->name('gateway.')->group(function () {
-//    Route::get('/', 'Admin\GatewayController@index')->name('index');
-//
-//    Route::prefix('{id}')->group(function () {
-//        Route::get('/', 'Admin\GatewayController@show')->name('show');
-//        Route::post('/', 'Admin\GatewayController@store');
-//    });
-//});
-
-// Currency
+// Currencies
 //Route::prefix('currency')->name('currency.')->group(function () {
 //    Route::get('/', 'Admin\CurrencyController@index')->name('index');
 //
@@ -180,39 +170,20 @@ use Illuminate\Support\Facades\Route;
 //    Route::post('/', 'Admin\AnnouncementController@store');
 //});
 
-// Pages
-//Route::prefix('page')->name('page.')->group(function () {
-//    Route::prefix('{id}')->group(function () {
-//        Route::get('/', 'Admin\PageController@show')->name('show');
-//        Route::post('/', 'Admin\PageController@store');
-//    });
+// Store Settings
+//Route::prefix('setting')->name('setting.')->group(function () {
+//    Route::get('/', 'Admin\SettingController@show')->name('show');
+//    Route::post('/', 'Admin\SettingController@store');
 //});
 
-// Settings
-//Route::get('/config', 'Admin\ConfigController@show')->name('config');
-
-// Node Settings
-//Route::prefix('node')->name('node.')->group(function () {
-//    Route::get('/', 'Admin\NodeController@show')->name('show');
-//    Route::post('/', 'Admin\NodeController@store');
-//});
-
-// Subdomain Settings
-//Route::prefix('subdomain')->name('subdomain.')->group(function () {
-//    Route::get('/', 'Admin\SubdomainController@index')->name('index');
-//
-//    Route::prefix('{id}')->group(function () {
-//        Route::get('/', 'Admin\SubdomainController@show')->name('show');
-//        Route::post('/', 'Admin\SubdomainController@update');
-//        Route::get('/delete', 'Admin\SubdomainController@delete')->name('delete');
-//        Route::get('/create', 'Admin\SubdomainController@create')->name('create');
-//        Route::post('/create', 'Admin\SubdomainController@store');
-//    });
+// Store Pages
+//Route::prefix('page/{id}')->name('page.')->group(function () {
+//    Route::get('/', 'Admin\PageController@show')->name('show');
+//    Route::post('/', 'Admin\PageController@store');
 //});
 
 // Extensions
-//Route::prefix('extension')->name('extension.')->group(function () {
-//    Route::get('/paypal', 'Admin\Extension\PayPalController@show')->name('paypal');
-//    Route::get('/hcaptcha', 'Admin\Extension\HCaptchaController@show')->name('hcaptcha');
-//    Route::get('/cloudflare', 'Admin\Extension\CloudflareController@show')->name('cloudflare');
+//Route::prefix('extension/{id}')->name('extension.')->group(function () {
+//    Route::get('/', 'Admin\ExtensionController@show')->name('show');
+//    Route::post('/', 'Admin\ExtensionController@store');
 //});

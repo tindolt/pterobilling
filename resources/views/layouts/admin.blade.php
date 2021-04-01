@@ -19,10 +19,10 @@
     <body class="hold-transition sidebar-mini layout-fixed layout-navbar-fixed @if(config('app.dark_mode')) dark-mode @endif">
         <div class="wrapper">
             <!-- Navbar -->
-            @include('layouts.client.nav')
+            @include('layouts.admin.nav')
 
             <!-- Main Sidebar Container -->
-            @include('layouts.client.sidebar')
+            @include('layouts.admin.sidebar')
 
             <!-- Content Wrapper. Contains page content -->
             <div class="content-wrapper">
@@ -32,7 +32,7 @@
                 <!-- Main content -->
                 <div class="content">
                     <div class="container-fluid">
-                        @include('layout.admin.alert')
+                        @include('layouts.admin.alert')
                         @yield('content')
                     </div>
                 </div>

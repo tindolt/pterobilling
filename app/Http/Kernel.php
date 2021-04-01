@@ -36,6 +36,7 @@ class Kernel extends HttpKernel
             // \Illuminate\Session\Middleware\AuthenticateSession::class,
             \Illuminate\View\Middleware\ShareErrorsFromSession::class,
             \App\Http\Middleware\VerifyCsrfToken::class,
+            \App\Http\Middleware\SetDefaultSession::class,
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
             \App\Http\Middleware\WarnNonHttps::class
         ],
@@ -54,10 +55,17 @@ class Kernel extends HttpKernel
      * @var array
      */
     protected $routeMiddleware = [
+        'admin' => \App\Http\Middleware\AdminArea::class,
         'auth' => \App\Http\Middleware\Authenticate::class,
         'auth.basic' => \Illuminate\Auth\Middleware\AuthenticateWithBasicAuth::class,
         'cache.headers' => \Illuminate\Http\Middleware\SetCacheHeaders::class,
+        'cache.servers' => \App\Http\Middleware\CacheServerDetails::class,
         'can' => \Illuminate\Auth\Middleware\Authorize::class,
+        'check.server' => \App\Http\Middleware\CheckServerPermission::class,
+        'check.plan' => \App\Http\Middleware\CheckServerPlanPermission::class,
+        'check.addon' => \App\Http\Middleware\CheckServerAddonPermission::class,
+        'check.invoice' => \App\Http\Middleware\CheckInvoicePermission::class,
+        'check.ticket' => \App\Http\Middleware\CheckTicketPermission::class,
         'guest' => \App\Http\Middleware\RedirectIfAuthenticated::class,
         'password.confirm' => \Illuminate\Auth\Middleware\RequirePassword::class,
         'signed' => \Illuminate\Routing\Middleware\ValidateSignature::class,

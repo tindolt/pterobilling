@@ -36,6 +36,7 @@
                             @include('layouts.store.secure')
                         @endunless
                         @include('layouts.store.announcement')
+                        @include('layouts.client.alert')
                         @yield('content')
                     </div>
                 </div>

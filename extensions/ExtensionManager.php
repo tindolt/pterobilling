@@ -6,33 +6,30 @@ class ExtensionManager
 {
     /**
      * Enable the extensions that manage custom payment gateways.
-     * The values in the array must match the PHP class names!
      */
-    public function gateway_extensions() {
-        return array(
-            'PayPal',
-        );
+    public static function gateway_extensions() {
+        return [
+            PayPal::class,
+        ];
     }
 
     /**
      * Enable the extensions that manage server subdomain names.
-     * The values in the array must match the PHP class names!
      */
-    public function subdomain_extensions() {
-        return array(
-            'Cloudflare',
-            'CPanel',
-        );
+    public static function subdomain_extensions() {
+        return [
+            Cloudflare::class,
+            CPanel::class,
+        ];
     }
 
     /**
-     * Enable the extensions that install custom softwares to servers.
-     * The values in the array must match the PHP class names!
+     * Enable the extensions that upload custom softwares to servers.
      */
-    public function software_extensions() {
-        return array(
-            'Minecraft',
-        );
+    public static function software_extensions() {
+        return [
+            Minecraft::class,
+        ];
     }
 
 }

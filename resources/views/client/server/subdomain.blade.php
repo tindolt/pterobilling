@@ -1,5 +1,7 @@
 @extends('layouts.client')
 
+@inject('server_model', 'App\Models\Server')
+
 @section('content')
     <div class="row">
         <div class="col-lg-6">
@@ -13,10 +15,19 @@
                         <b>Port Number</b>
                     </p>
                     <p class="card-text col-7">
-                        myserver.example.com<br>
-                        25565
+                        @if ($server_model->subdomain_name)
+                            {{ $server_model->subdomain_name }}
+                        @else
+                            Not Set
+                        @endif<br>
+                        @if ($server_model->subdomain_port)
+                            {{ $server_model->subdomain_port }}
+                        @else
+                            Not Set
+                        @endif
                     </p>
-                    <button type="submit" name="updatePort" form="updatePort" class="btn btn-primary btn-sm col-12">Update Port Number <i class="fas fa-sync-alt"></i></button>
+                    <button type="submit" name="updatePort" value="true" form="updatePort" class="btn btn-primary btn-sm col-12">Update Port Number <i class="fas fa-sync-alt"></i></button>
+                    <br>
                     <p class="card-text"><i>Update it if you have changed the primary port.</i></p>
                 </div>
             </div>
@@ -33,14 +44,17 @@
                         <div class="input-group row">
                             <input type="text" name="name" class="form-control col-md-6" placeholder="Enter subdomain" required>
                             <select class="form-control col-md-6" name="subdomain">
-                                <option value="1">.example.com</option>
-                                <option value="2">.example.net</option>
+                                @foreach ($subdomains as $extension => $subdomain_list)
+                                    @foreach ($subdomain_list as $subdomain)
+                                        <option value="{{ $subdomain }}">.{{ $subdomain }}</option>
+                                    @endforeach
+                                @endforeach
                             </select>
                         </div>
                         <br>
                         <div class="input-group">
                             <button type="submit" class="btn btn-primary">
-                                Check Availability <i class="fa fa-search"></i>
+                                Update Subdomain <i class="fas fa-arrow-circle-right"></i>
                             </button>
                         </div>
                     </form>

@@ -3,19 +3,21 @@
 namespace App\Http\Controllers\Store;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
+use App\Models\KbArticle;
 
 class KbController extends Controller
 {
-    public function show($article = null)
+    public function __invoke($id = null)
     {
-        if (is_null($article)) {
+        if (is_null($id)) {
             return view('store.kb', ['title' => 'Knowledge Base']);
         } else {
-            // Get article info from article ID
-            $subject = "Subject of an Example Support Article";
-            $body = "Content of an example support article";
-            return view('store.article', ['title' => 'Knowledge Base', 'subject' => $subject, 'body' => $body]);
+            $article = KbArticle::find($id);
+            if (is_null($article)) {
+                return abort(404);
+            } else {
+                return view('store.article', ['title' => 'Knowledge Base', 'id' => $id, 'article' => $article->first()]);
+            }
         }
     }
 }

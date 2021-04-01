@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', 'Store\PageController')->name('home');
 
 // Plans Page
-Route::get('/plans/{id?}', 'Store\PlansController@show')->name('plans');
+Route::get('/plans/{id?}', 'Store\PlansController')->name('plans');
 
 // Order Server Page
 Route::get('/order/{id}', 'Store\OrderController@show')->name('order');
@@ -25,26 +25,28 @@ Route::get('/canceled', 'Store\CheckoutController@canceled')->name('canceled');
 Route::get('/contact', 'Store\ContactController@show')->name('contact');
 Route::post('/contact', 'Store\ContactController@store');
 
+// System Status Page
+Route::get('/status', 'Store\PageController')->name('status');
+
 // Terms of Service Page
 Route::get('/terms', 'Store\PageController')->name('terms');
 
 // Privacy Policy Page
 Route::get('/privacy', 'Store\PageController')->name('privacy');
 
-// System Status Page
-Route::get('/status', 'Store\PageController')->name('status');
-
 // Affiliate Link
-Route::get('/a/{id}', 'Store\AffiliateController@show')->name('affiliate');
+Route::get('/a/{id}', 'Store\AffiliateController')->name('affiliate');
 
 // Changing Currency
-Route::get('/currency/{id}', 'Store\CurrencyController@show')->name('currency');
+Route::get('/currency/{id}', 'Store\CurrencyController')->name('currency');
 
 // Changing Country (Tax)
-Route::get('/country/{id}', 'Store\CountryController@show')->name('country');
+Route::get('/country/{id}', 'Store\CountryController')->name('country');
+
+Route::get('/lang/{id}', 'Store\LanguageController')->name('lang');
 
 // Knowledge Base
-Route::get('/kb/{article?}', 'Store\KbController@show')->name('kb');
+Route::get('/kb/{id?}', 'Store\KbController')->name('kb');
 
 /**
  * Authentication Pages
@@ -58,7 +60,7 @@ Route::prefix('auth')->name('client.')->middleware('guest')->group(function () {
     Route::get('/register', 'Client\RegisterController@show')->name('register');
     Route::post('/register', 'Client\RegisterController@store');
 
-    // Recover Password Page
+    // Password Recovery Page
     Route::get('/forgot', 'Client\ForgotPasswordController@show')->name('forgot');
     Route::post('/forgot', 'Client\ForgotPasswordController@store');
     Route::get('/reset/{token}', 'Client\ResetPasswordController@show')->name('reset');

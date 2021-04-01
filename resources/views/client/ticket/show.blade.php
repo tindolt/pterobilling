@@ -1,10 +1,14 @@
 @extends('layouts.client')
 
-@section('styles')
-    <link rel="stylesheet" href="/plugins/summernote/summernote-bs4.min.css">
-@endsection
+@inject('ticket_model', 'App\Models\TicketContent')
+@inject('client_model', 'App\Models\Client')
 
 @section('content')
+    @if (session('success'))
+        <div class="alert alert-success">
+            You've successfully replied to the ticket. Our staff will reply to you as soon as possible.
+        </div>
+    @endif
     <div class="row">
         <div class="col-md-12">
             <div class="card">
@@ -13,20 +17,35 @@
                 </div>
                 <div class="card-body row">
                     <div class="col-lg-4 col-md-8 mb-1">
-                        <h6 class="card-title">Title</h6>
-                        <p class="card-text">Why XYZ is not working?</p>
+                        <h6 class="card-title">Subject</h6>
+                        <p class="card-text">{{ $ticket->subject }}</p>
                     </div>
                     <div class="col-lg-2 col-md-4 mb-1">
                         <h6 class="card-title">Status</h6>
-                        <p class="card-text"><span class="badge bg-success">Resolved</span></p>
+                        <p class="card-text">
+                            @switch($ticket->status)
+                                @case(0)
+                                    <span class="badge bg-success">Resolved</span>
+                                    @break
+                                @case(1)
+                                    <span class="badge bg-info">Open</span>
+                                    @break
+                                @case(2)
+                                    <span class="badge bg-warning">Pending</span>
+                                    @break
+                                @case(3)
+                                    <span class="badge bg-danger">Closed</span>
+                                    @break
+                            @endswitch
+                        </p>
                     </div>
                     <div class="col-lg-3 col-md-6 mb-1">
                         <h6 class="card-title">Created Date</h6>
-                        <p class="card-text">Jan 1, 2021 13:30 (UTC)</p>
+                        <p class="card-text">{{ $ticket->created_at }}</p>
                     </div>
                     <div class="col-lg-3 col-md-6 mb-1">
                         <h6 class="card-title">Updated Date</h6>
-                        <p class="card-text">Jan 1, 2021 13:30 (UTC)</p>
+                        <p class="card-text">{{ $ticket->updated_at }}</p>
                     </div>
                     <div class="col-lg-3 col-md-6 mb-1">
                         <a href="{{ route('client.ticket.index') }}" class="card-link"><i
@@ -37,25 +56,25 @@
             <div class="card">
                 <div class="card-body">
                     <div class="direct-chat-messages">
-                        <div class="direct-chat-msg right">
-                            <div class="direct-chat-infos clearfix">
-                                <span class="direct-chat-name float-right">User Name</span>
-                                <span class="direct-chat-timestamp float-left">Jan 1, 2021 13:30 (UTC)</span>
+                        @foreach ($ticket_model->where('ticket_id', $ticket->id)->get() as $ticket_content)
+                            @if ($ticket_content->replier_id == auth()->user()->id)
+                                <div class="direct-chat-msg right">
+                                    <div class="direct-chat-infos clearfix">
+                                        <span class="direct-chat-name float-right">{{ auth()->user()->email }}</span>
+                                        <span class="direct-chat-timestamp float-left">{{ $ticket_content->created_at }}</span>
+                            @else
+                                <div class="direct-chat-msg">
+                                    <div class="direct-chat-infos clearfix">
+                                        <span class="direct-chat-name float-left">{{ $client_model->find($ticket_content->replier_id)->value('email') }}</span>
+                                        <span class="direct-chat-timestamp float-right">{{ $ticket_content->created_at }}</span>
+                            @endif
+                                </div>
+                                <div class="direct-chat-text">
+                                    {{ $ticket_content->message }}
+                                </div>
                             </div>
-                            <div class="direct-chat-text">
-                                Please help! Please help! Please help! Please help! Please help! Please help!
-                            </div>
-                        </div>
-                        <hr>
-                        <div class="direct-chat-msg">
-                            <div class="direct-chat-infos clearfix">
-                                <span class="direct-chat-name float-left">Staff Name</span>
-                                <span class="direct-chat-timestamp float-right">Jan 1, 2021 13:30 (UTC)</span>
-                            </div>
-                            <div class="direct-chat-text">
-                                How can we help? How can we help? How can we help? How can we help?
-                            </div>
-                        </div>
+                            <hr>
+                        @endforeach
                     </div>
                 </div>
             </div>
@@ -68,39 +87,18 @@
                     </div>
                     <div class="card-body row">
                         <div class="form-group col-12">
-                            <label for="titleInput">Title</label>
-                            <input type="text" name="title" class="form-control" id="titleInput"
-                                placeholder="Enter ticket title" required>
-                        </div>
-                        <div class="form-group col-12">
-                            <label for="summernote">Message</label>
-                            <textarea id="summernote" name="message" required></textarea>
+                            <label for="messageInput">Message</label>
+                            <textarea type="text" name="message" class="form-control" id="messageInput" placeholder="Please enter your message here..." style="height:200px;" required>{{ old('message') }}</textarea>
                         </div>
                     </div>
+                    @include('layouts.store.hcaptcha')
                     <div class="card-footer row justify-content-center">
-                        <button type="submit" class="btn btn-default btn-sm col-lg-1 col-md-3">Reply</button>
-                        <button type="submit" name="solved" value="solved" form="solvedForm" class="btn btn-success btn-sm col-lg-2 col-md-4 offset-1">Mark Solved</button>
+                        <button type="submit" class="btn btn-primary btn-sm col-lg-1 col-md-3">Reply</button>
+                        <button type="submit" name="solved" value="true" form="solvedForm" class="btn btn-success btn-sm col-lg-2 col-md-4 offset-1">Mark Solved</button>
                     </div>
                 </form>
                 <form action="" method="POST" id="solvedForm"> @csrf </form>
             </div>
         </div>
     </div>
-@endsection
-
-@section('scripts')
-    <!-- Summernote -->
-    <script src="/plugins/summernote/summernote-bs4.min.js"></script>
-    <script>
-        $(function () {
-              // Summernote
-              $('#summernote').summernote()
-          
-              // CodeMirror
-              CodeMirror.fromTextArea(document.getElementById("codeMirrorDemo"), {
-                mode: "htmlmixed",
-                theme: "monokai"
-              });
-            })
-    </script>
 @endsection

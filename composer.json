@@ -1,6 +1,6 @@
 {
     "name": "pterobilling/pterobilling",
-    "description": "PteroBilling - an open-source online store, client area, and billing software specially made for Pterodactyl panel",
+    "description": "An open-source Laravel 8 online store, client area, and billing software specially made for Pterodactyl panel",
     "type": "project",
     "license": "MIT",
     "authors": [
@@ -25,12 +25,12 @@
         }
     ],
     "require": {
-        "php": "^7.4|^8.0",
+        "php": "^7.3|^8.0",
         "cloudflare/sdk": "dev-master#7db3d6e62c7ab8fa29780354e8d370c49939cdec",
         "fideloper/proxy": "^4.4",
         "fruitcake/laravel-cors": "^2.0",
-        "guzzlehttp/guzzle": "^7.0.1",
-        "laravel/framework": "^8.30.0",
+        "guzzlehttp/guzzle": "^7.0",
+        "laravel/framework": "^8.34",
         "laravel/tinker": "^2.6",
         "predis/predis": "^1.1",
         "queueworker/sansdaemon": "^1.2",
@@ -38,13 +38,13 @@
     },
     "require-dev": {
         "facade/ignition": "^2.5",
-        "fakerphp/faker": "^1.9.1",
-        "laravel/breeze": "^1.0",
-        "laravel/sail": "^1.4.4",
+        "fakerphp/faker": "^1.9",
+        "laravel/breeze": "^1.1",
+        "laravel/sail": "^1.4",
         "laravel/telescope": "^4.4",
-        "mockery/mockery": "^1.4.3",
-        "nunomaduro/collision": "^5.3.0",
-        "phpunit/phpunit": "^9.5.2"
+        "mockery/mockery": "^1.4",
+        "nunomaduro/collision": "^5.3",
+        "phpunit/phpunit": "^9.5"
     },
     "config": {
         "optimize-autoloader": true,

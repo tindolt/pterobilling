@@ -10,19 +10,19 @@
                 <div class="card-body row">
                     <div class="col-lg-3 col-md-6 mb-1">
                         <h6 class="card-title">Total Due Today</h6>
-                        <p class="card-text">$2 USD</p>
+                        <p class="card-text">{!! session('currency_symbol') !!}2 {{ session('currency') }}</p>
                     </div>
                     <div class="col-lg-3 col-md-6 mb-1">
                         <h6 class="card-title">Billing Cycle</h6>
-                        <p class="card-text">Monthly</p>
+                        <p class="card-text">{{ ucfirst(session('checkout_cycle')) }}</p>
                     </div>
                     <div class="col-lg-3 col-md-6 mb-1">
                         <h6 class="card-title">Recurring Amount</h6>
-                        <p class="card-text">$5 USD</p>
+                        <p class="card-text">{!! session('currency_symbol') !!}5 {{ session('currency') }}</p>
                     </div>
                     <div class="col-lg-3 col-md-6 mb-1">
                         <h6 class="card-title">Next Due Date</h6>
-                        <p class="card-text">Jan 1, 2021 13:00 <small>(UTC)</small></p>
+                        <p class="card-text">Jan 1, 2021 13:00</p>
                     </div>
                     <div class="col-lg-3 col-md-6 mb-1">
                         <a href="{{ route('order', ['id' => $id]) }}" class="card-link"><i class="fas fa-arrow-left text-sm"></i> Configure plan</a>
@@ -53,9 +53,6 @@
                     <button type="submit" class="btn btn-primary col-lg-2">Checkout <i class="fas fa-arrow-circle-right"></i></button>
                 </div>
             </form>
-            <div class="alert alert-info">
-                Your billing details is encrypted and your IP address ({{ $ip }}) is logged.
-            </div>
         </div>
     </div>
 @endsection

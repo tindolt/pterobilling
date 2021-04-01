@@ -47,11 +47,6 @@
                             <p class="form-check-label">Add-on 3 <span class="float-right">$10 /month ($0 setup fee)</span></p>
                         </div>
                     </div>
-                    <div class="col-lg-12">
-                        <div class="alert alert-info">
-                            All existing add-ons of your server will be removed when changing the plan, so you have to choose the add-ons again for your new plan.
-                        </div>
-                    </div>
                 </div>
                 <hr>
                 <div class="form-group row">

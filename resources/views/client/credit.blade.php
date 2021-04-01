@@ -1,11 +1,13 @@
 @extends('layouts.client')
 
+@inject('credit_model', 'App\Models\Credit')
+
 @section('content')
     <div class="row">
         <div class="col-lg-6 col-md-6">
             <div class="small-box bg-success">
                 <div class="inner">
-                    <h3>$10.00 USD</h3>
+                    <h3>{!! session('currency_symbol') !!}{{ auth()->user()->credit }} {{ session('currency') }}</h3>
                     <p>Account Credit</p>
                 </div>
                 <div class="icon">
@@ -57,9 +59,6 @@
             <div class="card">
                 <div class="card-header">
                     <h3 class="card-title">Credit Transactions</h3>
-                    <div class="card-tools">
-                        <a href="#" class="btn btn-default btn-sm float-right">More details <i class="fas fa-arrow-circle-right"></i></a>
-                    </div>
                 </div>
                 <div class="card-body table-responsive p-0">
                     <table class="table table-hover text-nowrap">
@@ -73,27 +72,21 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td>3</td>
-                                <td>Ordered Plan</td>
-                                <td>-$5.00 USD</td>
-                                <td>$10.00 USD</td>
-                                <td>Jan 1, 2021 13:30 (UTC)</td>
-                            </tr>
-                            <tr>
-                                <td>2</td>
-                                <td>Ordered Plan</td>
-                                <td>-$5.00 USD</td>
-                                <td>$15.00 USD</td>
-                                <td>Jan 1, 2021 13:30 (UTC)</td>
-                            </tr>
-                            <tr>
-                                <td>1</td>
-                                <td>Affiliate Commission</td>
-                                <td>+$20.00 USD</td>
-                                <td>$20.00 USD</td>
-                                <td>Jan 1, 2021 13:30 (UTC)</td>
-                            </tr>
+                            @foreach ($credit_model->where('client_id', auth()->user()->id) as $credit)
+                                <tr>
+                                    <td>{{ $credit->id }}</td>
+                                    <td>{{ $credit->details }}</td>
+                                    <td>
+                                        @if ($credit->change < 0)
+                                            -{!! session('currency_symbol') !!}{{ abs($credit->change) }} {{ session('currency') }}
+                                        @else
+                                            +{!! session('currency_symbol') !!}{{ $credit->change }} {{ session('currency') }}
+                                        @endif
+                                    </td>
+                                    <td>{!! session('currency_symbol') !!}{{ $credit->balance }} {{ session('currency') }}</td>
+                                    <td>{{ $credit->created_at }}</td>
+                                </tr>
+                            @endforeach
                         </tbody>
                     </table>
                 </div>

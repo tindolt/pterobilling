@@ -1,9 +1,5 @@
 @extends('layouts.client')
 
-@section('styles')
-    <link rel="stylesheet" href="/plugins/summernote/summernote-bs4.min.css">
-@endsection
-
 @section('content')
     <form action="" method="POST">
         @csrf
@@ -12,15 +8,35 @@
             <div class="col-md-12">
                 <div class="card">
                     <div class="card-body row">
+                        @if ($errors->any())
+                            <div class="form-group">
+                                <div class="alert alert-danger">
+                                    Please fix the following error(s):
+                                    <ul>
+                                        @foreach ($errors->all() as $error)
+                                            <li>{{ $error }}</li>
+                                        @endforeach
+                                    </ul>
+                                </div>
+                            </div>
+                        @endif
+                        @if (session('captcha_error'))
+                            <div class="form-group">
+                                <div class="alert alert-danger">
+                                    Please solve the hCaptcha challenge again.
+                                </div>
+                            </div>
+                        @endif
                         <div class="form-group col-12">
-                            <label for="titleInput">Title</label>
-                            <input type="text" name="title" class="form-control" id="titleInput" placeholder="Enter ticket title" required>
+                            <label for="subjectInput">Subject</label>
+                            <input type="text" name="subject" value="{{ old('subject') }}" class="form-control" id="subjectInput" placeholder="Ticket Subject" required>
                         </div>
                         <div class="form-group col-12">
-                            <label for="summernote">Message</label>
-                            <textarea id="summernote" name="message" required></textarea>
+                            <label for="messageInput">Message</label>
+                            <textarea type="text" name="message" class="form-control" id="messageInput" placeholder="Please enter your message here..." style="height:200px;" required>{{ old('message') }}</textarea>
                         </div>
                     </div>
+                    @include('layouts.store.hcaptcha')
                     <div class="card-footer row justify-content-center">
                         <a href="{{ route('client.ticket.index') }}" class="btn btn-default btn-sm col-lg-1 col-md-3">Cancel</a>
                         <button type="submit" class="btn btn-success btn-sm col-lg-2 col-md-4 offset-1">Create Ticket</button>
@@ -29,21 +45,4 @@
             </div>
         </div>
     </form>
-@endsection
-
-@section('scripts')
-    <!-- Summernote -->
-    <script src="/plugins/summernote/summernote-bs4.min.js"></script>
-    <script>
-        $(function () {
-              // Summernote
-              $('#summernote').summernote()
-          
-              // CodeMirror
-              CodeMirror.fromTextArea(document.getElementById("codeMirrorDemo"), {
-                mode: "htmlmixed",
-                theme: "monokai"
-              });
-            })
-    </script>
 @endsection

@@ -1,5 +1,7 @@
 @extends('layouts.client')
 
+@inject('invoice_model', 'App\Models\Invoice')
+
 @section('content')
     <div class="row">
         <div class="col-lg-12">
@@ -19,20 +21,15 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td><a href="{{ route('client.invoice.show', ['id' => 1]) }}">2</a></td>
-                                <td>Server - Plan 1</td>
-                                <td>$5.00 USD</td>
-                                <td>Jan 1, 2021 13:30 (UTC)</td>
-                                <td>Jan 1, 2021 13:30 (UTC)</td>
-                            </tr>
-                            <tr>
-                                <td><a href="{{ route('client.invoice.show', ['id' => 1]) }}">1</a></td>
-                                <td>Server - Plan 1</td>
-                                <td>$5.00 USD</td>
-                                <td>Jan 1, 2021 13:30 (UTC)</td>
-                                <td>Jan 1, 2021 13:30 (UTC)</td>
-                            </tr>
+                            @foreach ($invoice_model->where(['client_id' => auth()->user()->id, 'paid' => false]) as $invoice)
+                                <tr>
+                                    <td><a href="{{ route('client.invoice.show', ['id' => $invoice->id]) }}">{{ $invoice->id }}</a></td>
+                                    <td>{{ json_decode($invoice->products_id)[0] }}</td>
+                                    <td>{!! session('currency_symbol') !!}{{ $invoice->total_due }} {{ session('currency') }}</td>
+                                    <td>{{ $invoice->created_at }}</td>
+                                    <td>{{ $invoice->due_date }}</td>
+                                </tr>
+                            @endforeach
                         </tbody>
                     </table>
                 </div>
@@ -53,20 +50,15 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td><a href="{{ route('client.invoice.show', ['id' => 1]) }}">2</a></td>
-                                <td>Server - Plan 1</td>
-                                <td>$5.00 USD</td>
-                                <td>Jan 1, 2021 13:30 (UTC)</td>
-                                <td>Jan 1, 2021 13:30 (UTC)</td>
-                            </tr>
-                            <tr>
-                                <td><a href="{{ route('client.invoice.show', ['id' => 1]) }}">1</a></td>
-                                <td>Server - Plan 1</td>
-                                <td>$5.00 USD</td>
-                                <td>Jan 1, 2021 13:30 (UTC)</td>
-                                <td>Jan 1, 2021 13:30 (UTC)</td>
-                            </tr>
+                            @foreach ($invoice_model->where(['client_id' => auth()->user()->id, 'paid' => true]) as $invoice)
+                                <tr>
+                                    <td><a href="{{ route('client.invoice.show', ['id' => $invoice->id]) }}">{{ $invoice->id }}</a></td>
+                                    <td>{{ json_decode($invoice->products_id)[0] }}</td>
+                                    <td>{!! session('currency_symbol') !!}{{ $invoice->total_due }} {{ session('currency') }}</td>
+                                    <td>{{ $invoice->created_at }}</td>
+                                    <td>{{ $invoice->updated_at }}</td>
+                                </tr>
+                            @endforeach
                         </tbody>
                     </table>
                 </div>

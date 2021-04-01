@@ -1,3 +1,5 @@
+@inject('category_model', 'App\Models\Category')
+
 <nav class="main-header navbar navbar-expand @if(config('app.dark_mode')) navbar-dark @else navbar-white navbar-light @endif">
     <!-- Left navbar links -->
     <ul class="navbar-nav">
@@ -16,24 +18,27 @@
                     <ul aria-labelledby="plansMenu" class="dropdown-menu border-0 shadow">
                         <li><a href="{{ route('plans') }}" class="dropdown-item">View All Plans</a></li>
                         <div class="dropdown-divider"></div>
-                        <li><a href="{{ route('plans', ['id' => 1]) }}" class="dropdown-item">Category 1</a></li>
-                        <li><a href="{{ route('plans', ['id' => 2]) }}" class="dropdown-item">Category 2</a></li>
+                        @foreach ($category_model->orderBy('order', 'desc')->get() as $category)
+                            <li><a href="{{ route('plans', ['id' => $category->id]) }}" class="dropdown-item">{{ $category->name }}</a></li>
+                        @endforeach
                     </ul>
                 </li>
+                <li><a href="{{ route('contact') }}" class="dropdown-item">Contact Us</a></li>
                 <li><a href="{{ route('kb') }}" class="dropdown-item">Knowledge Base</a></li>
                 <li><a href="{{ route('status') }}" class="dropdown-item">System Status</a></li>
-                <li><a href="{{ route('contact') }}" class="dropdown-item">Contact Us</a></li>
             </ul>
         </li>
     </ul>
     <!-- Right navbar links -->
     <ul class="navbar-nav ml-auto">
         <li class="nav-item dropdown">
-            <a id="accountMenu" href="javascript:void(0);" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link dropdown-toggle">user@example.com</a>
+            <a id="accountMenu" href="javascript:void(0);" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link dropdown-toggle">{{ auth()->user()->email }}</a>
             <ul aria-labelledby="accountMenu" class="dropdown-menu dropdown-menu-right border-0 shadow">
                 <li><a href="{{ route('client.credit.show') }}" class="dropdown-item">Account Credit</a></li>
                 <li><a href="{{ route('client.account.show') }}" class="dropdown-item">Account Settings</a></li>
-                <li><a href="#" class="dropdown-item">Admin Area</a></li> {{-- For Admin only --}}
+                @if (auth()->user()->is_admin)
+                    <li><a href="{{ route('admin.dash') }}" class="dropdown-item">Admin Area</a></li>
+                @endif
                 <div class="dropdown-divider"></div>
                 <li><a href="{{ route('client.logout') }}" class="dropdown-item">Logout</a></li>
             </ul>

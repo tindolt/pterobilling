@@ -7,14 +7,14 @@ use Illuminate\Http\Request;
 
 class CountryController extends Controller
 {
-    public function show(Request $request, $id)
+    public function __invoke(Request $request, $id)
     {
         $referer = $request->header('Referer');
 
-        if (is_null($id)) return (is_null($referer)) ? redirect()->route('home') : redirect($referer);
+        if (is_null($id)) return back();
 
         session(['country' => $id]);
         
-        return (is_null($referer)) ? redirect()->route('home') : redirect($referer);
+        return back();
     }
 }

@@ -1,3 +1,6 @@
+@inject('server_model', 'App\Models\Server')
+@inject('pterodactyl_api', 'App\View\Classes\PterodactylApi')
+
 <aside class="main-sidebar sidebar-dark-primary elevation-4">
     <!-- Brand Logo -->
     <a href="{{ route('client.dash') }}" class="brand-link">
@@ -47,47 +50,53 @@
                     </a>
                 </li>
                 <li class="nav-header">ACTIVE SERVERS</li>
-                <li class="nav-item">
-                    <a href="javascript:void(0);" class="nav-link">
-                        <i class="fas fa-server nav-icon"></i>
-                        <p>
-                            Server #1
-                            <i class="right fas fa-angle-left"></i>
-                        </p>
-                    </a>
-                    <ul class="nav nav-treeview">
-                        <li class="nav-item">
-                            <a href="{{ route('client.server.show', ['id' => 1]) }}" class="nav-link">
-                                <i class="fas fa-info-circle nav-icon"></i>
-                                <p>Server Info</p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="{{ route('client.server.plan.show', ['id' => 1]) }}" class="nav-link">
-                                <i class="fas fa-scroll nav-icon"></i>
-                                <p>Manage Plan</p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="{{ route('client.server.addon.show', ['id' => 1]) }}" class="nav-link">
-                                <i class="fas fa-puzzle-piece nav-icon"></i>
-                                <p>Add-ons</p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="{{ route('client.server.subdomain.show', ['id' => 1]) }}" class="nav-link">
-                                <i class="fas fa-globe nav-icon"></i>
-                                <p>Subdomain</p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="{{ route('client.server.software.show', ['id' => 1]) }}" class="nav-link">
-                                <i class="fas fa-download nav-icon"></i>
-                                <p>Softwares</p>
-                            </a>
-                        </li>
-                    </ul>
-                </li>
+                @foreach ($server_model->where(['client_id' => auth()->user()->id, 'status' => 0])->get() as $server)
+                    <li class="nav-item">
+                        <a href="javascript:void(0);" class="nav-link">
+                            <i class="fas fa-server nav-icon"></i>
+                            <p>
+                                @if(session('server_' . $server->id))
+                                    {{ session('server_' . $server->id) }}
+                                @else
+                                    Server #{{ $server->id }}
+                                @endif
+                                <i class="right fas fa-angle-left"></i>
+                            </p>
+                        </a>
+                        <ul class="nav nav-treeview">
+                            <li class="nav-item">
+                                <a href="{{ route('client.server.show', ['id' => $server->id]) }}" class="nav-link">
+                                    <i class="fas fa-info-circle nav-icon"></i>
+                                    <p>Server Info</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="{{ route('client.server.plan.show', ['id' => $server->id]) }}" class="nav-link">
+                                    <i class="fas fa-scroll nav-icon"></i>
+                                    <p>Manage Plan</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="{{ route('client.server.addon.show', ['id' => $server->id]) }}" class="nav-link">
+                                    <i class="fas fa-puzzle-piece nav-icon"></i>
+                                    <p>Add-ons</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="{{ route('client.server.subdomain.show', ['id' => $server->id]) }}" class="nav-link">
+                                    <i class="fas fa-globe nav-icon"></i>
+                                    <p>Subdomain</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="{{ route('client.server.software.show', ['id' => $server->id]) }}" class="nav-link">
+                                    <i class="fas fa-download nav-icon"></i>
+                                    <p>Softwares</p>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                @endforeach
                 <li class="nav-header">BILLING</li>
                 <li class="nav-item">
                     <a href="{{ route('client.invoice.index') }}" class="nav-link @if(Route::currentRouteName() == 'client.invoice.index') active @endif">

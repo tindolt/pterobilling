@@ -1,42 +1,29 @@
 @extends('layouts.store')
 
+@inject('kb_category_model', 'App\Models\KbCategory')
+@inject('kb_article_model', 'App\Models\KbArticle')
+
 @section('content')
     <div class="row justify-content-center">
-        <div class="col-lg-5">
-            <div class="card card-primary">
-                <div class="card-header">
-                    <h3 class="card-title">Name of an Example Category</h3>
-                    <div class="card-tools">
-                        <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i>
-                        </button>
+        @foreach ($kb_category_model->orderBy('order', 'desc')->get() as $kb_category)
+            <div class="col-lg-5">
+                <div class="card card-primary">
+                    <div class="card-header">
+                        <h3 class="card-title">{{ $kb_category->name }}</h3>
+                        <div class="card-tools">
+                            <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <ul>
+                            @foreach ($kb_article_model->where('category_id', $kb_category->id)->orderBy('order', 'desc')->get() as $kb_article)
+                                <li><a href="{{ route('kb', ['id' => $kb_article->id]) }}">{{ $kb_article->subject }}</a></li>
+                            @endforeach
+                        </ul>
                     </div>
                 </div>
-                <div class="card-body">
-                    <ul>
-                        <li><a href="{{ route('kb', ['article' => 1]) }}">Subject of an Example Support Article</a></li>
-                        <li><a href="{{ route('kb', ['article' => 2]) }}">Subject of an Example Support Article</a></li>
-                        <li><a href="{{ route('kb', ['article' => 3]) }}">Subject of an Example Support Article</a></li>
-                    </ul>
-                </div>
             </div>
-        </div>
-        <div class="col-lg-5">
-            <div class="card card-primary">
-                <div class="card-header">
-                    <h3 class="card-title">Name of an Example Category</h3>
-                    <div class="card-tools">
-                        <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i>
-                        </button>
-                    </div>
-                </div>
-                <div class="card-body">
-                    <ul>
-                        <li><a href="{{ route('kb', ['article' => 1]) }}">Subject of an Example Support Article</a></li>
-                        <li><a href="{{ route('kb', ['article' => 2]) }}">Subject of an Example Support Article</a></li>
-                        <li><a href="{{ route('kb', ['article' => 3]) }}">Subject of an Example Support Article</a></li>
-                    </ul>
-                </div>
-            </div>
-        </div>
+        @endforeach
     </div>
 @endsection

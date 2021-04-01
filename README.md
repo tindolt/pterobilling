@@ -10,6 +10,8 @@
     <br>
     <img src="https://raw.githubusercontent.com/pterobilling/pterobilling/master/.github/preview_1_dark.png" alt="Preview" width="40%">&emsp;
     <img src="https://raw.githubusercontent.com/pterobilling/pterobilling/master/.github/preview_1_light.png" alt="Preview" width="40%">
+    <br>
+    <h3>Announcement: An early access will be released soon!</h3>
 </div>
 
 ## Features

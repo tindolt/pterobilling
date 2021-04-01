@@ -3,26 +3,52 @@
 namespace App\Http\Controllers\Client;
 
 use App\Http\Controllers\Controller;
+use App\Models\Ticket;
+use App\Models\TicketContent;
+use App\Traits\HCaptcha;
 use Illuminate\Http\Request;
 
 class TicketController extends Controller
 {
+    use HCaptcha;
+
     public function index()
     {
-        // Get data from the database
         return view('client.ticket.index', ['title' => 'Support Tickets']);
     }
 
     public function show($id)
     {
-        // Get data from the database
         $view_variables = array('title' => "Ticket ${id} - Support Tickets", 'header1' => 'Support Tickets', 'header1_route' => 'client.ticket.index', 'header_title' => "Ticket ${id}", 'id' => $id);
         return view('client.ticket.show', $view_variables);
     }
 
     public function update(Request $request, $id)
     {
-        // Save data to the database
+        $ticket = Ticket::find($id);
+
+        if ($request->input('solved')) {
+            $ticket->status = 0;
+            $ticket->save();
+            return redirect()->route('client.ticket.index')->with('resolved', true);
+        }
+
+        if (!$this->validateResponse($request->input('h-captcha-response'))) {
+            return back()->withInput($request->only(['subject', 'message']))->with('captcha_error', true);
+        }
+
+        $request->validate(['message' => 'required|string|min:100|max:5000']);
+
+        TicketContent::create([
+            'ticket_id' => $id,
+            'replier_id' => $request->user()->id,
+            'message' => $request->input('message'),
+        ]);
+
+        $ticket->status = 1;
+        $ticket->save();
+
+        return back()->with('success', true);
     }
 
     public function create()
@@ -31,8 +57,28 @@ class TicketController extends Controller
         return view('client.ticket.create', $view_variables);
     }
 
-    public function store(Request $request, $id)
+    public function store(Request $request)
     {
-        // Save the new ticket to the database
+        if (!$this->validateResponse($request->input('h-captcha-response'))) {
+            return back()->withInput($request->only(['subject', 'message']))->with('captcha_error', true);
+        }
+
+        $request->validate([
+            'subject' => 'required|string|max:255',
+            'message' => 'required|string|min:100|max:5000',
+        ]);
+
+        $ticket = Ticket::create([
+            'client_id' => $request->user()->id,
+            'subject' => $request->input('subject'),
+        ]);
+        
+        TicketContent::create([
+            'ticket_id' => $ticket->id,
+            'replier_id' => $request->user()->id,
+            'message' => $request->input('message'),
+        ]);
+
+        return redirect()->route('client.ticket.show', ['id' => $ticket->id]);
     }
 }

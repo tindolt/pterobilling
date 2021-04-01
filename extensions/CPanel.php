@@ -20,39 +20,51 @@ class CPanel
     }
 
     /**
+     * Return a list of subdomains
+     */
+    public static function getSubdomains()
+    {
+        return ['cpanel.net'];
+    }
+
+    /**
      * Create a subdomain name for the server. Return true if
-     * success, false if failed.
+     * success, an error message if failed.
      */
     public static function createSubdomain($name, $subdomain, $port)
     {
         return true;
+        //return '';
     }
 
     /**
      * Update the port number of the subdomain name. Return true
-     * if success, false if failed.
+     * if success, an error message if failed.
      */
     public static function updatePort($name, $subdomain, $port)
     {
         return true;
+        //return '';
     }
 
     /**
-     * Modify a subdomain name of the server. Return true if
-     * success, false if failed.
+     * Change a subdomain name of the server. Return true if
+     * success, an error message if failed.
      */
-    public static function modifySubdomain($name, $subdomain, $port)
+    public static function changeSubdomainName($name, $subdomain, $port)
     {
         return true;
+        //return '';
     }
 
     /**
      * Delete a subdomain name of the server. Return true if
-     * success, false if failed.
+     * success, an error message if failed.
      */
     public static function deleteSubdomain($name, $subdomain)
     {
         return true;
+        //return '';
     }
 
     /**
@@ -60,7 +72,7 @@ class CPanel
      */
     public static function viewSettings()
     {
-        //return view('');
+        return view('');
     }
 
     /**
@@ -68,6 +80,6 @@ class CPanel
      */
     public static function saveSettings(Request $request)
     {
-        //return view('');
+        return view('');
     }
 }

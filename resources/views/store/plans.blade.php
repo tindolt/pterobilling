@@ -1,98 +1,90 @@
 @extends('layouts.store')
 
+@inject('plan_model', 'App\Models\Plan')
+
 @section('content')
     <div class="row">
-        @isset($category)
+        @isset($id)
             <div class="col-lg-12">
                 <div class="callout callout-info">
-                    <h5>You are viewing the plans of {{ $category }}.</h5>
-                    <p><a href="{{ route('plans') }}">View all plans <i class="fas fa-arrow-circle-right"></i></a></p>
+                    <h5>You are viewing the plans of {{ $category->name }}.</h5>
                 </div>
             </div>
+            @foreach ($plan_model->where('category_id', $category->id)->orderBy('order', 'desc')->get() as $plan)
+                @php
+                    $plan_percent_off = 1;
+                @endphp
+                @foreach ($discounts as $discount)
+                    @if ($plan->discount === $discount->id)
+                        @php
+                            $plan_percent_off = 1 - ($discount->percent_off / 100);
+                            break;
+                        @endphp
+                    @endif
+                @endforeach
+                <div class="col-lg-3 col-md-6">
+                    <div class="card card-primary card-outline">
+                        <div class="card-header">
+                            <h5 class="card-title m-0">{{ $plan->name }}</h5>
+                        </div>
+                        <div class="card-body">
+                            <h6 class="card-title">{!! session('currency_symbol') !!}{{ number_format($plan->price * $plan_percent_off, 2) }} {{ session('currency') }} {{ json_decode($plan->cycles)[0] }}</h6>
+                            @if ($plan->trial > 0)
+                                <br><h6 class="card-title">{{ $plan->trial }}-day Free Trial</h6>
+                            @endif
+                            <p class="card-text">
+                                <ul class="list-unstyled">
+                                    <li>RAM <span class="float-right">{{ $plan->ram }} MB</span></li>
+                                    <li>CPU <span class="float-right">{{ $plan->cpu }}%</span></li>
+                                    <li>Disk <span class="float-right">{{ $plan->disk }} MB</span></li>
+                                    <li>Databases <span class="float-right">{{ $plan->databases }}</span></li>
+                                    <li>Backups <span class="float-right">{{ $plan->backups }}</span></li>
+                                    <li>Extra Ports <span class="float-right">{{ $plan->allocations - 1 }}</span></li>
+                                </ul>
+                            </p>
+                            <a href="{{ route('order', ['id' => $plan->id]) }}" class="btn btn-primary col-12">Order <i class="fas fa-arrow-circle-right"></i></a>
+                        </div>
+                    </div>
+                </div>
+            @endforeach
+        @else
+            @foreach ($plan_model->orderBy('order', 'desc')->get() as $plan)
+                @php
+                    $plan_percent_off = 1;
+                @endphp
+                @foreach ($discounts as $discount)
+                    @if ($plan->discount === $discount->id)
+                        @php
+                            $plan_percent_off = 1 - ($discount->percent_off / 100);
+                            break;
+                        @endphp
+                    @endif
+                @endforeach
+                <div class="col-lg-3 col-md-6">
+                    <div class="card card-primary card-outline">
+                        <div class="card-header">
+                            <h5 class="card-title m-0">{{ $plan->name }}</h5>
+                        </div>
+                        <div class="card-body">
+                            <h6 class="card-title">{!! session('currency_symbol') !!}{{ number_format($plan->price * $plan_percent_off, 2) }} {{ session('currency') }} {{ json_decode($plan->cycles)[0] }}</h6>
+                            @if ($plan->trial > 0)
+                                <br><h6 class="card-title">{{ $plan->trial }}-day Free Trial</h6>
+                            @endif
+                            <p class="card-text">
+                                <ul class="list-unstyled">
+                                    <li>RAM <span class="float-right">{{ $plan->ram }} MB</span></li>
+                                    <li>CPU <span class="float-right">{{ $plan->cpu }}%</span></li>
+                                    <li>Disk <span class="float-right">{{ $plan->disk }} MB</span></li>
+                                    <li>Databases <span class="float-right">{{ $plan->databases }}</span></li>
+                                    <li>Backups <span class="float-right">{{ $plan->backups }}</span></li>
+                                    <li>Extra Ports <span class="float-right">{{ $plan->allocations - 1 }}</span></li>
+                                </ul>
+                            </p>
+                            <a href="{{ route('order', ['id' => $plan->id]) }}" class="btn btn-primary col-12">Order <i class="fas fa-arrow-circle-right"></i></a>
+                        </div>
+                    </div>
+                </div>
+            @endforeach
         @endisset
-        <div class="col-lg-3 col-md-6">
-            <div class="card card-primary card-outline">
-                <div class="card-header">
-                    <h5 class="card-title m-0">Plan 1</h5><h5 class="card-title m-0 float-right">$3 /month</h5>
-                </div>
-                <div class="card-body">
-                    <h6 class="card-title">RAM</h6><h6 class="card-title float-right">2 GB</h6>
-                    <p class="card-text">
-                        <ul class="list-unstyled">
-                            <li>CPU <span class="float-right">2 Cores</span></li>
-                            <li>Disk <span class="float-right">10 GB</span></li>
-                            <li>Databases <span class="float-right">3</span></li>
-                            <li>Backups <span class="float-right">5</span></li>
-                            <li>Ports <span class="float-right">3</span></li>
-                            <li>Slots <span class="float-right">20</span></li>
-                        </ul>
-                    </p>
-                    <a href="{{ route('order', ['id' => 1]) }}" class="btn btn-primary col-12">Order <i class="fas fa-arrow-circle-right"></i></a>
-                </div>
-            </div>
-        </div>
-        <div class="col-lg-3 col-md-6">
-            <div class="card card-primary card-outline">
-                <div class="card-header">
-                    <h5 class="card-title m-0">Plan 1</h5><h5 class="card-title m-0 float-right">$3 /month</h5>
-                </div>
-                <div class="card-body">
-                    <h6 class="card-title">RAM</h6><h6 class="card-title float-right">2 GB</h6>
-                    <p class="card-text">
-                        <ul class="list-unstyled">
-                            <li>CPU <span class="float-right">2 Cores</span></li>
-                            <li>Disk <span class="float-right">10 GB</span></li>
-                            <li>Databases <span class="float-right">3</span></li>
-                            <li>Backups <span class="float-right">5</span></li>
-                            <li>Ports <span class="float-right">3</span></li>
-                            <li>Slots <span class="float-right">20</span></li>
-                        </ul>
-                    </p>
-                    <a href="{{ route('order', ['id' => 1]) }}" class="btn btn-primary col-12">Order <i class="fas fa-arrow-circle-right"></i></a>
-                </div>
-            </div>
-        </div>
-        <div class="col-lg-3 col-md-6">
-            <div class="card card-primary card-outline">
-                <div class="card-header">
-                    <h5 class="card-title m-0">Plan 1</h5><h5 class="card-title m-0 float-right">$3 /month</h5>
-                </div>
-                <div class="card-body">
-                    <h6 class="card-title">RAM</h6><h6 class="card-title float-right">2 GB</h6>
-                    <p class="card-text">
-                        <ul class="list-unstyled">
-                            <li>CPU <span class="float-right">2 Cores</span></li>
-                            <li>Disk <span class="float-right">10 GB</span></li>
-                            <li>Databases <span class="float-right">3</span></li>
-                            <li>Backups <span class="float-right">5</span></li>
-                            <li>Ports <span class="float-right">3</span></li>
-                            <li>Slots <span class="float-right">20</span></li>
-                        </ul>
-                    </p>
-                    <a href="{{ route('order', ['id' => 1]) }}" class="btn btn-primary col-12">Order <i class="fas fa-arrow-circle-right"></i></a>
-                </div>
-            </div>
-        </div>
-        <div class="col-lg-3 col-md-6">
-            <div class="card card-primary card-outline">
-                <div class="card-header">
-                    <h5 class="card-title m-0">Plan 1</h5><h5 class="card-title m-0 float-right">$3 /month</h5>
-                </div>
-                <div class="card-body">
-                    <h6 class="card-title">RAM</h6><h6 class="card-title float-right">2 GB</h6>
-                    <p class="card-text">
-                        <ul class="list-unstyled">
-                            <li>CPU <span class="float-right">2 Cores</span></li>
-                            <li>Disk <span class="float-right">10 GB</span></li>
-                            <li>Databases <span class="float-right">3</span></li>
-                            <li>Backups <span class="float-right">5</span></li>
-                            <li>Ports <span class="float-right">3</span></li>
-                            <li>Slots <span class="float-right">20</span></li>
-                        </ul>
-                    </p>
-                    <a href="{{ route('order', ['id' => 1]) }}" class="btn btn-primary col-12">Order <i class="fas fa-arrow-circle-right"></i></a>
-                </div>
-            </div>
-        </div>
     </div>
 @endsection

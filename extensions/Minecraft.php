@@ -10,7 +10,7 @@ class Minecraft
     public static $display_name = 'Minecraft';
 
     /**
-     * Set up the server software installer (Usually not necessary)
+     * Set up the server software installer
      */
     public function __construct()
     {
@@ -22,17 +22,17 @@ class Minecraft
      */
     public static function getSoftwares()
     {
-        return array(
+        return [
             'Vanilla' => ['1.16.4', '1.16.3', '1.16.2', '1.16.1', '1.16.0'],
             'PaperMC' => ['1.16.4', '1.15.2', '1.14.4'],
             'Bungeecord' => ['1.16', '1.15', '1.14']
-        );
+        ];
     }
 
     /**
      * Upload the software to the server. **Only the file name** is needed to be
      * returned as our system will automatically search for the file inside the
-     * '`/path/to/pterobilling`/extensions/software' directory, so please **DON'T
+     * '/path/to/pterobilling/extensions/software/`ClassName`' directory, so please **DON'T
      * provide any directory names or trailing slashes!**
      * 
      * @param string $software_name

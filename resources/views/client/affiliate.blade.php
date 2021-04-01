@@ -1,11 +1,13 @@
 @extends('layouts.client')
 
+@inject('affiliate_model', 'App\Models\AffiliateEarning')
+
 @section('content')
     <div class="row">
         <div class="col-lg-3 col-md-6">
             <div class="small-box bg-danger">
                 <div class="inner">
-                    <h3>10</h3>
+                    <h3>{{ auth()->user()->clicks }}</h3>
                     <p>Clicks</p>
                 </div>
                 <div class="icon">
@@ -16,7 +18,7 @@
         <div class="col-lg-3 col-md-6">
             <div class="small-box bg-warning">
                 <div class="inner">
-                    <h3>5</h3>
+                    <h3>{{ auth()->user()->sign_ups }}</h3>
                     <p>Sign-ups</p>
                 </div>
                 <div class="icon">
@@ -27,7 +29,7 @@
         <div class="col-lg-3 col-md-6">
             <div class="small-box bg-info">
                 <div class="inner">
-                    <h3>2</h3>
+                    <h3>{{ auth()->user()->purchases }}</h3>
                     <p>Purchases</p>
                 </div>
                 <div class="icon">
@@ -38,7 +40,7 @@
         <div class="col-lg-3 col-md-6">
             <div class="small-box bg-success">
                 <div class="inner">
-                    <h3>$10.00 USD</h3>
+                    <h3>{!! session('currency_symbol') !!}{{ auth()->user()->commissions }} {{ session('currency') }}</h3>
                     <p>Commissions</p>
                 </div>
                 <div class="icon">
@@ -52,7 +54,7 @@
             <div class="card-body row justify-content-center">
                 <div class="col-lg-8 col-md-10">
                     <h5 class="card-title">Your Referral Link:</h5>
-                    <a href="{{ config('app.url') }}/a/123456" class="float-right" target="_blank">{{ config('app.url') }}/a/123456</a>
+                    <a href="{{ config('app.url') }}/a/123456" class="float-right" target="_blank">{{ config('app.url') }}/a/{{ auth()->user()->id }}</a>
                 </div>
             </div>
         </div>
@@ -60,7 +62,7 @@
             <div class="card-header">
                 <h3 class="card-title">Your Earnings</h3>
                 <div class="card-tools">
-                    <a href="#" class="btn btn-default btn-sm float-right">View Credit Balance <i class="fas fa-arrow-circle-right"></i></a>
+                    <a href="{{ route('client.credit.show') }}" class="btn btn-default btn-sm float-right">View Credit Balance <i class="fas fa-arrow-circle-right"></i></a>
                 </div>
             </div>
             <div class="card-body table-responsive p-0">
@@ -76,30 +78,28 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td>1</a></td>
-                            <td>Server - Plan 1</td>
-                            <td>$5.00 USD</td>
-                            <td>50%</td>
-                            <td><span class="badge bg-warning">Pending</span></td>
-                            <td>Jan 1, 2021 13:30 (UTC)</td>
-                        </tr>
-                        <tr>
-                            <td>1</a></td>
-                            <td>Server - Plan 1</td>
-                            <td>$5.00 USD</td>
-                            <td>50%</td>
-                            <td><span class="badge bg-success">Accepted</span></td>
-                            <td>Jan 1, 2021 13:30 (UTC)</td>
-                        </tr>
-                        <tr>
-                            <td>1</a></td>
-                            <td>Server - Plan 1</td>
-                            <td>$10.00 USD</td>
-                            <td>50%</td>
-                            <td><span class="badge bg-danger">Rejected</span></td>
-                            <td>Jan 1, 2021 13:30 (UTC)</td>
-                        </tr>
+                        @foreach ($affiliate_model->where('client_id', auth()->user()->id) as $affiliate)
+                            <tr>
+                                <td>{{ $affiliate->id }}</a></td>
+                                <td>{{ $affiliate->product }}</td>
+                                <td>{!! session('currency_symbol') !!}{{ $affiliate->commission }} {{ session('currency') }}</td>
+                                <td>{{ $affiliate->conversion }}%</td>
+                                <td>
+                                    @switch($affiliate->status)
+                                        @case(0)
+                                            <span class="badge bg-success">Accepted</span>
+                                            @break
+                                        @case(1)
+                                            <span class="badge bg-warning">Pending</span>
+                                            @break
+                                        @case(2)
+                                            <span class="badge bg-danger">Rejected</span>
+                                            @break
+                                    @endswitch
+                                </td>
+                                <td>{{ $affiliate->created_at }}</td>
+                            </tr>
+                        @endforeach
                     </tbody>
                 </table>
             </div>

@@ -3,13 +3,34 @@
 namespace App\Http\Controllers\Store;
 
 use App\Http\Controllers\Controller;
+use App\Models\Addon;
+use App\Models\Plan;
 use Illuminate\Http\Request;
 
 class CheckoutController extends Controller
 {
     public function show()
     {
-        return view('store.checkout', ['title' => 'Order Server', 'id' => '1', 'ip' => $this->getIp()]);
+        if (
+            is_null(session('checkout_plan')) ||
+            is_null(session('checkout_addons')) ||
+            is_null(session('checkout_server_name')) ||
+            is_null(session('checkout_location')) ||
+            is_null(session('checkout_cycle'))
+        ) return redirect()->route('plans');
+
+        $due_today = session('checkout_plan')->price;
+
+        foreach (session('checkout_addons') as $addon_id) {
+            $addon = Addon::find($addon_id);
+            if (!is_null($addon)) {
+                $due_today += +$addon->price;
+            }
+        }
+
+        
+
+        return view('store.checkout', ['title' => 'Order Server', 'id' => '1']);
     }
 
     public function store(Request $request)
@@ -24,21 +45,6 @@ class CheckoutController extends Controller
 
     public function canceled()
     {
-        //
-    }
-
-    private function getIp()
-    {
-        foreach (array('HTTP_CLIENT_IP', 'HTTP_X_FORWARDED_FOR', 'HTTP_X_FORWARDED', 'HTTP_X_CLUSTER_CLIENT_IP', 'HTTP_FORWARDED_FOR', 'HTTP_FORWARDED', 'REMOTE_ADDR') as $key) {
-            if (array_key_exists($key, $_SERVER) === true) {
-                foreach (explode(',', $_SERVER[$key]) as $ip) {
-                    $ip = trim($ip);
-                    if (filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_NO_PRIV_RANGE | FILTER_FLAG_NO_RES_RANGE) !== false) {
-                        return $ip;
-                    }
-                }
-            }
-        }
-        return request()->ip();
+        return view('store.checkout', ['title' => 'Order Server', 'id' => '1']);
     }
 }

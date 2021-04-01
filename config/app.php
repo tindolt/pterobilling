@@ -1,43 +1,40 @@
 <?php
 
-return [
+use App\Models\Setting;
 
+$setting_model = Setting::class;
+
+return [
     /*
     |--------------------------------------------------------------------------
     | PteroBilling Version
     |--------------------------------------------------------------------------
     |
-    | PLEASE DON'T MODIFY THE VERSION VALUES BELOW, OR THE WHOLE APP MAY BREAK!
+    | PLEASE DON'T MODIFY THE VERSION BELOW, OR THE WHOLE SOFTWARE MAY BREAK!
     |
     */
 
-    'version' => 'v0.1.0-beta',
+    'version' => 'v0.1.0-alpha',
 
     /*
     |--------------------------------------------------------------------------
     | PteroBilling Configurations
     |--------------------------------------------------------------------------
-    |
-    | Edit these values in .env file, then run `php artisan config:cache` to
-    | update the configurations.
-    |
     */
 
-    'company_name' => env('COMPANY_NAME', 'PteroBilling'),
+    'company_name' => $setting_model::where('key', 'company_name')->value('value'),
 
-    'logo_file_path' => env('LOGO_FILE_PATH', '/dist/img/icon.webp'),
+    'logo_file_path' => $setting_model::where('key', 'logo_path')->value('value'),
 
-    'favicon_file_path' => env('FAVICON_FILE_PATH', '/dist/img/favicon.webp'),
+    'favicon_file_path' => $setting_model::where('key', 'favicon_path')->value('value'),
 
-    'dark_mode' => env('DARK_MODE', false),
+    'dark_mode' => $setting_model::where('key', 'dark_mode')->value('value'),
 
-    'panel_url' => env('PANEL_URL', 'https://panel.example.com'),
+    'panel_url' => $setting_model::where('key', 'panel_url')->value('value'),
 
-    'panel_api_key' => env('PANEL_API_KEY'),
+    'panel_api_key' => $setting_model::where('key', 'panel_api_key')->value('value'),
 
-    'phpmyadmin_url' => env('PHPMYADMIN_URL', 'https://pma.example.com'),
-
-    'contact' => env('CONTACT_FORM_RECEIVER', 'hello@example.com'),
+    'phpmyadmin_url' => $setting_model::where('key', 'phpmyadmin_url')->value('value'),
 
     /*
     |--------------------------------------------------------------------------
@@ -89,7 +86,7 @@ return [
     |
     */
 
-    'url' => env('APP_URL', 'https://example.com'),
+    'url' => $setting_model::where('key', 'store_url')->value('value'),
 
     'asset_url' => env('ASSET_URL', null),
 

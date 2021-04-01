@@ -4,12 +4,16 @@ namespace App\Http\Controllers\Store;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Mail\ContactForm;
-use Illuminate\Support\Facades\Mail;
-use Extensions\HCaptcha;
+use App\Models\Contact;
+use App\Models\Page;
+use App\Notifications\ContactForm;
+use App\Traits\HCaptcha;
+use Illuminate\Support\Facades\Notification;
 
 class ContactController extends Controller
 {
+    use HCaptcha;
+
     public function show() {
         return view('store.contact', ['title' => 'Contact Us']);
     }
@@ -22,15 +26,21 @@ class ContactController extends Controller
             'message' => 'required|string|min:100|max:2000',
         ]);
 
-        $hCaptcha = new HCaptcha(config('hcaptcha.secret_key'));
-
-        if (!$hCaptcha->validateResponse($request->input('h-captcha-response'))) {
+        if (!$this->validateResponse($request->input('h-captcha-response'))) {
             $request->flashExcept('h-captcha-response');
-            return view('store.contact', ['title' => 'Contact Us', 'captcha_error' => true]);
+            return back()->with('captcha_error', true);
         }
 
-        Mail::to(config('app.contact'))->queue(new ContactForm($request->input('email'), $request->input('name'), $request->input('subject'), $request->input('message')));
+        $receiver = Page::where('name', 'contact')->value('content');
+        $sender = Contact::create([
+            'email' => $request->input('email'),
+            'name' => $request->input('name'),
+            'subject' => $request->input('subject'),
+            'message' => $request->input('message'),
+        ]);
 
-        return view('store.contact', ['title' => 'Contact Us', 'success' => true]);
+        Notification::route('mail', $receiver)->notify(new ContactForm($sender));
+
+        return back()->with('success', true);
     }
 }

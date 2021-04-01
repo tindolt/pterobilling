@@ -24,20 +24,20 @@
                                 </div>
                             </div>
                         @endif
-                        @isset ($captcha_error)
+                        @if (session('captcha_error'))
                             <div class="form-group">
                                 <div class="alert alert-danger">
                                     Please solve the hCaptcha challenge again.
                                 </div>
                             </div>
-                        @endisset
-                        @isset ($success)
+                        @endif
+                        @if (session('success'))
                             <div class="form-group">
                                 <div class="alert alert-success">
                                     Your message has been sent!
                                 </div>
                             </div>
-                        @endisset
+                        @endif
                         <div class="form-group">
                             <label for="emailInput">Email Address</label>
                             <input type="email" name="email" value="{{ old('email') }}" class="form-control" id="emailInput" placeholder="Email Address" required>

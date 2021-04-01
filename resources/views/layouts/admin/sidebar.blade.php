@@ -23,125 +23,217 @@
                 <!-- Add icons to the links using the .nav-icon class
                     with font-awesome or any other icon font library -->
                 <li class="nav-item">
-                    <a href="{{ route('client.dash') }}" class="nav-link active">
+                    <a href="{{ route('admin.dash') }}" class="nav-link active">
                         <i class="nav-icon fas fa-tachometer-alt"></i>
-                        <p>Dashboard</p>
+                        <p>Admin Dashboard</p>
                     </a>
                 </li>
-                <li class="nav-item">
-                    <a href="{{ config('app.panel_url') }}" class="nav-link">
-                        <i class="fas fa-columns nav-icon"></i>
-                        <p>Pterodactyl Panel</p>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a href="{{ config('app.phpmyadmin_url') }}" class="nav-link">
-                        <i class="fas fa-tools nav-icon"></i>
-                        <p>phpMyAdmin</p>
-                    </a>
-                </li>
-                <li class="nav-header">SERVERS</li>
                 <li class="nav-item">
                     <a href="javascript:void(0);" class="nav-link">
                         <i class="fas fa-server nav-icon"></i>
                         <p>
-                            Server 1
+                            Servers
                             <i class="right fas fa-angle-left"></i>
                         </p>
                     </a>
                     <ul class="nav nav-treeview">
                         <li class="nav-item">
                             <a href="#" class="nav-link">
-                                <i class="fas fa-info-circle nav-icon"></i>
-                                <p>Server Info</p>
+                                <i class="nav-icon far fa-check-circle"></i>
+                                <p>Active</p>
                             </a>
                         </li>
                         <li class="nav-item">
                             <a href="#" class="nav-link">
-                                <i class="fas fa-scroll nav-icon"></i>
-                                <p>Manage Plan</p>
+                                <i class="nav-icon fas fa-ellipsis-h"></i>
+                                <p>Pending</p>
                             </a>
                         </li>
                         <li class="nav-item">
                             <a href="#" class="nav-link">
-                                <i class="fas fa-puzzle-piece nav-icon"></i>
-                                <p>Add-ons</p>
+                                <i class="nav-icon far fa-times-circle"></i>
+                                <p>Suspended</p>
                             </a>
                         </li>
                         <li class="nav-item">
                             <a href="#" class="nav-link">
-                                <i class="fas fa-globe nav-icon"></i>
-                                <p>Subdomain</p>
+                                <i class="nav-icon fas fa-ban"></i>
+                                <p>Canceled</p>
                             </a>
                         </li>
                     </ul>
                 </li>
+                <li class="nav-header">CLIENTS</li>
                 <li class="nav-item">
-                    <a href="javascript:void(0);" class="nav-link">
-                        <i class="fas fa-server nav-icon"></i>
-                        <p>
-                            Server 2
-                            <i class="right fas fa-angle-left"></i>
-                        </p>
+                    <a href="#" class="nav-link">
+                        <i class="nav-icon fas fa-users"></i>
+                        <p>Clients</p>
                     </a>
-                    <ul class="nav nav-treeview">
-                        <li class="nav-item">
-                            <a href="#" class="nav-link">
-                                <i class="fas fa-info-circle nav-icon"></i>
-                                <p>Server Info</p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="#" class="nav-link">
-                                <i class="fas fa-scroll nav-icon"></i>
-                                <p>Manage Plan</p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="#" class="nav-link">
-                                <i class="fas fa-puzzle-piece nav-icon"></i>
-                                <p>Add-ons</p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="#" class="nav-link">
-                                <i class="fas fa-globe nav-icon"></i>
-                                <p>Subdomain</p>
-                            </a>
-                        </li>
-                    </ul>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link">
+                        <i class="nav-icon fas fa-user-friends"></i>
+                        <p>Affiliate Program</p>
+                    </a>
+                </li>
+                <li class="nav-header">PLANS</li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link">
+                        <i class="nav-icon fas fa-scroll"></i>
+                        <p>Server Plans</p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link">
+                        <i class="nav-icon far fa-folder"></i>
+                        <p>Categories</p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link">
+                        <i class="nav-icon fas fa-puzzle-piece"></i>
+                        <p>Server Add-ons</p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link">
+                        <i class="nav-icon fas fa-percent"></i>
+                        <p>Discounts</p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link">
+                        <i class="nav-icon fas fa-tag"></i>
+                        <p>Coupon Codes</p>
+                    </a>
                 </li>
                 <li class="nav-header">BILLING</li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link">
+                        <i class="nav-icon fas fa-money-bill-wave"></i>
+                        <p>Income</p>
+                    </a>
+                </li>
                 <li class="nav-item">
                     <a href="#" class="nav-link">
                         <i class="nav-icon fas fa-file-invoice-dollar"></i>
                         <p>Invoices</p>
                     </a>
                 </li>
-                <li class="nav-header">SUPPORT CENTER</li>
                 <li class="nav-item">
                     <a href="#" class="nav-link">
-                        <i class="fas fa-ticket-alt nav-icon"></i>
+                        <i class="nav-icon fas fa-money-check"></i>
+                        <p>Gateways</p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link">
+                        <i class="nav-icon fas fa-dollar-sign"></i>
+                        <p>Currencies</p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link">
+                        <i class="nav-icon fas fa-funnel-dollar"></i>
+                        <p>Tax</p>
+                    </a>
+                </li>
+                <li class="nav-header">SUPPORT</li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link">
+                        <i class="nav-icon fas fa-ticket-alt"></i>
                         <p>Support Tickets</p>
                     </a>
                 </li>
                 <li class="nav-item">
                     <a href="#" class="nav-link">
-                        <i class="fas fa-book nav-icon"></i>
+                        <i class="nav-icon fas fa-book"></i>
                         <p>Knowledge Base</p>
                     </a>
                 </li>
                 <li class="nav-item">
                     <a href="#" class="nav-link">
-                        <i class="fas fa-network-wired nav-icon"></i>
-                        <p>System Status</p>
+                        <i class="nav-icon fas fa-bullhorn"></i>
+                        <p>Announcements</p>
                     </a>
                 </li>
-                <li class="nav-header">AFFILIATE PROGRAM</li>
+                <li class="nav-header">SETTINGS</li>
                 <li class="nav-item">
-                    <a href="{{ route('client.dash') }}" class="nav-link">
-                        <i class="nav-icon fas fa-user-friends"></i>
-                        <p>Affiliates</p>
+                    <a href="#" class="nav-link">
+                        <i class="nav-icon fas fa-cog"></i>
+                        <p>Store Settings</p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="javascript:void(0);" class="nav-link">
+                        <i class="fas fa-file nav-icon"></i>
+                        <p>
+                            Store Pages
+                            <i class="right fas fa-angle-left"></i>
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="#" class="nav-link">
+                                <i class="nav-icon fas fa-home"></i>
+                                <p>Home Page</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#" class="nav-link">
+                                <i class="nav-icon fas fa-at"></i>
+                                <p>Contact Form</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#" class="nav-link">
+                                <i class="nav-icon fas fa-file-alt"></i>
+                                <p>Terms of Service</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#" class="nav-link">
+                                <i class="nav-icon far fa-file-alt"></i>
+                                <p>Privacy Policy</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#" class="nav-link">
+                                <i class="nav-icon fas fa-chart-bar"></i>
+                                <p>Status Page</p>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                <li class="nav-header">EXTENSIONS</li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link">
+                        <i class="nav-icon fas fa-plug"></i>
+                        <p>PayPal</p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link">
+                        <i class="nav-icon fas fa-plug"></i>
+                        <p>Cloudflare Zones</p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link">
+                        <i class="nav-icon fas fa-plug"></i>
+                        <p>cPanel Zones</p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link">
+                        <i class="nav-icon fas fa-plug"></i>
+                        <p>Minecraft</p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link">
+                        <i class="nav-icon fas fa-plug"></i>
+                        <p>hCaptcha</p>
                     </a>
                 </li>
             </ul>

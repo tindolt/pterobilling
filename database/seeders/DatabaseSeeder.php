@@ -13,6 +13,25 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        // \App\Models\User::factory(10)->create();
+        $this->call([
+            ClientSeeder::class,
+            AffiliateSeeder::class,
+            PlanSeeder::class,
+            CategorySeeder::class,
+            AddonSeeder::class,
+            CurrencySeeder::class,
+            TaxSeeder::class,
+            KbSeeder::class,
+            AnnouncementSeeder::class,
+            SettingSeeder::class,
+            PageSeeder::class,
+
+            /**
+             * Extensions' seeder classes
+             */
+            PayPalSeeder::class,
+            CloudflareSeeder::class,
+            CPanelSeeder::class,
+        ]);
     }
 }
