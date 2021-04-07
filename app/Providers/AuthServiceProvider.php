@@ -28,13 +28,13 @@ class AuthServiceProvider extends ServiceProvider
         $this->registerPolicies();
 
         VerifyEmail::toMailUsing(function ($notifiable, $url) {
-            return (new MailMessage)->subject('')->view('emails.notif', [
-                'subject' => '',
-                'body_message' => '',
-                'body_action' => '',
-                'button_text' => '',
+            return (new MailMessage)->subject('Please verify your ' . config('app.company_name') . ' account')->view('emails.notif', [
+                'subject' => 'Verify Your Account',
+                'body_message' => 'Thank you for registering for an account on our website. It\'s nice to meet you.',
+                'body_action' => 'Before using our services, please verify your email address by clicking the button below.',
+                'button_text' => 'Verify Account',
                 'button_url' => $url,
-                'notice' => '',
+                'notice' => 'You may safely ignore this email if you didn\'t sign up for an account.',
             ]);
         });
     }

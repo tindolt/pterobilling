@@ -15,7 +15,7 @@ Route::prefix('server')->name('server.')->group(function () {
     // List all servers
     Route::get('/', 'Client\ServerController@index')->name('index');
 
-    Route::prefix('{id}')->middleware('check.server')->group(function () {
+    Route::prefix('{id}')->middleware('check.client.server')->group(function () {
         // Show server information
         Route::get('/', 'Client\ServerController@show')->name('show');
 
@@ -24,8 +24,8 @@ Route::prefix('server')->name('server.')->group(function () {
             Route::get('/', 'Client\PlanController@show')->name('show');
             Route::get('/cancel', 'Client\PlanController@cancel')->name('cancel');
             Route::post('/cancel', 'Client\PlanController@destroy');
-            Route::get('/change/{plan_id}', 'Client\PlanController@change')->middleware('check.plan')->name('change');
-            Route::post('/change/{plan_id}', 'Client\PlanController@store')->middleware('check.plan');
+            Route::get('/change/{plan_id}', 'Client\PlanController@change')->middleware('check.client.plan')->name('change');
+            Route::post('/change/{plan_id}', 'Client\PlanController@store')->middleware('check.client.plan');
             Route::get('/checkout', 'Client\PlanController@confirm')->name('checkout');
             Route::post('/checkout', 'Client\PlanController@checkout');
             Route::get('/changed', 'Client\PlanController@changed')->name('changed');
@@ -34,23 +34,23 @@ Route::prefix('server')->name('server.')->group(function () {
         // Manage server add-ons
         Route::prefix('addon')->name('addon.')->group(function () {
             Route::get('/', 'Client\AddonController@show')->name('show');
-            Route::get('/remove/{addon_id}', 'Client\AddonController@remove')->middleware('check.addon')->name('remove');
-            Route::post('/remove/{addon_id}', 'Client\AddonController@destroy')->middleware('check.addon');
-            Route::get('/add/{addon_id}', 'Client\AddonController@add')->middleware('check.addon')->name('add');
-            Route::post('/add/{addon_id}', 'Client\AddonController@store')->middleware('check.addon');
+            Route::get('/remove/{addon_id}', 'Client\AddonController@remove')->middleware('check.client.addon:remove')->name('remove');
+            Route::post('/remove/{addon_id}', 'Client\AddonController@destroy')->middleware('check.client.addon:remove');
+            Route::get('/add/{addon_id}', 'Client\AddonController@add')->middleware('check.client.addon:add')->name('add');
+            Route::post('/add/{addon_id}', 'Client\AddonController@store')->middleware('check.client.addon:add');
             Route::get('/checkout', 'Client\AddonController@confirm')->name('checkout');
             Route::post('/checkout', 'Client\AddonController@checkout');
             Route::get('/added', 'Client\AddonController@added')->name('added');
         });
 
         // Server subdomain manager
-        Route::prefix('subdomain')->name('subdomain.')->group(function () {
+        Route::prefix('subdomain')->middleware('soon')->name('subdomain.')->group(function () {
             Route::get('/', 'Client\SubdomainController@show')->name('show');
             Route::post('/', 'Client\SubdomainController@store');
         });
 
         // Server software installer
-        Route::prefix('software')->name('software.')->group(function () {
+        Route::prefix('software')->middleware('soon')->name('software.')->group(function () {
             Route::get('/', 'Client\SoftwareController@show')->name('show');
             Route::post('/', 'Client\SoftwareController@store');
         });
@@ -61,7 +61,7 @@ Route::prefix('server')->name('server.')->group(function () {
 Route::prefix('invoice')->name('invoice.')->group(function () {
     Route::get('/', 'Client\InvoiceController@index')->name('index');
 
-    Route::prefix('{id}')->middleware('check.invoice')->group(function () {
+    Route::prefix('{id}')->middleware('check.client.invoice')->group(function () {
         Route::get('/', 'Client\InvoiceController@show')->name('show');
         Route::post('/', 'Client\InvoiceController@store');
         Route::get('/print', 'Client\InvoiceController@print')->name('print');
@@ -73,16 +73,16 @@ Route::prefix('invoice')->name('invoice.')->group(function () {
 Route::prefix('ticket')->name('ticket.')->group(function () {
     Route::get('/', 'Client\TicketController@index')->name('index');
 
-    Route::prefix('{id}')->middleware('check.ticket')->group(function () {
+    Route::prefix('{id}')->middleware('check.client.ticket')->group(function () {
         Route::get('/', 'Client\TicketController@show')->name('show');
         Route::post('/', 'Client\TicketController@update');
-        Route::get('/create','Client\TicketController@create')->withoutMiddleware('check.ticket')->name('create');
-        Route::post('/create', 'Client\TicketController@store')->withoutMiddleware('check.ticket');
+        Route::get('/create','Client\TicketController@create')->withoutMiddleware('check.client.ticket')->name('create');
+        Route::post('/create', 'Client\TicketController@store')->withoutMiddleware('check.client.ticket');
     });
 });
 
 // Affiliate Program
-Route::prefix('affiliate')->name('affiliate.')->group(function () {
+Route::prefix('affiliate')->middleware('check.store.affiliate')->name('affiliate.')->group(function () {
     Route::get('/', 'Client\AffiliateController@show')->name('show');
     Route::post('/', 'Client\AffiliateController@store');
 });
@@ -90,7 +90,10 @@ Route::prefix('affiliate')->name('affiliate.')->group(function () {
 // Account Settings
 Route::prefix('account')->name('account.')->group(function () {
     Route::get('/', 'Client\AccountController@show')->name('show');
-    Route::post('/', 'Client\AccountController@store');
+    Route::post('/basic', 'Client\AccountController@basic')->name('basic');
+    Route::post('/api', 'Client\AccountController@api')->name('api');
+    Route::post('/email', 'Client\AccountController@email')->name('email');
+    Route::post('/password', 'Client\AccountController@password')->name('password');
 });
 
 // Account Credit

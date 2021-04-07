@@ -1,5 +1,4 @@
 @inject('server_model', 'App\Models\Server')
-@inject('pterodactyl_api', 'App\View\Classes\PterodactylApi')
 
 <aside class="main-sidebar sidebar-dark-primary elevation-4">
     <!-- Brand Logo -->
@@ -106,7 +105,7 @@
                 </li>
                 <li class="nav-header">SUPPORT CENTER</li>
                 <li class="nav-item">
-                    <a href="{{ route('client.ticket.index') }}" class="nav-link">
+                    <a href="{{ route('client.ticket.index') }}" class="nav-link @if(Route::currentRouteName() == 'client.support.index') active @endif">
                         <i class="fas fa-ticket-alt nav-icon"></i>
                         <p>Support Tickets</p>
                     </a>
@@ -125,19 +124,19 @@
                 </li>
                 <li class="nav-header">ACCOUNT</li>
                 <li class="nav-item">
-                    <a href="{{ route('client.affiliate.show') }}" class="nav-link">
+                    <a href="{{ route('client.affiliate.show') }}" class="nav-link @if(Route::currentRouteName() == 'client.affiliate.show') active @endif">
                         <i class="fas fa-user-friends nav-icon"></i>
                         <p>Affiliate Program</p>
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="{{ route('client.credit.show') }}" class="nav-link">
+                    <a href="{{ route('client.credit.show') }}" class="nav-link @if(Route::currentRouteName() == 'client.credit.show') active @endif">
                         <i class="fas fa-money-bill-wave nav-icon"></i>
                         <p>Account Credit</p>
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="{{ route('client.account.show') }}" class="nav-link">
+                    <a href="{{ route('client.account.show') }}" class="nav-link @if(Route::currentRouteName() == 'client.account.show') active @endif">
                         <i class="fas fa-cog nav-icon"></i>
                         <p>Account Settings</p>
                     </a>

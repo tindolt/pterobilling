@@ -20,7 +20,7 @@ class CreateServersTable extends Migration
             $table->integer('client_id')->unsigned();
             $table->integer('plan_id')->unsigned();
             $table->string('billing_cycle');
-            $table->timestamp('next_due');
+            $table->timestamp('next_due')->nullable();
             $table->string('payment_method');
             $table->string('addon')->nullable();
             $table->string('subdomain_name')->nullable();

@@ -11,25 +11,6 @@
                     @csrf
                     
                     <div class="card-body">
-                        @if ($errors->any())
-                            <div class="form-group">
-                                <div class="alert alert-danger">
-                                    Please fix the following error(s):
-                                    <ul>
-                                        @foreach ($errors->all() as $error)
-                                            <li>{{ $error }}</li>
-                                        @endforeach
-                                    </ul>
-                                </div>
-                            </div>
-                        @endif
-                        @if (session('captcha_error'))
-                            <div class="form-group">
-                                <div class="alert alert-danger">
-                                    Please solve the hCaptcha challenge again.
-                                </div>
-                            </div>
-                        @endif
                         <div class="form-group">
                             <label for="passwordInput">Email Address</label>
                             <input type="password" name="email" value="{{ old('email') }}" class="form-control" id="passwordInput" placeholder="Email Address" required autofocus>

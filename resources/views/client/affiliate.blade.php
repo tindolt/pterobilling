@@ -40,7 +40,7 @@
         <div class="col-lg-3 col-md-6">
             <div class="small-box bg-success">
                 <div class="inner">
-                    <h3>{!! session('currency_symbol') !!}{{ auth()->user()->commissions }} {{ session('currency') }}</h3>
+                    <h3>{!! session('currency')->symbol !!}{{ number_format(auth()->user()->commissions * session('currency')->rate, 2) }} {{ session('currency')->name }}</h3>
                     <p>Commissions</p>
                 </div>
                 <div class="icon">
@@ -54,7 +54,7 @@
             <div class="card-body row justify-content-center">
                 <div class="col-lg-8 col-md-10">
                     <h5 class="card-title">Your Referral Link:</h5>
-                    <a href="{{ config('app.url') }}/a/123456" class="float-right" target="_blank">{{ config('app.url') }}/a/{{ auth()->user()->id }}</a>
+                    <a href="{{ config('app.url') }}/a/{{ auth()->user()->id }}" class="float-right" target="_blank">{{ config('app.url') }}/a/{{ auth()->user()->id }}</a>
                 </div>
             </div>
         </div>
@@ -82,7 +82,7 @@
                             <tr>
                                 <td>{{ $affiliate->id }}</a></td>
                                 <td>{{ $affiliate->product }}</td>
-                                <td>{!! session('currency_symbol') !!}{{ $affiliate->commission }} {{ session('currency') }}</td>
+                                <td>{!! session('currency')->symbol !!}{{ number_format($affiliate->commission * session('currency')->rate, 2) }} {{ session('currency')->name }}</td>
                                 <td>{{ $affiliate->conversion }}%</td>
                                 <td>
                                     @switch($affiliate->status)

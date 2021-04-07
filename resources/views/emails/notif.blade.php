@@ -34,7 +34,7 @@
                                 <table width="100%" cellpadding="0" cellspacing="0" border="0">
                                   <tr>
                                     <td style="padding-right: 0px;padding-left: 0px;" align="center">
-                                      <img align="center" border="0" src="{{ config('app.logo_file_path') }}" alt="Logo" title="Logo" style="outline: none;text-decoration: none;-ms-interpolation-mode: bicubic;clear: both;display: inline-block !important;border: none;height: auto;float: none;width: 30%;max-width: 174px;"
+                                      <img align="center" border="0" src="{{ config('app.url') }}{{ config('app.logo_file_path') }}" alt="Logo" title="Logo" style="outline: none;text-decoration: none;-ms-interpolation-mode: bicubic;clear: both;display: inline-block !important;border: none;height: auto;float: none;width: 30%;max-width: 174px;"
                                         width="174" />
                                     </td>
                                   </tr>
@@ -172,7 +172,7 @@
                                     <span style="font-size: 14px; line-height: 19.6px;">
                                       <span style="color: #ecf0f1; font-size: 14px; line-height: 19.6px;">
                                         <span style="line-height: 19.6px; font-size: 14px;">
-                                          Copyright &copy;&nbsp; 2021 <a href="{{ config('app.app_url') }}" target="_blank" rel="noopener"><strong>{{ config('app.company_name') }}</strong></a>. All Rights Reserved.
+                                          Copyright &copy;&nbsp; 2021 <a href="{{ config('app.url') }}" target="_blank" rel="noopener"><strong>{{ config('app.company_name') }}</strong></a>. All Rights Reserved.
                                         </span>
                                       </span>
                                     </span>

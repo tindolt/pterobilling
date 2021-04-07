@@ -4,11 +4,6 @@
 @inject('client_model', 'App\Models\Client')
 
 @section('content')
-    @if (session('success'))
-        <div class="alert alert-success">
-            You've successfully replied to the ticket. Our staff will reply to you as soon as possible.
-        </div>
-    @endif
     <div class="row">
         <div class="col-md-12">
             <div class="card">
@@ -48,8 +43,7 @@
                         <p class="card-text">{{ $ticket->updated_at }}</p>
                     </div>
                     <div class="col-lg-3 col-md-6 mb-1">
-                        <a href="{{ route('client.ticket.index') }}" class="card-link"><i
-                                class="fas fa-arrow-left text-sm"></i> View All Tickets</a>
+                        <a href="{{ route('client.ticket.index') }}" class="card-link"><i class="fas fa-arrow-left text-sm"></i> View All Tickets</a>
                     </div>
                 </div>
             </div>

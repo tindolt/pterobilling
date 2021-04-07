@@ -1,5 +1,7 @@
 <?php
 
+use App\Models\Currency;
+use App\Models\Tax;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -26,8 +28,8 @@ class CreateClientsTable extends Migration
             $table->integer('sign_ups')->unsigned()->default(0);
             $table->integer('purchases')->unsigned()->default(0);
             $table->decimal('commissions')->unsigned()->default(0.00);
-            $table->string('currency')->default('USD');
-            $table->string('country')->default('0');
+            $table->string('currency')->default(Currency::where('default', true)->value('name'));
+            $table->string('country')->default(Tax::where('country', '0')->value('country'));
             $table->string('timezone')->default('UTC');
             $table->string('language')->default('EN');
             $table->boolean('is_admin')->default(false);

@@ -24,8 +24,8 @@
                             @foreach ($invoice_model->where(['client_id' => auth()->user()->id, 'paid' => false]) as $invoice)
                                 <tr>
                                     <td><a href="{{ route('client.invoice.show', ['id' => $invoice->id]) }}">{{ $invoice->id }}</a></td>
-                                    <td>{{ json_decode($invoice->products_id)[0] }}</td>
-                                    <td>{!! session('currency_symbol') !!}{{ $invoice->total_due }} {{ session('currency') }}</td>
+                                    <td>{{ json_decode($invoice->products, true)[0] }}</td>
+                                    <td>{!! session('currency')->symbol !!}{{ number_format($invoice->total_due * session('currency')->rate, 2) }} {{ session('currency')->name }}</td>
                                     <td>{{ $invoice->created_at }}</td>
                                     <td>{{ $invoice->due_date }}</td>
                                 </tr>
@@ -53,8 +53,8 @@
                             @foreach ($invoice_model->where(['client_id' => auth()->user()->id, 'paid' => true]) as $invoice)
                                 <tr>
                                     <td><a href="{{ route('client.invoice.show', ['id' => $invoice->id]) }}">{{ $invoice->id }}</a></td>
-                                    <td>{{ json_decode($invoice->products_id)[0] }}</td>
-                                    <td>{!! session('currency_symbol') !!}{{ $invoice->total_due }} {{ session('currency') }}</td>
+                                    <td>{{ json_decode($invoice->products, true)[0] }}</td>
+                                    <td>{!! session('currency')->symbol !!}{{ number_format($invoice->total_due * session('currency')->rate, 2) }} {{ session('currency')->name }}</td>
                                     <td>{{ $invoice->created_at }}</td>
                                     <td>{{ $invoice->updated_at }}</td>
                                 </tr>

@@ -16,6 +16,7 @@ class CreateAffiliateEarningsTable extends Migration
         Schema::create('affiliate_earnings', function (Blueprint $table) {
             $table->id();
             $table->integer('client_id')->unsigned();
+            $table->integer('buyer_id')->unsigned();
             $table->string('product');
             $table->decimal('commission')->unsigned();
             $table->integer('conversion')->unsigned();

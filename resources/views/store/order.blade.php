@@ -3,6 +3,11 @@
 @inject('category_model', 'App\Models\Category')
 @inject('addon_model', 'App\Models\Addon')
 
+@php
+    $plan->price = number_format($plan->price * session('currency')->rate * $percent_off, 2);
+    $plan->setup_fee = number_format($plan->setup_fee * session('currency')->rate * $percent_off, 2);
+@endphp
+
 @section('content')
     <div class="row">
         <div class="col-lg-9">
@@ -23,33 +28,6 @@
                 @csrf
 
                 <input type="hidden" name="order_details" value='{"addons": []}' id="order-details">
-                
-                @if ($errors->any())
-                    <div class="form-group">
-                        <div class="alert alert-danger">
-                            Please fix the following error(s):
-                            <ul>
-                                @foreach ($errors->all() as $error)
-                                    <li>{{ $error }}</li>
-                                @endforeach
-                            </ul>
-                        </div>
-                    </div>
-                @endif
-                @if (session('error_msg'))
-                    <div class="form-group">
-                        <div class="alert alert-danger">
-                            {{ session('error_msg') }}
-                        </div>
-                    </div>
-                @endif
-                @if (session('success_msg'))
-                    <div class="form-group">
-                        <div class="alert alert-success">
-                            {{ session('success_msg') }}
-                        </div>
-                    </div>
-                @endif
                 <div class="form-group row">
                     <label for="serverNameInput" class="col-lg-3 col-form-label">Server Name</label>
                     <div class="col-lg-4">
@@ -77,21 +55,21 @@
                     <div class="col-lg-7">
                         @foreach ($addon_model->all() as $addon)
                             @php
-                                $addon->price = number_format($addon->price * $percent_off, 2);
-                                $addon->setup_fee = number_format($addon->setup_fee * $percent_off, 2);
+                                $addon->price = number_format($addon->price * session('currency')->rate * $percent_off, 2);
+                                $addon->setup_fee = number_format($addon->setup_fee * session('currency')->rate * $percent_off, 2);
                             @endphp
                             @if (!is_null(json_decode($addon->plans)))
                                 @if (in_array($plan->id, json_decode($addon->plans)))
                                     <div class="form-check">
                                         <input class="form-check-input" type="checkbox" name="addon1" onchange="updateAddonSummary({{ $addon }});">
-                                        <p class="form-check-label">{{ $addon->name }} <span class="float-right">{!! session('currency_symbol') !!}{{ $addon->price }} {{ json_decode($plan->cycles)[0] }} (${{ $addon->setup_fee }} setup fee)</span></p>
+                                        <p class="form-check-label">{{ $addon->name }} <span class="float-right">{!! session('currency')->symbol !!}{{ $addon->price }} {{ json_decode($plan->cycles)[0] }} (${{ $addon->setup_fee }} setup fee)</span></p>
                                     </div>
                                 @endif
                             @elseif (!is_null(json_decode($addon->categories)))
                                 @if (in_array($plan->category_id, json_decode($addon->categories)))
                                     <div class="form-check">
                                         <input class="form-check-input" type="checkbox" name="addon1" onchange="updateAddonSummary({{ $addon }});">
-                                        <p class="form-check-label">{{ $addon->name }} <span class="float-right">{!! session('currency_symbol') !!}{{ $addon->price }} {{ json_decode($plan->cycles)[0] }} (${{ $addon->setup_fee }} setup fee)</span></p>
+                                        <p class="form-check-label">{{ $addon->name }} <span class="float-right">{!! session('currency')->symbol !!}{{ $addon->price }} {{ json_decode($plan->cycles)[0] }} (${{ $addon->setup_fee }} setup fee)</span></p>
                                     </div>
                                 @endif
                             @endif
@@ -111,7 +89,7 @@
                 </div>
             </form>
             <hr>
-            <form method="POST" action="">
+            <form method="POST" action="{{ route('order.coupon', ['id' => $id]) }}">
                 @csrf
                 <div class="form-group row">
                     <label for="couponCodeInput" class="col-lg-3 col-form-label">Coupon Code</label>
@@ -132,27 +110,30 @@
                 <div class="card-body">
                     <h6>Server <span class="float-right">{{ $plan->name }}</span></h6>
                     <small>
-                        Monthly <span class="float-right">{!! session('currency_symbol') !!}{{ number_format($plan->price * $percent_off, 2) }}</span><br>
-                        Setup Fee <span class="float-right">{!! session('currency_symbol') !!}{{ number_format($plan->setup_fee * $percent_off, 2) }}</span>
+                        Monthly <span class="float-right">{!! session('currency')->symbol !!}{{ $plan->price }}</span><br>
+                        Setup Fee <span class="float-right">{!! session('currency')->symbol !!}{{ $plan->setup_fee }}</span>
                     </small>
                     <hr>
                     <div id="addons-summary"></div>
-                    <h6>Subtotal <span class="float-right">{!! session('currency_symbol') !!}<span id="subtotal"></span> {{ session('currency') }}</span></h6>
-                    <small>Billed <span id="subtotal-cycle"></span> <span class="float-right">{!! session('currency_symbol') !!}<span id="subtotal-cycle-price"></span> {{ session('currency') }}</span></small>
+                    <h6>Subtotal <span class="float-right">{!! session('currency')->symbol !!}<span id="subtotal"></span> {{ session('currency')->name }}</span></h6>
+                    <small>
+                        Billed <span id="subtotal-cycle"></span> <span class="float-right">{!! session('currency')->symbol !!}<span id="subtotal-cycle-price"></span> {{ session('currency')->name }}</span><br>
+                        Tax (%) <span class="float-right"></span>
+                    </small><br>
                     <small>
                         @if (session('coupon'))
-                            Coupon: {{ session('coupon')->code }} <span class="float-right">- {!! session('currency_symbol') !!}<span id="coupon-discount"></span></span><br>
+                            Coupon: {{ session('coupon')->code }} <span class="float-right">- {!! session('currency')->symbol !!}<span id="coupon-discount"></span></span><br>
                         @endif
                         @if (auth()->user()->credit > 0)
-                            Account Credit <span class="float-right">- {!! session('currency_symbol') !!}<span id="credit-discount"></span></span>
+                            Account Credit <span class="float-right">- {!! session('currency')->symbol !!}<span id="credit-discount"></span></span>
                         @endif
                     </small>
                     <hr>
-                    <h6>Due Today <span class="float-right">{!! session('currency_symbol') !!}<span id="due-today"></span> {{ session('currency') }}</span></h6>
+                    <h6>Due Today <span class="float-right">{!! session('currency')->symbol !!}<span id="due-today"></span> {{ session('currency')->name }}</span></h6>
                     @if ($plan->trial > 0)
                         <small class="card-title">Billed after the {{ $plan->trial }}-day free trial</small><br>
                     @endif
-                    <small>Next <span id="next-cycle"></span> <span class="float-right">{!! session('currency_symbol') !!}<span id="next-due"></span> {{ session('currency') }}</span></small><br>
+                    <small>Next <span id="next-cycle"></span> <span class="float-right">{!! session('currency')->symbol !!}<span id="next-due"></span> {{ session('currency')->name }}</span></small><br>
                     <button type="submit" form="orderForm" class="btn btn-primary float-right">Continue <i class="fas fa-arrow-circle-right"></i></button>
                 </div>
             </div>
@@ -176,7 +157,8 @@
 
         var checkedAddons = [];
         var months = 1;
-        var subtotal = {{ $plan->price * $percent_off + $plan->setup_fee * $percent_off }};
+        var subtotal = {{ $plan->price + $plan->setup_fee }};
+        var currencyRate = {{ session('currency')->rate }};
         @if (session('coupon'))
             var couponPercentOff = {{ session('coupon')->percent_off }} / 100;
         @endif
@@ -243,10 +225,10 @@
 
             if (creditDiscountSpan && accountCredit) {
                 if (dueToday > accountCredit) {
-                    couponDiscountSpan.innerHTML = (dueToday - accountCredit).toFixed(2);
+                    creditDiscountSpan.innerHTML = accountCredit.toFixed(2);
                     dueToday -= accountCredit;
                 } else {
-                    creditDiscountSpan.innerHTML = (accountCredit - dueToday).toFixed(2);
+                    creditDiscountSpan.innerHTML = dueToday.toFixed(2);
                     dueToday = 0.00;
                 }
             }
@@ -255,7 +237,7 @@
             subtotalCyclePriceSpan.innerHTML = subtotalCyclePrice.toFixed(2);
             dueTodaySpan.innerHTML = dueToday.toFixed(2);
             nextDueSpan.innerHTML = nextDue.toFixed(2);
-            orderDetailsInput.value =  JSON.stringify({"addons": checkedAddons});
+            orderDetailsInput.value = JSON.stringify({"addons": checkedAddons});
         }
         
         updateValues();

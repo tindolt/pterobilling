@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Client;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\LoginRequest;
+use App\Models\Currency;
+use App\Models\Tax;
 use App\Providers\RouteServiceProvider;
 use App\Traits\HCaptcha;
 use Illuminate\Http\Request;
@@ -24,17 +26,15 @@ class LoginController extends Controller
     public function store(LoginRequest $request)
     {
         if (!$this->validateResponse($request->input('h-captcha-response'))) {
-            return back()->withInput($request->only('email'))->with('captcha_error', true);
+            return back()->withInput($request->only('email'))->with('danger_msg', 'Please solve the captcha challenge again.');
         }
 
         $request->authenticate();
         $request->session()->regenerate();
 
         session([
-            'currency' => auth()->user()->currency,
-            'country' => auth()->user()->country,
-            'timezone' => auth()->user()->timezone,
-            'language' => auth()->user()->language,
+            'currency' => Currency::where('name', auth()->user()->currency)->first(),
+            'tax' => Tax::where('country', auth()->user()->country)->first(),
         ]);
 
         if (session('redirect_to')) {

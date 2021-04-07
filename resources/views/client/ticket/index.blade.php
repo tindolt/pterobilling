@@ -7,11 +7,6 @@
 @endphp
 
 @section('content')
-    @if (session('resolved'))
-        <div class="alert alert-success">
-            Your ticket has been marked resolved. If you'd like to reopen it, please reply to the ticket.
-        </div>
-    @endif
     <div class="row">
         <div class="col-lg-12">
             <div class="card">

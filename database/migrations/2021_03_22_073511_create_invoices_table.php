@@ -16,14 +16,11 @@ class CreateInvoicesTable extends Migration
         Schema::create('invoices', function (Blueprint $table) {
             $table->id();
             $table->integer('client_id')->unsigned();
-            $table->decimal('total_due')->unsigned();
-            $table->string('products_id');
+            $table->string('products');
             $table->string('prices');
-            $table->decimal('subtotal')->unsigned();
             $table->integer('tax_id')->unsigned()->nullable();
-            $table->decimal('credit')->unsigned()->default(0.00);
             $table->string('payment_method');
-            $table->timestamp('due_date');
+            $table->timestamp('due_date')->nullable();
             $table->boolean('paid')->unsigned()->default(false);
             $table->timestamps();
         });

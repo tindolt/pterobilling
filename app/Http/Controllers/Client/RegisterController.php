@@ -23,28 +23,26 @@ class RegisterController extends Controller
     public function store(Request $request)
     {
         if (!$this->validateResponse($request->input('h-captcha-response'))) {
-            return back()->withInput($request->only('email'))->with('captcha_error', true);
+            return back()->withInput($request->only('email'))->with('danger_msg', 'Please solve the captcha challenge again.');
         }
 
         $request->validate([
             'email' => 'required|string|email|max:255|unique:clients',
-            'password' => 'required|string|confirmed|min:8',
-            'remember' => 'required|boolean|accepted',
+            'password' => 'required|string|confirmed|min:8|max:255',
+            'terms' => 'required|accepted',
         ]);
 
         Auth::login($client = Client::create([
             'email' => $request->email,
             'password' => Hash::make($request->password),
-            'referer_id' => session('referer_id', null),
-            'currency' => session('currency', 'USD'),
-            'country' => session('country', '0'),
-            'language' => session('language', 'EN'),
+            'referer_id' => session('referer_id'),
+            'currency' => session('currency'),
+            'country' => session('country'),
+            'timezone' => 'UTC',
+            'language' => 'EN',
         ]));
 
         if (session('referer_id')) {
-            $client->referer_id = session('referer_id');
-            $client->save();
-
             $referer = Client::find(session('referer_id'));
             $referer->sign_ups += 1;
             $referer->save();

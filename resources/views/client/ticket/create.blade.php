@@ -8,25 +8,6 @@
             <div class="col-md-12">
                 <div class="card">
                     <div class="card-body row">
-                        @if ($errors->any())
-                            <div class="form-group">
-                                <div class="alert alert-danger">
-                                    Please fix the following error(s):
-                                    <ul>
-                                        @foreach ($errors->all() as $error)
-                                            <li>{{ $error }}</li>
-                                        @endforeach
-                                    </ul>
-                                </div>
-                            </div>
-                        @endif
-                        @if (session('captcha_error'))
-                            <div class="form-group">
-                                <div class="alert alert-danger">
-                                    Please solve the hCaptcha challenge again.
-                                </div>
-                            </div>
-                        @endif
                         <div class="form-group col-12">
                             <label for="subjectInput">Subject</label>
                             <input type="text" name="subject" value="{{ old('subject') }}" class="form-control" id="subjectInput" placeholder="Ticket Subject" required>

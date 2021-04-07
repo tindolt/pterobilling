@@ -12,32 +12,6 @@
                     @csrf
                     
                     <div class="card-body">
-                        @if ($errors->any())
-                            <div class="form-group">
-                                <div class="alert alert-danger">
-                                    Please fix the following error(s):
-                                    <ul>
-                                        @foreach ($errors->all() as $error)
-                                            <li>{{ $error }}</li>
-                                        @endforeach
-                                    </ul>
-                                </div>
-                            </div>
-                        @endif
-                        @if (session('captcha_error'))
-                            <div class="form-group">
-                                <div class="alert alert-danger">
-                                    Please solve the hCaptcha challenge again.
-                                </div>
-                            </div>
-                        @endif
-                        @if (session('success'))
-                            <div class="form-group">
-                                <div class="alert alert-success">
-                                    Your message has been sent!
-                                </div>
-                            </div>
-                        @endif
                         <div class="form-group">
                             <label for="emailInput">Email Address</label>
                             <input type="email" name="email" value="{{ old('email') }}" class="form-control" id="emailInput" placeholder="Email Address" required>

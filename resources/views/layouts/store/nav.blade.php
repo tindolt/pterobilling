@@ -31,33 +31,35 @@
         <!-- Right navbar links -->
         <ul class="order-1 order-md-3 navbar-nav navbar-no-expand ml-auto">
             <li class="nav-item dropdown">
-                <a id="currencyMenu" href="javascript:void(0);" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link dropdown-toggle">{{ session('currency') }}<a>
+                <a id="currencyMenu" href="javascript:void(0);" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link dropdown-toggle">{{ session('currency')->name }}<a>
                 <ul aria-labelledby="currencyMenu" class="dropdown-menu dropdown-menu-right border-0 shadow">
                     @foreach ($currency_model->all() as $currency)
-                        <li><a href="{{ route('currency', ['id' => $currency->name]) }}" class="dropdown-item">{{ $currency->name }}</a></li>
+                        <li><a href="{{ route('currency', ['id' => $currency->id]) }}" class="dropdown-item">{{ $currency->name }}</a></li>
                     @endforeach
                 </ul>
             </li>
             <li class="nav-item dropdown">
                 <a id="countryMenu" href="javascript:void(0);" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link dropdown-toggle">
-                    @if (session('country') == '0')
+                    @if (session('tax')->country === '0')
                         Global
                     @else
-                        {{ session('country') }}
+                        {{ session('tax')->country }}
                     @endif
                 <a>
                 <ul aria-labelledby="countryMenu" class="dropdown-menu dropdown-menu-right border-0 shadow">
                     @foreach ($tax_model->all() as $tax)
-                        @if ($tax->country == '0')
-                            <li><a href="{{ route('country', ['id' => $tax->country]) }}" class="dropdown-item">Global</a></li>
-                        @else
-                            <li><a href="{{ route('country', ['id' => $tax->country]) }}" class="dropdown-item">{{ $tax->country }}</a></li>
-                        @endif
+                        <li><a href="{{ route('country', ['id' => $tax->id]) }}" class="dropdown-item">
+                            @if ($tax->country === '0')
+                                Global
+                            @else
+                                {{ $tax->country }}
+                            @endif
+                        </a></li>
                     @endforeach
                 </ul>
             </li>
             <li class="nav-item dropdown">
-                <a id="countryMenu" href="javascript:void(0);" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link dropdown-toggle">{{ session('language') }}<a>
+                <a id="countryMenu" href="javascript:void(0);" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="nav-link dropdown-toggle">English<a>
                 <ul aria-labelledby="countryMenu" class="dropdown-menu dropdown-menu-right border-0 shadow">
                     <li><a href="{{ route('lang', ['id' => 'EN']) }}" class="dropdown-item">English</a></li>
                 </ul>
@@ -69,7 +71,9 @@
                         <li><a href="{{ route('client.dash') }}" class="dropdown-item">Client Area</a></li>
                         <li><a href="{{ route('client.credit.show') }}" class="dropdown-item">Account Credit</a></li>
                         <li><a href="{{ route('client.account.show') }}" class="dropdown-item">Account Settings</a></li>
-                        <li><a href="{{ route('admin.dash') }}" class="dropdown-item">Admin Area</a></li> {{-- For Admin only --}}
+                        @if (auth()->user()->is_admin)
+                            <li><a href="{{ route('admin.dash') }}" class="dropdown-item">Admin Area</a></li>
+                        @endif
                         <div class="dropdown-divider"></div>
                         <li><a href="{{ route('client.logout') }}" class="dropdown-item">Logout</a></li>
                     </ul>

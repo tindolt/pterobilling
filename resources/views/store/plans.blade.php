@@ -28,7 +28,7 @@
                             <h5 class="card-title m-0">{{ $plan->name }}</h5>
                         </div>
                         <div class="card-body">
-                            <h6 class="card-title">{!! session('currency_symbol') !!}{{ number_format($plan->price * $plan_percent_off, 2) }} {{ session('currency') }} {{ json_decode($plan->cycles)[0] }}</h6>
+                            <h6 class="card-title">{!! session('currency')->symbol !!}{{ number_format($plan->price * session('currency')->rate * $plan_percent_off, 2) }} {{ session('currency')->name }} {{ json_decode($plan->cycles)[0] }}</h6>
                             @if ($plan->trial > 0)
                                 <br><h6 class="card-title">{{ $plan->trial }}-day Free Trial</h6>
                             @endif
@@ -66,7 +66,7 @@
                             <h5 class="card-title m-0">{{ $plan->name }}</h5>
                         </div>
                         <div class="card-body">
-                            <h6 class="card-title">{!! session('currency_symbol') !!}{{ number_format($plan->price * $plan_percent_off, 2) }} {{ session('currency') }} {{ json_decode($plan->cycles)[0] }}</h6>
+                            <h6 class="card-title">{!! session('currency')->symbol !!}{{ number_format($plan->price * session('currency')->rate * $plan_percent_off, 2) }} {{ session('currency')->name }} {{ json_decode($plan->cycles)[0] }}</h6>
                             @if ($plan->trial > 0)
                                 <br><h6 class="card-title">{{ $plan->trial }}-day Free Trial</h6>
                             @endif

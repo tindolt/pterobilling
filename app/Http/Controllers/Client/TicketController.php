@@ -30,11 +30,11 @@ class TicketController extends Controller
         if ($request->input('solved')) {
             $ticket->status = 0;
             $ticket->save();
-            return redirect()->route('client.ticket.index')->with('resolved', true);
+            return redirect()->route('client.ticket.index')->with('success_msg', 'Your ticket has been marked resolved. If you\'d like to reopen it, please reply to the ticket.');
         }
 
         if (!$this->validateResponse($request->input('h-captcha-response'))) {
-            return back()->withInput($request->only(['subject', 'message']))->with('captcha_error', true);
+            return back()->withInput($request->only(['subject', 'message']))->with('danger_msg', 'Please solve the captcha challenge again.');
         }
 
         $request->validate(['message' => 'required|string|min:100|max:5000']);
@@ -48,7 +48,7 @@ class TicketController extends Controller
         $ticket->status = 1;
         $ticket->save();
 
-        return back()->with('success', true);
+        return back()->with('success_msg', 'You\'ve successfully replied to the ticket. Our staff will reply to you as soon as possible.');
     }
 
     public function create()
@@ -60,7 +60,7 @@ class TicketController extends Controller
     public function store(Request $request)
     {
         if (!$this->validateResponse($request->input('h-captcha-response'))) {
-            return back()->withInput($request->only(['subject', 'message']))->with('captcha_error', true);
+            return back()->withInput($request->only(['subject', 'message']))->with('danger_msg', 'Please solve the captcha challenge again.');
         }
 
         $request->validate([

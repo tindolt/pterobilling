@@ -57,7 +57,7 @@
                         <b>Backup Payment Method</b>
                     </p>
                     <p class="card-text col-5">
-                        {!! session('currency_symbol') !!}{{ $plan->price }} {{ session('currency') }}<br>
+                        {!! session('currency')->symbol !!}{{ number_format($plan->price * session('currency')->rate, 2) }} {{ session('currency')->name }}<br>
                         {{ ucfirst($server->billing_cycle) }}<br>
                         {{ $server->created_at }}<br>
                         {{ $server->next_due }}<br>

@@ -14,6 +14,9 @@
     <h3>Announcement: An early access will be released soon!</h3>
 </div>
 
+### When will a stable version be released?
+Around **Mid-April**.
+
 ## Features
 - Free and open-source
 - A user-friendly client area and powerful admin area with a beautiful theme (customizable)
@@ -27,15 +30,17 @@
 - Built-in contact form, terms of service, privacy policy, and system status pages
 - *Extendable: add more features by installing extensions (PayPal, Cloudflare Zone, cPanel Zone, Minecraft JAR, hCaptcha)
 
-## Installation
-PteroBilling has not been released yet.
+## Getting Started
+Please read our [documentation](https://docs.alaister.net).
 
-### Requirements
-- Pterodactyl panel **v1.2 or above** already installed on the same or different server
+## Support
+**Make sure you have gone through the documentation before asking for help. Thank you!**
 
-## FAQ
-### When will PteroBilling be released?
-A pre-release of PteroBilling will be published in **April 2021**.
+Need help setting up PteroBilling? Ask on the [discussions page](https://github.com/pterobilling/pterobilling/discussions).
 
-## To-do list
-- [ ] Release PteroBilling!
+Have a Discord account? Join our [Discord server](https://discord.gg/GQ5EWQz6MQ).
+
+**PLEASE DON'T ASK FOR HELP ON THE ISSUES PAGE!** That's for bug reports and feature requests.
+
+## License
+PteroBilling and AdminLTE, the website theme it uses, are licensed under the MIT license. Please take a look at the `LICENSE` and `AdminLTE-LICENSE` files.

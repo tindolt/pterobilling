@@ -23,7 +23,7 @@ class SubdomainController extends Controller
     public function store(Request $request, $id)
     {
         $request->validate([
-            ''
+            '' => '',
         ]);
     }
 }

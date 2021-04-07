@@ -22,6 +22,10 @@ Steps to reproduce the behavior:
 **Expected behavior**
 A clear and concise description of what you expected to happen.
 
+**Error logs**
+Open the `./storage/logs/laravel.log` file. Copy and paste the content to https://hastebin.com/. Then paste the link of the file here:
+
+
 **Screenshots**
 If applicable, add screenshots to help explain your problem.
 

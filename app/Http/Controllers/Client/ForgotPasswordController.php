@@ -19,7 +19,7 @@ class ForgotPasswordController extends Controller
     public function store(Request $request)
     {
         if (!$this->validateResponse($request->input('h-captcha-response'))) {
-            return back()->withInput($request->only('email'))->with('captcha_error', true);
+            return back()->withInput($request->only('email'))->with('danger_msg', 'Please solve the captcha challenge again.');
         }
 
         $request->validate(['email' => 'required|string|email']);

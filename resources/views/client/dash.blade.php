@@ -3,6 +3,7 @@
 @inject('server_model', 'App\Models\Server')
 @inject('plan_model', 'App\Models\Plan')
 @inject('invoice_model', 'App\Models\Invoice')
+@inject('tax_model', 'App\Models\Tax')
 @inject('ticket_model', 'App\Models\Ticket')
 @inject('credit_model', 'App\Models\Credit')
 
@@ -11,7 +12,7 @@
         <div class="col-lg-3 col-md-6">
             <div class="small-box bg-success">
                 <div class="inner">
-                    <h3>{!! session('currency_symbol') !!}{{ auth()->user()->credit }} {{ session('currency') }}</h3>
+                    <h3>{!! session('currency')->symbol !!}{{ number_format(auth()->user()->credit * session('currency')->rate, 2) }} {{ session('currency')->name }}</h3>
                     <p>Account Credit</p>
                 </div>
                 <div class="icon">
@@ -96,7 +97,7 @@
                                             Server #{{ $server->id }}
                                         @endif
                                     </td>
-                                    <td><span id="server_status"><span class="badge bg-warning">Loading</span></span></td>
+                                    <td><span id="server_status_{{ $server->identifier }}"><span class="badge bg-warning">Loading</span></span></td>
                                 </tr>
                             @endforeach
                         </tbody>
@@ -169,8 +170,15 @@
                             @foreach ($invoice_model->where(['client_id' => auth()->user()->id, 'paid' => false])->get() as $invoice)
                                 <tr>
                                     <td><a href="{{ route('client.invoice.index', ['id' => $invoice->id]) }}">{{ $invoice->id }}</a></td>
-                                    <td>{{ json_decode($invoice->products_id)[0] }}</td>
-                                    <td>{!! session('currency_symbol') !!}{{ $invoice->total_due }} {{ session('currency') }}</td>
+                                    <td>{{ json_decode($invoice->products, true)[0] }}</td>
+                                    @php
+                                        $total = 0.00;
+                                        foreach ($invoice->prices as $price) {
+                                            $total += $price;
+                                        }
+                                        $total = $total * ($tax_model->find($invoice->tax_id)->percent / 100);
+                                    @endphp
+                                    <td>{!! session('currency')->symbol !!}{{ number_format($total * session('currency')->rate, 2) }} {{ session('currency')->name }}</td>
                                     <td>{{ $invoice->due_date }}</td>
                                 </tr>
                             @endforeach
@@ -203,12 +211,12 @@
                                     <td>{{ $credit->details }}</td>
                                     <td>
                                         @if ($credit->change < 0)
-                                            -{!! session('currency_symbol') !!}{{ abs($credit->change) }} {{ session('currency') }}
+                                            -{!! session('currency')->symbol !!}{{ number_format(abs($credit->change) * session('currency')->rate, 2) }} 
                                         @else
-                                            +{!! session('currency_symbol') !!}{{ $credit->change }} {{ session('currency') }}
-                                        @endif
+                                            +{!! session('currency')->symbol !!}{{ number_format($credit->change * session('currency')->rate, 2) }} 
+                                        @endif{{ session('currency')->name }}
                                     </td>
-                                    <td>{!! session('currency_symbol') !!}{{ $credit->balance }} {{ session('currency') }}</td>
+                                    <td>{!! session('currency')->symbol !!}{{ number_format($credit->balance * session('currency')->rate, 2) }} {{ session('currency')->name }}</td>
                                     <td>{{ $credit->created_at }}</td>
                                 </tr>
                             @endforeach
@@ -222,34 +230,40 @@
 
 @section('scripts')
     <script>
-        var server_status = document.getElementById('server_status');
+        function updateStatus(identifier) {
+            var server_status = document.getElementById(`server_status_${identifier}`);
 
-        function callApi(action, callback) {
-            fetch(`/api/pterodactyl/{{ auth()->user()->api_key }}/${action}/GET`)
-            .then((resp) => resp.json())
-            .then(function(data) {
-                (callback)(data);
-            })
-            .catch(function(error) {
-                console.error(error);
+            function callApi(action, callback) {
+                fetch(`/api/pterodactyl/{{ auth()->user()->api_key }}/${action}/GET`)
+                .then((resp) => resp.json())
+                .then(function(data) {
+                    (callback)(data);
+                })
+                .catch(function(error) {
+                    console.error(error);
+                });
+            }
+
+            callApi(`serversSLASH${identifier}SLASHresources`, function(data) {
+                switch (data.attributes.current_state) {
+                    case "starting":
+                        server_status.innerHTML = `<span class="badge bg-info">Starting</span>`;
+                        break;
+                    case "running":
+                        server_status.innerHTML = `<span class="badge bg-success">Online</span>`;
+                        break;
+                    case "stopping":
+                        server_status.innerHTML = `<span class="badge bg-info">Stopping</span>`;
+                        break;
+                    case "offline":
+                        server_status.innerHTML = `<span class="badge bg-danger">Offline</span>`;
+                        break;
+                }
             });
         }
-
-        callApi('serversSLASH{{ $server->identifier }}SLASHresources', function(data) {
-            switch (data.attributes.current_state) {
-                case "starting":
-                    server_status.innerHTML = `<span class="badge bg-info">Starting</span>`;
-                    break;
-                case "running":
-                    server_status.innerHTML = `<span class="badge bg-success">Online</span>`;
-                    break;
-                case "stopping":
-                    server_status.innerHTML = `<span class="badge bg-info">Stopping</span>`;
-                    break;
-                case "offline":
-                    server_status.innerHTML = `<span class="badge bg-danger">Offline</span>`;
-                    break;
-            }
-        });
+        
+        @foreach ($server_model->where(['client_id' => auth()->user()->id, 'status' => 0])->get() as $server)
+            updateStatus({{ $server->identifier }});
+        @endforeach
     </script>
 @endsection

@@ -11,12 +11,7 @@ class PlansController extends Controller
 {
     public function __invoke($id = null)
     {
-        $discounts = [];
-        foreach (Discount::all() as $discount) {
-            if (Carbon::parse($discount->end_date)->timestamp > Carbon::now()->timestamp) {
-                array_push($discounts, $discount);
-            }
-        }
+        $discounts = Discount::whereDate('end_date', '>', Carbon::now()->subDays(30));
 
         if (is_null($id)) {
             return view('store.plans', ['title' => 'Server Plans', 'discounts' => $discounts]);

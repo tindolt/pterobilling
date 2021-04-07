@@ -11,9 +11,12 @@ Route::get('/', 'Store\PageController')->name('home');
 // Plans Page
 Route::get('/plans/{id?}', 'Store\PlansController')->name('plans');
 
-// Order Server Page
-Route::get('/order/{id}', 'Store\OrderController@show')->name('order');
-Route::post('/order/{id}', 'Store\OrderController@store');
+// Order Server Pages
+Route::prefix('order/{id}')->middleware('check.store.order')->group(function () {
+    Route::get('/', 'Store\OrderController@show')->name('order');
+    Route::post('/', 'Store\OrderController@store');
+    Route::post('/coupon', 'Store\OrderController@coupon')->name('order.coupon');
+});
 
 // Checkout Page
 Route::get('/checkout', 'Store\CheckoutController@show')->name('checkout');
@@ -35,7 +38,7 @@ Route::get('/terms', 'Store\PageController')->name('terms');
 Route::get('/privacy', 'Store\PageController')->name('privacy');
 
 // Affiliate Link
-Route::get('/a/{id}', 'Store\AffiliateController')->name('affiliate');
+Route::get('/a/{id}', 'Store\AffiliateController')->middleware('check.store.affiliate')->name('affiliate');
 
 // Changing Currency
 Route::get('/currency/{id}', 'Store\CurrencyController')->name('currency');

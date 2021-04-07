@@ -45,8 +45,6 @@ class Client extends Model implements
 
     public function sendPasswordResetNotification($token)
     {
-        $url = route('client.reset', ['token' => $token]);
-
-        $this->notify(new ResetPasswordNotification($url));
+        $this->notify(new ResetPasswordNotification($token));
     }
 }

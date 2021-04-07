@@ -3,17 +3,19 @@
 namespace App\Http\Controllers\Store;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
+use App\Models\Tax;
 
 class CountryController extends Controller
 {
-    public function __invoke(Request $request, $id)
+    public function __invoke($id)
     {
-        $referer = $request->header('Referer');
+        $tax = Tax::where('country', $id)->first();
+        
+        if (is_null($tax)) {
+            $tax = Tax::where('country', '0')->first();
+        }
 
-        if (is_null($id)) return back();
-
-        session(['country' => $id]);
+        session(['tax' => $tax]);
         
         return back();
     }

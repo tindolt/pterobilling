@@ -28,6 +28,9 @@
                 <li><a href="{{ route('status') }}" class="dropdown-item">System Status</a></li>
             </ul>
         </li>
+        <li class="nav-item">
+            <a class="nav-link" href="{{ route('admin.cache') }}">Reload Config</a>
+        </li>
     </ul>
     <!-- Right navbar links -->
     <ul class="navbar-nav ml-auto">

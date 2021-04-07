@@ -1,7 +1,5 @@
-@inject('announcement_model', 'App\Models\Announcement')
-
-@if ($announcement_model->where('key', 'enabled')->value('value') == 'true')
-    @switch($announcement_model->where('key', 'theme')->value('value'))
+@if (config('announcement.enabled'))
+    @switch(config('announcement.theme'))
         @case(0)
             <div class="alert alert-success">
             <h5><i class="icon fas fa-check"></i>
@@ -22,8 +20,8 @@
             <div class="alert alert-success">
             <h5><i class="icon fas fa-check"></i>
     @endswitch
-            {{ $announcement_model->where('key', 'subject')->value('value') }}
+            {{ config('announcement.subject') }}
         </h5>
-        {{ $announcement_model->where('key', 'content')->value('value') }}
+        {{ config('announcement.content') }}
     </div>
 @endif

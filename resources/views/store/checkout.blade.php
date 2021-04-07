@@ -10,7 +10,7 @@
                 <div class="card-body row">
                     <div class="col-lg-3 col-md-6 mb-1">
                         <h6 class="card-title">Total Due Today</h6>
-                        <p class="card-text">{!! session('currency_symbol') !!}2 {{ session('currency') }}</p>
+                        <p class="card-text">{!! session('currency')->symbol !!}2 {{ session('currency')->name }}</p>
                     </div>
                     <div class="col-lg-3 col-md-6 mb-1">
                         <h6 class="card-title">Billing Cycle</h6>
@@ -18,7 +18,7 @@
                     </div>
                     <div class="col-lg-3 col-md-6 mb-1">
                         <h6 class="card-title">Recurring Amount</h6>
-                        <p class="card-text">{!! session('currency_symbol') !!}5 {{ session('currency') }}</p>
+                        <p class="card-text">{!! session('currency')->symbol !!}5 {{ session('currency')->name }}</p>
                     </div>
                     <div class="col-lg-3 col-md-6 mb-1">
                         <h6 class="card-title">Next Due Date</h6>

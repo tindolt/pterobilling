@@ -15,30 +15,20 @@ class OrderController extends Controller
 {
     use PterodactylApi;
 
-    public function show(Request $request, $id)
+    public function show($id)
     {
-        if (is_null($request->user())) {
-            session(['redirect_to' => url()->current()]);
-            return redirect()->route('client.login');
-        }
-
         $plan = Plan::find($id);
-        if (is_null($plan)) {
-            return abort(404);
-        }
-
         $discount = Discount::find($plan->discount);
-        if (is_null($discount)) {
-            $percent_off = 1;
-        } else {
+        $percent_off = 1;
+
+        if ($discount) {
             if (Carbon::parse($discount->value('end_date'))->timestamp > Carbon::now()->timestamp) {
-                $percent_off = 1 - ($discount->percent_off / 100);
-            } else {
-                $percent_off = 1;
+                $percent_off -= ($discount->percent_off / 100);
             }
         }
 
         $locations = Cache::get('pterodactyl_locations');
+
         if (is_null($locations)) {
             $locations = $this->getLocations();
         } elseif ($locations === false) {
@@ -52,29 +42,7 @@ class OrderController extends Controller
 
     public function store(Request $request, $id)
     {
-        if (is_null($request->user())) {
-            session(['redirect_to' => url()->current()]);
-            return redirect()->route('client.login');
-        }
-
         $plan = Plan::find($id);
-        if (is_null($plan)) {
-            return abort(404);
-        }
-
-        if ($request->input('coupon')) {
-            $request->validate(['coupon' => 'required|string']);
-
-            $coupon = Coupon::where('code', $request->input('coupon'))->first();
-
-            if (is_null($coupon)) {
-                session(['plan_' . $id . '_coupon' => null]);
-                return back()->with('error_msg', 'The coupon code is invalid or has expired!');
-            } else {
-                session(['plan_' . $id . '_coupon' => $coupon]);
-                return back()->with('success_msg', 'You have successfully applied the coupon.');
-            }
-        }
 
         $request->validate([
             'order_details' => 'required|string|json',
@@ -92,6 +60,20 @@ class OrderController extends Controller
         ]);
 
         return redirect()->route('checkout');
+    }
+
+    public function coupon(Request $request, $id)
+    {
+        $request->validate(['coupon' => 'required|string']);
+        $coupon = Coupon::where('code', $request->input('coupon'))->first();
+
+        if (is_null($coupon)) {
+            session(['plan_' . $id . '_coupon' => null]);
+            return back()->with('error_msg', 'The coupon code is invalid or has expired!');
+        } else {
+            session(['plan_' . $id . '_coupon' => $coupon]);
+            return back()->with('success_msg', 'You have successfully applied the coupon.');
+        }
     }
 
     private function getLocations()

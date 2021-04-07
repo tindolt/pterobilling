@@ -1,3 +1,5 @@
+@inject('tax_model', 'App\Models\Tax')
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -24,7 +26,14 @@
                                 <div class="col-12">
                                     <h4>
                                         <img src="{{ config('app.logo_file_path') }}" height="50px" alt="Logo"> {{ config('app.company_name') }}
-                                        <span class="float-right">Status: UNPAID</span>
+                                        <span class="float-right">
+                                            Status:
+                                            @if ($invoice->paid)
+                                                Paid
+                                            @else
+                                                Unpaid
+                                            @endif
+                                        </span>
                                     </h4>
                                 </div>
                             </div>
@@ -32,21 +41,19 @@
                                 <div class="col-sm-4 invoice-col">
                                     From
                                     <address>
-                                        <strong>{{ config('app.company_name') }}</strong><br>
-                                        Email: {{ config('mail.from.address') }}
+                                        <strong>{{ config('app.company_name') }}</strong>
                                     </address>
                                 </div>
                                 <div class="col-sm-4 invoice-col">
                                     To
                                     <address>
-                                        <strong>User Name</strong><br>
-                                        Email: user@example.com
+                                        <strong>{{ auth()->user()->email }}</strong>
                                     </address>
                                 </div>
                                 <div class="col-sm-4 invoice-col">
-                                    <b>Invoice #1</b><br>
-                                    <b>Invoice Date:</b> Jan 1, 2021 13:00 (UTC)<br>
-                                    <b>Due Date:</b> Jan 1, 2021 13:00 (UTC)<br>
+                                    <b>Invoice #{{ $invoice->id }}</b><br>
+                                    <b>Invoice Date:</b> {{ $invoice->created_at }}<br>
+                                    <b>Due Date:</b> {{ number_format($invoice->total_due * session('currency')->rate, 2) }}<br>
                                 </div>
                             </div>
                             <div class="row">
@@ -59,10 +66,18 @@
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <tr>
-                                                <td>Category 1 - Plan 1</td>
-                                                <td>$5.00 USD</td>
-                                            </tr>
+                                            @php
+                                                $i = 0;
+                                            @endphp
+                                            @foreach ($invoice->products as $product)
+                                                @php
+                                                    $i++;
+                                                @endphp
+                                                <tr>
+                                                    <td>{{ $product }}</td>
+                                                    <td>{!! session('currency')->symbol !!}{{ number_format($invoice->prices[$i] * session('currency')->rate, 2) }} {{ session('currency')->name }}</td>
+                                                </tr>
+                                            @endforeach
                                         </tbody>
                                     </table>
                                 </div>
@@ -75,7 +90,7 @@
                                         <table class="table">
                                             <tr>
                                                 <th style="width:35%">Primary</th>
-                                                <td>PayPal</td>
+                                                <td>{{ $invoice->payment_method }}</td>
                                             </tr>
                                             <tr>
                                                 <th>Backup</th>
@@ -89,21 +104,23 @@
                 
                                     <div class="table-responsive">
                                         <table class="table">
+                                            @php
+                                                $subtotal = 0.00;
+                                                foreach ($invoice->prices as $price) {
+                                                    $subtotal += $price;
+                                                }
+                                            @endphp
                                             <tr>
                                                 <th style="width:60%">Subtotal</th>
-                                                <td>$5.00</td>
+                                                <td>{!! session('currency')->symbol !!}{{ number_format($subtotal * session('currency')->rate, 2) }} {{ session('currency')->name }}</td>
                                             </tr>
                                             <tr>
-                                                <th>Tax (3%)</th>
-                                                <td>+ $0.15</td>
-                                            </tr>
-                                            <tr>
-                                                <th>Account Credit</th>
-                                                <td>- $2.00</td>
+                                                <th>Tax ({{ $tax_model->find($invoice->tax_id)->percent }}%)</th>
+                                                <td>+{!! session('currency')->symbol !!}{{ number_format($subtotal * session('currency')->rate * $tax_model->find($invoice->tax_id)->percent, 2) }} {{ session('currency')->name }}</td>
                                             </tr>
                                             <tr>
                                                 <th>Total Due</th>
-                                                <td>$3.15</td>
+                                                <td>{!! session('currency')->symbol !!}{{ number_format($subtotal * ($tax_model->find($invoice->tax_id)->percent / 100) * session('currency')->rate) }} {{ session('currency')->name }}</td>
                                             </tr>
                                         </table>
                                     </div>

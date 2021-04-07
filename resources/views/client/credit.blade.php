@@ -7,7 +7,7 @@
         <div class="col-lg-6 col-md-6">
             <div class="small-box bg-success">
                 <div class="inner">
-                    <h3>{!! session('currency_symbol') !!}{{ auth()->user()->credit }} {{ session('currency') }}</h3>
+                    <h3>{!! session('currency')->symbol !!}{{ number_format(auth()->user()->credit * session('currency')->rate, 2) }} {{ session('currency')->name }}</h3>
                     <p>Account Credit</p>
                 </div>
                 <div class="icon">
@@ -24,21 +24,9 @@
                     @csrf
 
                     <div class="card-body">
-                        @if ($errors->any())
-                            <div class="form-group">
-                                <div class="alert alert-danger">
-                                    Please fix the following error(s):
-                                    <ul>
-                                        @foreach ($errors->all() as $error)
-                                            <li>{{ $error }}</li>
-                                        @endforeach
-                                    </ul>
-                                </div>
-                            </div>
-                        @endif
                         <div class="form-group">
                             <label for="creditInput">Credit Amount</label>
-                            <input type="number" name="credit" step="0.1" class="form-control" id="creditInput" placeholder="Credit Amount" required>
+                            <input type="number" name="credit" min="5" max="1000" step="1" class="form-control" id="creditInput" placeholder="Credit Amount" required>
                         </div>
                         <div class="form-group">
                             <label class="form-check-label">Payment Method</label>
@@ -78,12 +66,13 @@
                                     <td>{{ $credit->details }}</td>
                                     <td>
                                         @if ($credit->change < 0)
-                                            -{!! session('currency_symbol') !!}{{ abs($credit->change) }} {{ session('currency') }}
+                                            -{!! session('currency')->symbol !!}{{ number_format(abs($credit->change) * session('currency')->rate, 2) }} 
                                         @else
-                                            +{!! session('currency_symbol') !!}{{ $credit->change }} {{ session('currency') }}
+                                            +{!! session('currency')->symbol !!}{{ number_format($credit->change * session('currency')->rate, 2) }} 
                                         @endif
+                                        {{ session('currency')->name }}
                                     </td>
-                                    <td>{!! session('currency_symbol') !!}{{ $credit->balance }} {{ session('currency') }}</td>
+                                    <td>{!! session('currency')->symbol !!}{{ number_format($credit->balance * session('currency')->rate, 2) }} {{ session('currency')->name }}</td>
                                     <td>{{ $credit->created_at }}</td>
                                 </tr>
                             @endforeach

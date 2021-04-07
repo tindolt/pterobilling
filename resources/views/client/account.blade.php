@@ -4,38 +4,13 @@
 @inject('tax_model', 'App\Models\Tax')
 
 @section('content')
-    @if ($errors->any())
-        <div class="alert alert-danger">
-            Please fix the following error(s):
-            <ul>
-                @foreach ($errors->all() as $error)
-                   <li>{{ $error }}</li>
-                @endforeach
-            </ul>
-        </div>
-    @endif
-    @isset ($captcha_error)
-        <div class="alert alert-danger">
-            Please solve the hCaptcha challenge again.
-        </div>
-    @endisset
-    @if (session('success'))
-        <div class="alert alert-success">
-            Your account settings have been updated!
-        </div>
-    @endif
-    @if (session('password_incorrect'))
-        <div class="alert alert-danger">
-            The current password is incorrect!
-        </div>
-    @endif
     <div class="row">
         <div class="col-lg-6">
             <div class="card card-primary">
                 <div class="card-header">
                     <h3 class="card-title">Basic Settings</h3>
                 </div>
-                <form action="" method="POST">
+                <form action="{{ route('client.account.basic') }}" method="POST">
                     @csrf
 
                     <div class="card-body">
@@ -43,7 +18,7 @@
                             <label for="currencyInput">Currency</label>
                             <select class="form-control" name="currency">
                                 @foreach ($currency_model->all() as $currency)
-                                    <option value="{{ $currency->name }}">{{ $currency->name }}</option>
+                                    <option value="{{ $currency->id }}">{{ $currency->name }}</option>
                                 @endforeach
                             </select>
                         </div>
@@ -51,18 +26,20 @@
                             <label for="countryInput">Country</label>
                             <select class="form-control" name="country">
                                 @foreach ($tax_model->all() as $tax)
-                                    @if ($tax->country == '0')
-                                        <option value="0">Global</option>
-                                    @else
-                                        <option value="{{ $tax->country }}">{{ $tax->country }}</option>
-                                    @endif
+                                    <option value="{{ $tax->id }}">
+                                        @if ($tax->country === '0')
+                                            Global
+                                        @else
+                                            {{ $tax->country }}
+                                        @endif
+                                    </option>
                                 @endforeach
                             </select>
                         </div>
                         @include('layouts.store.hcaptcha')
                     </div>
                     <div class="card-footer">
-                        <button type="submit" name="setting" value="account" class="btn btn-success">Save Changes</button>
+                        <button type="submit" class="btn btn-success">Save Changes</button>
                     </div>
                 </form>
             </div>
@@ -70,12 +47,12 @@
                 <div class="card-header">
                     <h3 class="card-title">Change Email Address</h3>
                 </div>
-                <form action="" method="POST">
+                <form action="{{ route('client.account.email') }}" method="POST">
                     @csrf
 
                     <div class="card-body">
                         <div class="form-group">
-                            <div class="alert alert-warning">
+                            <div class="alert alert-info">
                                 Changing the account email will NOT change the panel email.
                             </div>
                         </div>
@@ -90,7 +67,7 @@
                         @include('layouts.store.hcaptcha')
                     </div>
                     <div class="card-footer">
-                        <button type="submit" name="setting" value="email" class="btn btn-success">Save Changes</button>
+                        <button type="submit" class="btn btn-success">Save Changes</button>
                     </div>
                 </form>
             </div>
@@ -100,7 +77,7 @@
                 <div class="card-header">
                     <h3 class="card-title">Enter Panel API Key</h3>
                 </div>
-                <form action="" method="POST">
+                <form action="{{ route('client.account.api') }}" method="POST">
                     @csrf
 
                     <div class="card-body">
@@ -116,7 +93,7 @@
                         @include('layouts.store.hcaptcha')
                     </div>
                     <div class="card-footer">
-                        <button type="submit" name="setting" value="panel_api" class="btn btn-success">Save Changes</button>
+                        <button type="submit" class="btn btn-success">Save Changes</button>
                     </div>
                 </form>
             </div>
@@ -124,12 +101,12 @@
                 <div class="card-header">
                     <h3 class="card-title">Change Password</h3>
                 </div>
-                <form action="" method="POST">
+                <form action="{{ route('client.account.password') }}" method="POST">
                     @csrf
 
                     <div class="card-body">
                         <div class="form-group">
-                            <div class="alert alert-warning">
+                            <div class="alert alert-info">
                                 Changing the account password will NOT change the panel password.
                             </div>
                         </div>
@@ -148,7 +125,7 @@
                         @include('layouts.store.hcaptcha')
                     </div>
                     <div class="card-footer">
-                        <button type="submit" name="setting" value="password" class="btn btn-success">Save Changes</button>
+                        <button type="submit" class="btn btn-success">Save Changes</button>
                     </div>
                 </form>
             </div>

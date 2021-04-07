@@ -3,18 +3,15 @@
 namespace App\Http\Controllers\Store;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
 
 class LanguageController extends Controller
 {
-    public function __invoke(Request $request, $id)
+    public function __invoke()
     {
-        $referer = $request->header('Referer');
+        /**
+         * Coming soon...
+         */
 
-        if (is_null($id)) return back();
-
-        session(['language' => $id]);
-        
         return back();
     }
 }
