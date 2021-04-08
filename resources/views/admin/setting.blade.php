@@ -31,8 +31,6 @@
                                     <label class="custom-control-label" for="darkModeInput">Enable Dark Mode</label>
                                 </div>
                             </div>
-                        </div>
-                        <div class="col-lg-6">
                             <div class="form-group">
                                 <label for="panelUrlInput">Panel URL</label>
                                 <input type="text" name="panel_url" value="{{ $setting[5]->value }}" class="form-control" id="panelUrlInput" placeholder="Panel URL" required>
@@ -45,6 +43,8 @@
                                 <label for="phpMyAdminUrlInput">phpMyAdmin URL (Put a '#' to disable this feature)</label>
                                 <input type="text" name="phpmyadmin_url" value="{{ $setting[7]->value }}" class="form-control" id="phpMyAdminUrlInput" placeholder="phpMyAdmin URL" required>
                             </div>
+                        </div>
+                        <div class="col-lg-5 offset-lg-1">
                             <div class="form-group">
                                 <label for="hCaptchaSiteKeyInput">hCaptcha Site Key</label>
                                 <input type="text" name="hcaptcha_public_key" value="{{ $setting[8]->value }}" class="form-control" id="hCaptchaSiteKeyInput" placeholder="hCaptcha Site Key" required>
@@ -52,6 +52,14 @@
                             <div class="form-group">
                                 <label for="hCaptchaSecretKeyInput">hCaptcha Secret Key</label>
                                 <input type="password" name="hcaptcha_secret_key" value="{{ $setting[9]->value }}" class="form-control" id="hCaptchaSecretKeyInput" placeholder="hCaptcha Secret Key" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="analyticsIdInput">Google Analytics ID</label>
+                                <input type="text" name="google_analytics_id" value="{{ $setting[10]->value }}" class="form-control" id="analyticsIdInput" placeholder="Google Analytics ID" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="arcInput">Arc Widget ID</label>
+                                <input type="text" name="arc_widget_id" value="{{ $setting[11]->value }}" class="form-control" id="arcInput" placeholder="Arc Widget ID" required>
                             </div>
                         </div>
                     </div>

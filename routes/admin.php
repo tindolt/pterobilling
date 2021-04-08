@@ -69,52 +69,52 @@ Route::prefix('plan')->name('plan.')->group(function () {
 // Plan Categories
 Route::prefix('category')->name('category.')->group(function () {
     Route::get('/', 'Admin\CategoryController@index')->name('index');
+    Route::get('/create', 'Admin\CategoryController@create')->name('create');
+    Route::post('/create', 'Admin\CategoryController@store');
 
-    Route::prefix('{id}')->middleware('check.admin.category')->group(function () {
+    Route::prefix('view/{id}')->middleware('check.admin.category')->group(function () {
         Route::get('/', 'Admin\CategoryController@show')->name('show');
         Route::post('/', 'Admin\CategoryController@update');
-        Route::get('/delete', 'Admin\CategoryController@delete')->name('delete');
-        Route::get('/create', 'Admin\CategoryController@create')->name('create');
-        Route::post('/create', 'Admin\CategoryController@store');
+        Route::post('/delete', 'Admin\CategoryController@delete')->name('delete');
     });
 });
 
 // Server Add-ons
 Route::prefix('addon')->name('addon.')->group(function () {
     Route::get('/addon', 'Admin\AddonController@index')->name('index');
+    Route::get('/create', 'Admin\AddonController@create')->name('create');
+    Route::post('/create', 'Admin\AddonController@store');
 
-    Route::prefix('{id}')->middleware('check.admin.addon')->group(function () {
+    Route::prefix('view/{id}')->middleware('check.admin.addon')->group(function () {
         Route::get('/', 'Admin\AddonController@show')->name('show');
         Route::post('/', 'Admin\AddonController@update');
         Route::get('/delete', 'Admin\AddonController@delete')->name('delete');
-        Route::get('/create', 'Admin\AddonController@create')->name('create');
-        Route::post('/create', 'Admin\AddonController@store');
     });
 });
 
 // Discounts
 Route::prefix('discount')->name('discount.')->group(function () {
     Route::get('/', 'Admin\DiscountController@index')->name('index');
+    Route::get('/create', 'Admin\DiscountController@create')->name('create');
+    Route::post('/create', 'Admin\DiscountController@store');
 
-    Route::prefix('{id}')->middleware('check.admin.discount')->group(function () {
+    Route::prefix('view/{id}')->middleware('check.admin.discount')->group(function () {
         Route::get('/', 'Admin\DiscountController@show')->name('show');
         Route::post('/', 'Admin\DiscountController@update');
         Route::get('/delete', 'Admin\DiscountController@delete')->name('delete');
-        Route::get('/create', 'Admin\DiscountController@create')->name('create');
-        Route::post('/create', 'Admin\DiscountController@store');
     });
 });
 
 // Coupon Codes
 Route::prefix('coupon')->name('coupon.')->group(function () {
     Route::get('/', 'Admin\CouponController@index')->name('index');
+    Route::get('/create', 'Admin\CouponController@create')->name('create');
+    Route::post('/create', 'Admin\CouponController@store');
 
-    Route::prefix('{id}')->middleware('check.admin.coupon')->group(function () {
+    Route::prefix('view/{id}')->middleware('check.admin.coupon')->group(function () {
         Route::get('/', 'Admin\CouponController@show')->name('show');
         Route::post('/', 'Admin\CouponController@update');
         Route::get('/delete', 'Admin\CouponController@delete')->name('delete');
-        Route::get('/create', 'Admin\CouponController@create')->name('create');
-        Route::post('/create', 'Admin\CouponController@store');
     });
 });
 
@@ -158,20 +158,30 @@ Route::prefix('ticket')->name('ticket.')->group(function () {
     Route::prefix('{id}')->middleware('check.admin.ticket')->group(function () {
         Route::get('/', 'Admin\TicketController@show')->name('show');
         Route::post('/', 'Admin\TicketController@store');
-        Route::get('/close', 'Admin\TicketController@close')->name('close');
     });
 });
 
 // Knowledge Base
 Route::prefix('kb')->name('kb.')->group(function () {
-    Route::get('/', 'Admin\KbController@index')->name('index');
+    Route::get('/', 'Admin\KbCategoryController@index')->name('index');
+    Route::get('/create', 'Admin\KbCategoryController@create')->name('create');
+    Route::post('/create', 'Admin\KbCategoryController@store');
 
-    Route::prefix('{id}')->middleware('check.admin.kb')->group(function () {
-        Route::get('/', 'Admin\KbController@show')->name('show');
-        Route::post('/', 'Admin\KbController@update');
-        Route::get('/delete', 'Admin\KbController@delete')->name('delete');
-        Route::get('/create', 'Admin\KbController@create')->name('create');
-        Route::post('/create', 'Admin\KbController@store');
+    Route::prefix('category/{id}')->middleware('check.admin.kb.category')->group(function () {
+        Route::get('/', 'Admin\KbCategoryController@show')->name('show');
+        Route::post('/', 'Admin\KbCategoryController@update');
+        Route::post('/delete', 'Admin\KbCategoryController@delete')->name('delete');
+
+        Route::name('article.')->group(function () {
+            Route::get('/create', 'Admin\KbArticleController@create')->name('create');
+            Route::post('/create', 'Admin\KbArticleController@store');
+
+            Route::prefix('article/{article_id}')->middleware('check.admin.kb.article')->group(function () {
+                Route::get('/', 'Admin\KbArticleController@show')->name('show');
+                Route::post('/', 'Admin\KbArticleController@update');
+                Route::post('/delete', 'Admin\KbArticleController@delete')->name('delete');
+            });
+        });
     });
 });
 

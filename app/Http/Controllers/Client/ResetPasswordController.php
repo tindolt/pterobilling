@@ -16,30 +16,30 @@ class ResetPasswordController extends Controller
     
     public function show($token)
     {
-        return view('client.reset', ['title' => 'Reset Password']);
+        return view('client.reset', ['title' => 'Reset Password', 'token' => $token]);
     }
 
-    public function store(Request $request, $token)
+    public function store(Request $request)
     {
         if (!$this->validateResponse($request->input('h-captcha-response'))) {
             return back()->withInput($request->only('email'))->with('danger_msg', 'Please solve the captcha challenge again.');
         }
 
         $request->validate([
+            'token' => 'required',
             'email' => 'required|string|email',
             'password' => 'required|string|confirmed|min:8',
         ]);
 
-        $credentials = $request->only('email', 'password', 'password_confirmation');
-        array_push($credentials, $token);
-
         $status = Password::reset(
-            $credentials,
-            function ($user) use ($request) {
+            $request->only('email', 'password', 'password_confirmation', 'token'),
+            function ($user, $password) use ($request) {
                 $user->forceFill([
-                    'password' => Hash::make($request->password),
-                ])->setRememberToken(Str::random(60))->save();
-
+                    'password' => Hash::make($password)
+                ])->setRememberToken(Str::random(60));
+    
+                $user->save();
+    
                 event(new PasswordReset($user));
             }
         );

@@ -1,11 +1,5 @@
 @extends('layouts.client')
 
-@inject('ticket_model', 'App\Models\Ticket')
-
-@php
-    $tickets = $ticket_model->where(['client_id' => auth()->user()->id])->get();
-@endphp
-
 @section('content')
     <div class="row">
         <div class="col-lg-12">
@@ -13,7 +7,7 @@
                 <div class="card-header">
                     <h3 class="card-title">Open Tickets</h3>
                     <div class="card-tools">
-                        <a href="{{ route('client.ticket.create', ['id' => 0]) }}" class="btn btn-success btn-sm float-right">Create Ticket <i class="fas fa-plus"></i></a>
+                        <a href="{{ route('client.ticket.create') }}" class="btn btn-success btn-sm float-right">Create Ticket <i class="fas fa-plus"></i></a>
                     </div>
                 </div>
                 <div class="card-body table-responsive p-0">

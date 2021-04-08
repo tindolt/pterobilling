@@ -12,9 +12,9 @@ class TicketController extends Controller
 {
     use HCaptcha;
 
-    public function index()
+    public function index(Request $request)
     {
-        return view('client.ticket.index', ['title' => 'Support Tickets']);
+        return view('client.ticket.index', ['title' => 'Support Tickets', 'tickets' => Ticket::where('client_id', $request->user()->id)->get()]);
     }
 
     public function show($id)
@@ -48,7 +48,7 @@ class TicketController extends Controller
         $ticket->status = 1;
         $ticket->save();
 
-        return back()->with('success_msg', 'You\'ve successfully replied to the ticket. Our staff will reply to you as soon as possible.');
+        return back()->with('success_msg', 'You\'ve replied to the ticket! Our staff will reply to you as soon as possible.');
     }
 
     public function create()

@@ -9,7 +9,7 @@
                 <div class="card-body">
                     <h5 class="card-title">Related Support Articles</h5>
                     <p class="card-text">
-                        @foreach ($kb_article_model->where('category_id', $article->category_id)->orderBy('order', 'desc')->get() as $kb_article)
+                        @foreach ($kb_article_model->where('category_id', $article->category_id)->orderBy('order', 'asc')->get() as $kb_article)
                             @if ($kb_article->id !== $article->id)
                                 <li><a href="{{ route('kb', ['id' => $kb_article->id]) }}">{{ $kb_article->subject }}</a></li>
                             @endif

@@ -36,8 +36,8 @@ class RegisterController extends Controller
             'email' => $request->email,
             'password' => Hash::make($request->password),
             'referer_id' => session('referer_id'),
-            'currency' => session('currency'),
-            'country' => session('country'),
+            'currency' => session('currency')->name,
+            'country' => session('tax')->country,
             'timezone' => 'UTC',
             'language' => 'EN',
         ]));

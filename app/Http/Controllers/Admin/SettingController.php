@@ -25,6 +25,8 @@ class SettingController extends Controller
             'phpmyadmin_url' => 'required|string|max:255',
             'hcaptcha_public_key' => 'required|string|max:255',
             'hcaptcha_secret_key' => 'required|string|max:255',
+            'google_analytics_id' => 'required|string|max:255',
+            'arc_widget_id' => 'required|string|max:255',
         ]);
 
         $this->saveSetting($request, 1, 'company_name');
@@ -41,6 +43,8 @@ class SettingController extends Controller
         $this->saveSetting($request, 8, 'phpmyadmin_url');
         $this->saveSetting($request, 9, 'hcaptcha_public_key');
         $this->saveSetting($request, 10, 'hcaptcha_secret_key');
+        $this->saveSetting($request, 11, 'google_analytics_id');
+        $this->saveSetting($request, 12, 'arc_widget_id');
 
         return back()->with('success_msg', 'You have updated the store settings! Please click \'Reload Config\' above on the navigation bar to apply them.');
     }

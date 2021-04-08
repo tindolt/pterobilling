@@ -54,5 +54,13 @@ class SettingSeeder extends Seeder
             'key' => 'hcaptcha_secret_key',
             'value' => '0xe7F8c19870D5e3955b397bcB51BCe424AB728240',
         ]);
+        Setting::create([
+            'key' => 'google_analytics_id',
+            'value' => null,
+        ]);
+        Setting::create([
+            'key' => 'arc_widget_id',
+            'value' => 'pZbCgsXG',
+        ]);
     }
 }

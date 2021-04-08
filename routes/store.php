@@ -1,5 +1,7 @@
 <?php
 
+use Illuminate\Foundation\Auth\EmailVerificationRequest;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 /**
@@ -50,6 +52,23 @@ Route::get('/lang/{id}', 'Store\LanguageController')->name('lang');
 
 // Knowledge Base
 Route::get('/kb/{id?}', 'Store\KbController')->name('kb');
+
+// Email Verification
+Route::prefix('email')->name('verification.')->group(function () {
+    Route::get('/notice', function () {
+        return view('client.verify', ['title' => 'Account Verification']);
+    })->middleware('auth')->withoutMiddleware('verified')->name('notice');
+
+    Route::get('/verify/{id}/{hash}', function (EmailVerificationRequest $request) {
+        $request->fulfill();
+        return redirect()->route('client.dash')->with('success_msg', 'Your account has been verified!');
+    })->middleware(['auth', 'signed', 'throttle:6,1'])->withoutMiddleware('verified')->name('verify');
+
+    Route::get('/send', function (Request $request) {
+        $request->user()->sendEmailVerificationNotification();
+        return back()->with('success_msg', 'We have sent you an email. Please click the link inside to verify your account.');
+    })->middleware(['auth', 'throttle:6,1'])->withoutMiddleware('verified')->name('send');
+});
 
 /**
  * Authentication Pages

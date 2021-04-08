@@ -9,11 +9,13 @@
                 </div>
                 <form action="" method="POST">
                     @csrf
+
+                    <input type="hidden" name="token" value="{{ $token }}" required>
                     
                     <div class="card-body">
                         <div class="form-group">
                             <label for="passwordInput">Email Address</label>
-                            <input type="password" name="email" value="{{ old('email') }}" class="form-control" id="passwordInput" placeholder="Email Address" required autofocus>
+                            <input type="email" name="email" value="{{ old('email') }}" class="form-control" id="passwordInput" placeholder="Email Address" required autofocus>
                         </div>
                         <div class="form-group">
                             <label for="passwordInput">Password</label>

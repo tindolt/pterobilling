@@ -47,7 +47,7 @@ class ResetPasswordNotification extends Notification implements ShouldQueue
             'body_message' => 'We have just received a password reset request for your account.',
             'body_action' => 'Please click the button below to create a new password.',
             'button_text' => 'Reset Password',
-            'button_url' => url()->route('auth.reset', ['token' => $this->token]),
+            'button_url' => url()->route('client.reset', ['token' => $this->token]),
             'notice' => 'You may safely ignore this email if you didn\'t request a password reset.',
         ]);
     }

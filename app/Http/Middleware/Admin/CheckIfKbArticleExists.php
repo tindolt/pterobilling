@@ -6,7 +6,7 @@ use App\Models\KbArticle;
 use Closure;
 use Illuminate\Http\Request;
 
-class CheckIfKbExists
+class CheckIfKbArticleExists
 {
     /**
      * Handle an incoming request.
@@ -17,13 +17,13 @@ class CheckIfKbExists
      */
     public function handle(Request $request, Closure $next)
     {
-        $id = $request->route('id');
-        $kb_article = KbArticle::find($id);
+        $article_id = $request->route('article_id');
+        $article = KbArticle::find($article_id);
 
-        if (is_null($kb_article)) {
+        if (is_null($article)) {
             return abort(404);
         } else {
-            view()->share(['kb_article' => $kb_article]);
+            view()->share(['article' => $article]);
             return $next($request);
         }
     }

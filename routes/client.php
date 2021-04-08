@@ -1,7 +1,5 @@
 <?php
 
-use Illuminate\Foundation\Auth\EmailVerificationRequest;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 /**
@@ -72,12 +70,12 @@ Route::prefix('invoice')->name('invoice.')->group(function () {
 // Support Tickets
 Route::prefix('ticket')->name('ticket.')->group(function () {
     Route::get('/', 'Client\TicketController@index')->name('index');
+    Route::get('/create','Client\TicketController@create')->name('create');
+    Route::post('/create', 'Client\TicketController@store');
 
-    Route::prefix('{id}')->middleware('check.client.ticket')->group(function () {
+    Route::prefix('view/{id}')->middleware('check.client.ticket')->group(function () {
         Route::get('/', 'Client\TicketController@show')->name('show');
         Route::post('/', 'Client\TicketController@update');
-        Route::get('/create','Client\TicketController@create')->withoutMiddleware('check.client.ticket')->name('create');
-        Route::post('/create', 'Client\TicketController@store')->withoutMiddleware('check.client.ticket');
     });
 });
 
@@ -102,21 +100,6 @@ Route::prefix('credit')->name('credit.')->group(function () {
     Route::post('/', 'Client\CreditController@store');
     Route::get('/added', 'Client\CreditController@added')->name('added');
 });
-
-// Email Verification
-Route::get('/email/notice', function () {
-    return view('client.verify');
-})->withoutMiddleware('verified')->name('verification.notice');
-
-Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $request) {
-    $request->fulfill();
-    return redirect()->route('client.dash')->with('success_msg', 'Your account has been verified!');
-})->middleware(['signed', 'throttle:6,1'])->withoutMiddleware('verified')->name('verification.verify');
-
-Route::get('/email/send', function (Request $request) {
-    $request->user()->sendEmailVerificationNotification();
-    return back()->with('success_msg', 'We have sent you an email. Please click the link inside to verify your account.');
-})->middleware('throttle:6,1')->withoutMiddleware('verified')->name('verification.send');
 
 // Logout
 Route::get('/logout', 'Client\AccountController@destroy')->name('logout');

@@ -10,7 +10,7 @@
                     <h5>You are viewing the plans of {{ $category->name }}.</h5>
                 </div>
             </div>
-            @foreach ($plan_model->where('category_id', $category->id)->orderBy('order', 'desc')->get() as $plan)
+            @foreach ($plan_model->where('category_id', $category->id)->orderBy('order', 'asc')->get() as $plan)
                 @php
                     $plan_percent_off = 1;
                 @endphp
@@ -48,7 +48,7 @@
                 </div>
             @endforeach
         @else
-            @foreach ($plan_model->orderBy('order', 'desc')->get() as $plan)
+            @foreach ($plan_model->orderBy('order', 'asc')->get() as $plan)
                 @php
                     $plan_percent_off = 1;
                 @endphp

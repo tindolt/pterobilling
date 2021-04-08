@@ -16,7 +16,7 @@ class KbController extends Controller
             if (is_null($article)) {
                 return abort(404);
             } else {
-                return view('store.article', ['title' => 'Knowledge Base', 'id' => $id, 'article' => $article->first()]);
+                return view('store.article', ['title' => 'Knowledge Base', 'id' => $id, 'article' => $article]);
             }
         }
     }
