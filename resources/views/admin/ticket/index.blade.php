@@ -1,5 +1,7 @@
 @extends('layouts.admin')
 
+@inject('client_model', 'App\Models\Client')
+
 @section('styles')
     <noscript>
         <link rel="stylesheet" href="/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
@@ -18,9 +20,10 @@
                         <thead>
                             <tr>
                                 <th style="width:5%">ID</th>
-                                <th style="width:45%">Subject</th>
-                                <th style="width:25%">Updated Date</th>
-                                <th style="width:25%">Created Date</th>
+                                <th style="width:20%">Client</th>
+                                <th style="width:35%">Subject</th>
+                                <th style="width:20%">Updated Date</th>
+                                <th style="width:20%">Created Date</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -28,6 +31,7 @@
                                 @if ($ticket->status == 1)
                                     <tr>
                                         <td><a href="{{ route('admin.ticket.show', ['id' => $ticket->id]) }}">{{ $ticket->id }}</a></td>
+                                        <td><a href="{{ route('admin.client.show', ['id' => $ticket->client_id]) }}" target="_blank">{{ $client_model->find($ticket->client_id)->email }}</a></td>
                                         <td>{{ $ticket->subject }}</td>
                                         <td>{{ $ticket->updated_at }}</td>
                                         <td>{{ $ticket->created_at }}</td>
@@ -38,9 +42,10 @@
                         <tfoot>
                             <tr>
                                 <th style="width:5%">ID</th>
-                                <th style="width:45%">Subject</th>
-                                <th style="width:25%">Updated Date</th>
-                                <th style="width:25%">Created Date</th>
+                                <th style="width:20%">Client</th>
+                                <th style="width:35%">Subject</th>
+                                <th style="width:20%">Updated Date</th>
+                                <th style="width:20%">Created Date</th>
                             </tr>
                         </tfoot>
                     </table>
@@ -55,9 +60,10 @@
                         <thead>
                             <tr>
                                 <th style="width:5%">ID</th>
-                                <th style="width:45%">Subject</th>
-                                <th style="width:25%">Updated Date</th>
-                                <th style="width:25%">Created Date</th>
+                                <th style="width:20%">Client</th>
+                                <th style="width:35%">Subject</th>
+                                <th style="width:20%">Updated Date</th>
+                                <th style="width:20%">Created Date</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -65,6 +71,7 @@
                                 @if ($ticket->status == 2)
                                     <tr>
                                         <td><a href="{{ route('admin.ticket.show', ['id' => $ticket->id]) }}">{{ $ticket->id }}</a></td>
+                                        <td><a href="{{ route('admin.client.show', ['id' => $ticket->client_id]) }}" target="_blank">{{ $client_model->find($ticket->client_id)->email }}</a></td>
                                         <td>{{ $ticket->subject }}</td>
                                         <td>{{ $ticket->updated_at }}</td>
                                         <td>{{ $ticket->created_at }}</td>
@@ -75,9 +82,10 @@
                         <tfoot>
                             <tr>
                                 <th style="width:5%">ID</th>
-                                <th style="width:45%">Subject</th>
-                                <th style="width:25%">Updated Date</th>
-                                <th style="width:25%">Created Date</th>
+                                <th style="width:20%">Client</th>
+                                <th style="width:35%">Subject</th>
+                                <th style="width:20%">Updated Date</th>
+                                <th style="width:20%">Created Date</th>
                             </tr>
                         </tfoot>
                     </table>
@@ -92,9 +100,10 @@
                         <thead>
                             <tr>
                                 <th style="width:5%">ID</th>
-                                <th style="width:45%">Subject</th>
-                                <th style="width:25%">Updated Date</th>
-                                <th style="width:25%">Created Date</th>
+                                <th style="width:20%">Client</th>
+                                <th style="width:35%">Subject</th>
+                                <th style="width:20%">Updated Date</th>
+                                <th style="width:20%">Created Date</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -102,6 +111,7 @@
                                 @if ($ticket->status == 0)
                                     <tr>
                                         <td><a href="{{ route('admin.ticket.show', ['id' => $ticket->id]) }}">{{ $ticket->id }}</a></td>
+                                        <td><a href="{{ route('admin.client.show', ['id' => $ticket->client_id]) }}" target="_blank">{{ $client_model->find($ticket->client_id)->email }}</a></td>
                                         <td>{{ $ticket->subject }}</td>
                                         <td>{{ $ticket->updated_at }}</td>
                                         <td>{{ $ticket->created_at }}</td>
@@ -112,9 +122,10 @@
                         <tfoot>
                             <tr>
                                 <th style="width:5%">ID</th>
-                                <th style="width:45%">Subject</th>
-                                <th style="width:25%">Updated Date</th>
-                                <th style="width:25%">Created Date</th>
+                                <th style="width:20%">Client</th>
+                                <th style="width:35%">Subject</th>
+                                <th style="width:20%">Updated Date</th>
+                                <th style="width:20%">Created Date</th>
                             </tr>
                         </tfoot>
                     </table>
@@ -129,9 +140,10 @@
                         <thead>
                             <tr>
                                 <th style="width:5%">ID</th>
-                                <th style="width:45%">Subject</th>
-                                <th style="width:25%">Updated Date</th>
-                                <th style="width:25%">Created Date</th>
+                                <th style="width:20%">Client</th>
+                                <th style="width:35%">Subject</th>
+                                <th style="width:20%">Updated Date</th>
+                                <th style="width:20%">Created Date</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -139,6 +151,7 @@
                                 @if ($ticket->status == 3)
                                     <tr>
                                         <td><a href="{{ route('admin.ticket.show', ['id' => $ticket->id]) }}">{{ $ticket->id }}</a></td>
+                                        <td><a href="{{ route('admin.client.show', ['id' => $ticket->client_id]) }}" target="_blank">{{ $client_model->find($ticket->client_id)->email }}</a></td>
                                         <td>{{ $ticket->subject }}</td>
                                         <td>{{ $ticket->updated_at }}</td>
                                         <td>{{ $ticket->created_at }}</td>
@@ -149,9 +162,10 @@
                         <tfoot>
                             <tr>
                                 <th style="width:5%">ID</th>
-                                <th style="width:45%">Subject</th>
-                                <th style="width:25%">Updated Date</th>
-                                <th style="width:25%">Created Date</th>
+                                <th style="width:20%">Client</th>
+                                <th style="width:35%">Subject</th>
+                                <th style="width:20%">Updated Date</th>
+                                <th style="width:20%">Created Date</th>
                             </tr>
                         </tfoot>
                     </table>

@@ -15,8 +15,7 @@ class InvoiceController extends Controller
 
     public function show($id)
     {
-        $invoice = Invoice::find($id);
-        $view_variables = array('title' => "Invoice #${id} - Invoices", 'header1' => 'Invoices', 'header1_route' => 'client.invoice.index', 'header_title' => "Invoice #${id}", 'id' => $id, 'invoice' => $invoice);
+        $view_variables = array('title' => "Invoice #${id} - Invoices", 'header1' => 'Invoices', 'header1_route' => 'client.invoice.index', 'header_title' => "Invoice #${id}", 'id' => $id);
         return view('client.invoice.show', $view_variables);
     }
 

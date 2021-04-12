@@ -18,7 +18,7 @@ class CreateKbArticlesTable extends Migration
             $table->integer('category_id')->unsigned();
             $table->string('subject')->unique();
             $table->string('content', 5000);
-            $table->integer('order')->unsigned()->default(0);
+            $table->integer('order')->default(1000);
             $table->timestamps();
         });
     }

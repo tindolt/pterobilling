@@ -14,25 +14,51 @@ class PageSeeder extends Seeder
      */
     public function run()
     {
-        Page::create([
-            'name' => 'home',
-            'content' => "<h1>Welcome to your new PteroBilling store.</h1>\n<p>This is the home page. You may edit this page in the admin area.</p>",
-        ]);
-        Page::create([
-            'name' => 'contact',
-            'content' => config('mail.from.address', 'hello@example.com'),
-        ]);
-        Page::create([
-            'name' => 'status',
-            'content' => "<h1>Welcome to your System Status page.</h1>\n<p>You may edit this page in the admin area.</p>",
-        ]);
-        Page::create([
-            'name' => 'terms',
-            'content' => "<h1>Welcome to your Terms of Service page.</h1>\n<p>You may edit this page in the admin area.</p>",
-        ]);
-        Page::create([
-            'name' => 'privacy',
-            'content' => "<h1>Welcome to your Privacy Policy page.</h1>\n<p>You may edit this page in the admin area.</p>",
-        ]);
+        $i = 0;
+
+        if (is_null(Page::where('name', 'home')->first())) {
+            Page::create([
+                'name' => 'home',
+                'content' => "<h1>Welcome to your new PteroBilling store.</h1>\n<p>This is the home page. You may edit this page in the admin area.</p>",
+            ]);
+            ++$i;
+        }
+
+        if (is_null(Page::where('name', 'contact')->first())) {
+            Page::create([
+                'name' => 'contact',
+                'content' => config('mail.from.address', 'hello@example.com'),
+            ]);
+            ++$i;
+        }
+
+        if (is_null(Page::where('name', 'status')->first())) {
+            Page::create([
+                'name' => 'status',
+                'content' => "<h1>Welcome to your System Status page.</h1>\n<p>You may edit this page in the admin area.</p>",
+            ]);
+            ++$i;
+        }
+
+        if (is_null(Page::where('name', 'terms')->first())) {
+            Page::create([
+                'name' => 'terms',
+                'content' => "<h1>Welcome to your Terms of Service page.</h1>\n<p>You may edit this page in the admin area.</p>",
+            ]);
+            ++$i;
+        }
+
+        if (is_null(Page::where('name', 'privacy')->first())) {
+            Page::create([
+                'name' => 'privacy',
+                'content' => "<h1>Welcome to your Privacy Policy page.</h1>\n<p>You may edit this page in the admin area.</p>",
+            ]);
+            ++$i;
+        }
+
+        if ($i > 0)
+            $this->command->info('Seeded and updated the pages table successfully!');
+        else
+            $this->command->line('Records already exist in the pages table. Skipped seeding!');
     }
 }

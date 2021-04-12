@@ -3,28 +3,26 @@
 namespace App\Http\Controllers\Store;
 
 use App\Http\Controllers\Controller;
-use App\Models\Coupon;
-use App\Models\Discount;
 use App\Models\Plan;
+use App\Traits\CouponExpiry;
+use App\Traits\DiscountExpiry;
 use App\Traits\PterodactylApi;
-use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
 
 class OrderController extends Controller
 {
-    use PterodactylApi;
+    use PterodactylApi, DiscountExpiry, CouponExpiry;
 
     public function show($id)
     {
         $plan = Plan::find($id);
-        $discount = Discount::find($plan->discount);
-        $percent_off = 1;
+        $discount = $this->checkDiscount($plan->discount);
 
         if ($discount) {
-            if (Carbon::parse($discount->value('end_date'))->timestamp > Carbon::now()->timestamp) {
-                $percent_off -= ($discount->percent_off / 100);
-            }
+            $percent_off = 1 - ($discount->percent_off / 100);
+        } else {
+            $percent_off = 1;
         }
 
         $locations = Cache::get('pterodactyl_locations');
@@ -65,14 +63,14 @@ class OrderController extends Controller
     public function coupon(Request $request, $id)
     {
         $request->validate(['coupon' => 'required|string']);
-        $coupon = Coupon::where('code', $request->input('coupon'))->first();
+        $coupon = $this->checkCoupon($request->input('coupon'));
 
-        if (is_null($coupon)) {
+        if ($coupon) {
+            session(['plan_' . $id . '_coupon' => $coupon]);
+            return back()->with('success_msg', 'You\'ve applied the coupon code!');
+        } else {
             session(['plan_' . $id . '_coupon' => null]);
             return back()->with('error_msg', 'The coupon code is invalid or has expired!');
-        } else {
-            session(['plan_' . $id . '_coupon' => $coupon]);
-            return back()->with('success_msg', 'You have successfully applied the coupon.');
         }
     }
 

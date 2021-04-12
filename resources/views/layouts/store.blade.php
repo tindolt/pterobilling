@@ -6,6 +6,9 @@
     </head>
     <body class="hold-transition layout-top-nav @if(config('app.dark_mode')) dark-mode @endif">
         <div class="wrapper">
+            <!-- Preloader -->
+            @include('layouts.preloader')
+
             <!-- Navbar -->
             @include('layouts.store.nav')
 

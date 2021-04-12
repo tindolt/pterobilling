@@ -10,8 +10,8 @@
                     <div class="card-body row">
                         <div class="form-group col-5 offset-lg-1">
                             <div class="custom-control custom-switch">
-                                <input type="checkbox" name="enable" value="yes" class="custom-control-input" @if ($announcement[0]->value) checked @endif id="enableInput">
-                                <label class="custom-control-label" for="enableInput">Show Announcement</label>
+                                <input type="checkbox" name="enabled" value="yes" class="custom-control-input" @if ($announcement[0]->value) checked @endif id="enabledInput">
+                                <label class="custom-control-label" for="enabledInput">Show Announcement</label>
                             </div>
                         </div>
                         <div class="form-group col-6">

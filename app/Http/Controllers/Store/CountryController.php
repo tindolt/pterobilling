@@ -9,7 +9,7 @@ class CountryController extends Controller
 {
     public function __invoke($id)
     {
-        $tax = Tax::where('country', $id)->first();
+        $tax = Tax::find($id);
         
         if (is_null($tax)) {
             $tax = Tax::where('country', '0')->first();

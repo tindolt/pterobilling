@@ -15,14 +15,33 @@ class KbSeeder extends Seeder
      */
     public function run()
     {
-        KbCategory::create([
-            'name' => 'Example Category',
-        ]);
+        $x = 0;
+        $y = 0;
 
-        KbArticle::create([
-            'category_id' => 1,
-            'subject' => 'Example Article',
-            'content' => 'You may edit or delete me in the admin area.'
-        ]);
+        if (count(KbCategory::all()) == 0) {
+            KbCategory::create([
+                'name' => 'Example Category',
+            ]);
+            ++$x;
+        }
+
+        if (count(KbArticle::all()) == 0) {
+            KbArticle::create([
+                'category_id' => 1,
+                'subject' => 'Example Article',
+                'content' => 'You may edit or delete me in the admin area.'
+            ]);
+            ++$y;
+        }
+
+        if ($x > 0)
+            $this->command->info('Seeded and updated the kb_categories table successfully!');
+        else
+            $this->command->line('Records already exist in the kb_categories table. Skipped seeding!');
+
+        if ($y > 0)
+            $this->command->info('Seeded and updated the kb_articles table successfully!');
+        else
+            $this->command->line('Records already exist in the kb_articles table. Skipped seeding!');
     }
 }

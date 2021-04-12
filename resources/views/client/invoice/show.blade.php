@@ -9,7 +9,7 @@
                 <div class="row">
                     <div class="col-12">
                         <h4>
-                            <img src="{{ config('app.logo_file_path') }}" height="50px" alt="Logo"> {{ config('app.company_name') }}
+                            <img src="{{ config('app.logo_file_path') }}" height="{{ config('app.company_name') }} 50px" alt="Logo"> {{ config('app.company_name') }}
                             <span class="float-right">
                                 Status:
                                 @if ($invoice->paid)
@@ -37,7 +37,7 @@
                     <div class="col-sm-4 invoice-col">
                         <b>Invoice #{{ $invoice->id }}</b><br>
                         <b>Invoice Date:</b> {{ $invoice->created_at }}<br>
-                        <b>Due Date:</b> {{ number_format($invoice->total_due * session('currency')->rate, 2) }}<br>
+                        <b>Due Date:</b> {{ number_format($invoice->due_date * session('currency')->rate, 2) }}<br>
                     </div>
                 </div>
                 <div class="row">

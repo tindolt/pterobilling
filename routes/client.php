@@ -102,4 +102,4 @@ Route::prefix('credit')->name('credit.')->group(function () {
 });
 
 // Logout
-Route::get('/logout', 'Client\AccountController@destroy')->name('logout');
+Route::get('/logout', 'Client\AccountController@destroy')->withoutMiddleware('verified')->name('logout');

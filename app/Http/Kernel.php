@@ -83,6 +83,8 @@ class Kernel extends HttpKernel
         'check.client.ticket' => \App\Http\Middleware\Client\CheckTicketPermission::class,
         'check.store.affiliate' => \App\Http\Middleware\Store\CheckIfAffiliateProgramEnabled::class,
         'check.store.order' => \App\Http\Middleware\Store\CheckPlanOrder::class,
+        'close.register' => \App\Http\Middleware\Client\CloseRegistration::class,
+        'demo' => \App\Http\Middleware\DenyInDemo::class,
         'guest' => \App\Http\Middleware\RedirectIfAuthenticated::class,
         'password.confirm' => \Illuminate\Auth\Middleware\RequirePassword::class,
         'signed' => \Illuminate\Routing\Middleware\ValidateSignature::class,

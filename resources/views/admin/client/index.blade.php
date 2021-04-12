@@ -27,8 +27,9 @@
                             <tr>
                                 <th style="width:5%">ID</th>
                                 <th style="width:10%">Panel ID</th>
-                                <th style="width:30%">Email</th>
-                                <th style="width:10%">Verified</th>
+                                <th style="width:25%">Email</th>
+                                <th style="width:8%">Verified</th>
+                                <th style="width:7%">Admin</th>
                                 <th style="width:20%">Credit</th>
                                 <th style="width:25%">Registration Date</th>
                             </tr>
@@ -41,9 +42,16 @@
                                     <td>{{ $client->email }}</td>
                                     <td>
                                         @if ($client->email_verified_at)
-                                            <i class="fas fa-check"></i>
+                                            <i class="fas fa-check"></i> Yes
                                         @else
-                                            <i class="fas fa-times"></i>
+                                            <i class="fas fa-times"></i> No
+                                        @endif
+                                    </td>
+                                    <td>
+                                        @if ($client->is_admin)
+                                            <i class="fas fa-check"></i> Yes
+                                        @else
+                                            <i class="fas fa-times"></i> No
                                         @endif
                                     </td>
                                     <td>{!! session('currency')->symbol !!}{{ number_format($client->credit * session('currency')->rate, 2) }} {{ session('currency')->name }}</td>
@@ -55,8 +63,9 @@
                             <tr>
                                 <th style="width:5%">ID</th>
                                 <th style="width:10%">Panel ID</th>
-                                <th style="width:30%">Email</th>
-                                <th style="width:10%">Verified</th>
+                                <th style="width:25%">Email</th>
+                                <th style="width:8%">Verified</th>
+                                <th style="width:7%">Admin</th>
                                 <th style="width:20%">Credit</th>
                                 <th style="width:25%">Registration Date</th>
                             </tr>

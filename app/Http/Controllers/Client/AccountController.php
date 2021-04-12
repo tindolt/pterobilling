@@ -6,12 +6,15 @@ use App\Http\Controllers\Controller;
 use App\Models\Client;
 use App\Models\Currency;
 use App\Models\Tax;
+use App\Traits\HCaptcha;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
 class AccountController extends Controller
 {
+    use HCaptcha;
+    
     public function show()
     {
         return view('client.account', ['title' => 'Account Settings']);

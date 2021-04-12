@@ -19,7 +19,7 @@ class ExtensionManager
     public static function subdomain_extensions() {
         return [
             Cloudflare::class,
-            CPanel::class,
+            #CPanel::class,
         ];
     }
 

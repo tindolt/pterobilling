@@ -12,19 +12,11 @@ class Cloudflare
     public static $display_name = 'Cloudflare Zone';
 
     /**
-     * Set up the server subdomain manager
-     */
-    public function __construct()
-    {
-        //
-    }
-
-    /**
      * Return a list of subdomains
      */
     public static function getSubdomains()
     {
-        return ['cloudflare.com'];
+        return [];
     }
 
     /**

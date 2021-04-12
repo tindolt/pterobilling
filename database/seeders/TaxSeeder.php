@@ -14,8 +14,16 @@ class TaxSeeder extends Seeder
      */
     public function run()
     {
-        Tax::create([
-            'country' => '0',
-        ]);
+        $i = 0;
+
+        if (count(Tax::all()) == 0) {
+            Tax::create(['country' => '0']);
+            ++$i;
+        }
+
+        if ($i > 0)
+            $this->command->info('Seeded and updated the taxes table successfully!');
+        else
+            $this->command->line('Records already exist in the taxes table. Skipped seeding!');
     }
 }

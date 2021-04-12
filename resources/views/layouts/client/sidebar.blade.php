@@ -3,7 +3,7 @@
 <aside class="main-sidebar sidebar-dark-primary elevation-4">
     <!-- Brand Logo -->
     <a href="{{ route('client.dash') }}" class="brand-link">
-        <img src="{{ config('app.logo_file_path') }}" alt="AdminLTE Logo" class="brand-image">
+        <img src="{{ config('app.logo_file_path') }}" alt="{{ config('app.company_name') }} Logo" class="brand-image">
         <span class="brand-text font-weight-light">{{ config('app.company_name') }}</span>
     </a>
     <!-- Sidebar -->

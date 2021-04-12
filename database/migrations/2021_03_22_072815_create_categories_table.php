@@ -18,7 +18,7 @@ class CreateCategoriesTable extends Migration
             $table->string('name')->unique();
             $table->integer('global_limit')->unsigned()->default(0);
             $table->integer('per_client_limit')->unsigned()->default(0);
-            $table->integer('order')->unsigned()->default(0);
+            $table->integer('order')->default(1000);
             $table->timestamps();
         });
     }

@@ -48,6 +48,7 @@ Route::get('/currency/{id}', 'Store\CurrencyController')->name('currency');
 // Changing Country (Tax)
 Route::get('/country/{id}', 'Store\CountryController')->name('country');
 
+// Changing Language (coming soon...)
 Route::get('/lang/{id}', 'Store\LanguageController')->name('lang');
 
 // Knowledge Base
@@ -79,8 +80,8 @@ Route::prefix('auth')->name('client.')->middleware('guest')->group(function () {
     Route::post('/login', 'Client\LoginController@store');
 
     // Register Page
-    Route::get('/register', 'Client\RegisterController@show')->name('register');
-    Route::post('/register', 'Client\RegisterController@store');
+    Route::get('/register', 'Client\RegisterController@show')->middleware('close.register')->name('register');
+    Route::post('/register', 'Client\RegisterController@store')->middleware('close.register');
 
     // Password Recovery Page
     Route::get('/forgot', 'Client\ForgotPasswordController@show')->name('forgot');

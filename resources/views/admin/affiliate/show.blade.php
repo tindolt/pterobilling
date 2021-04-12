@@ -11,8 +11,8 @@
                         <div class="col-lg-5">
                             <div class="form-group">
                                 <div class="custom-control custom-switch">
-                                    <input type="checkbox" name="enable" value="yes" class="custom-control-input" @if ($affiliate_settings[0]->value) checked @endif id="enableInput">
-                                    <label class="custom-control-label" for="enableInput">Enable Affiliate Program</label>
+                                    <input type="checkbox" name="enabled" value="yes" class="custom-control-input" @if ($affiliate_settings[0]->value) checked @endif id="enabledInput">
+                                    <label class="custom-control-label" for="enabledInput">Enable Affiliate Program</label>
                                 </div>
                             </div>
                             <div class="form-group">

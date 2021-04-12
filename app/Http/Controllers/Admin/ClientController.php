@@ -107,6 +107,15 @@ class ClientController extends Controller
         return back()->with('success_msg', 'The account settings have been updated!');
     }
 
+    public function admin($id)
+    {
+        $client = Client::find($id);
+        $client->is_admin = $client->is_admin ? false : true;
+        $client->save();
+
+        return back()->with('success_msg', 'You have changed the role of the client!');
+    }
+
     public function servers($id)
     {
         $client = Client::find($id);

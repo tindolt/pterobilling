@@ -14,10 +14,20 @@ class CurrencySeeder extends Seeder
      */
     public function run()
     {
-        Currency::create([
-            'name' => 'USD',
-            'symbol' => '&#36;',
-            'default' => true,
-        ]);
+        $i = 0;
+
+        if (count(Currency::all()) == 0) {
+            Currency::create([
+                'name' => 'USD',
+                'symbol' => '&#36;',
+                'default' => true,
+            ]);
+            ++$i;
+        }
+
+        if ($i > 0)
+            $this->command->info('Seeded and updated the currencies table successfully!');
+        else
+            $this->command->line('Records already exist in the currencies table. Skipped seeding!');
     }
 }

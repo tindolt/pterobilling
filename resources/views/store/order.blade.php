@@ -54,31 +54,18 @@
                     <label class="col-lg-3 col-form-label">Add-ons</label>
                     <div class="col-lg-7">
                         @foreach ($addon_model->all() as $addon)
-                            @php
-                                $addon->price = number_format($addon->price * session('currency')->rate * $percent_off, 2);
-                                $addon->setup_fee = number_format($addon->setup_fee * session('currency')->rate * $percent_off, 2);
-                            @endphp
-                            @if (!is_null(json_decode($addon->plans)))
-                                @if (in_array($plan->id, json_decode($addon->plans)))
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" name="addon1" onchange="updateAddonSummary({{ $addon }});">
-                                        <p class="form-check-label">{{ $addon->name }} <span class="float-right">{!! session('currency')->symbol !!}{{ $addon->price }} {{ json_decode($plan->cycles)[0] }} (${{ $addon->setup_fee }} setup fee)</span></p>
-                                    </div>
-                                @endif
-                            @elseif (!is_null(json_decode($addon->categories)))
-                                @if (in_array($plan->category_id, json_decode($addon->categories)))
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" name="addon1" onchange="updateAddonSummary({{ $addon }});">
-                                        <p class="form-check-label">{{ $addon->name }} <span class="float-right">{!! session('currency')->symbol !!}{{ $addon->price }} {{ json_decode($plan->cycles)[0] }} (${{ $addon->setup_fee }} setup fee)</span></p>
-                                    </div>
-                                @endif
+                            @if (in_array($plan->category_id, json_decode($addon->categories, true)))
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" name="addon_{{ $addon->id }}" value="true" onchange="updateAddonSummary({{ $addon }});">
+                                    <p class="form-check-label">{{ $addon->name }} <span class="float-right">{!! session('currency')->symbol !!}{{ number_format($addon->price * session('currency')->rate * $percent_off, 2) }} {{ json_decode($plan->cycles)[0] }} (${{ number_forma($addon->setup_fee * session('currency')->rate * $percent_off, 2) }} setup fee)</span></p>
+                                </div>
                             @endif
                         @endforeach
                     </div>
                 </div>
                 <hr>
                 <div class="form-group row">
-                    <label for="serverIpInput" class="col-lg-3 col-form-label">Billing Cycle</label>
+                    <label class="col-lg-3 col-form-label">Billing Cycle</label>
                     <div class="col-lg-3">
                         <select class="form-control" name="cycle" id="billing-cycle" onchange="updateValues();">
                             @foreach (json_decode($plan->cycles) as $cycle)

@@ -18,7 +18,7 @@
                     <ul aria-labelledby="plansMenu" class="dropdown-menu border-0 shadow">
                         <li><a href="{{ route('plans') }}" class="dropdown-item">View All Plans</a></li>
                         <div class="dropdown-divider"></div>
-                        @foreach ($category_model->orderBy('order', 'desc')->get() as $category)
+                        @foreach ($category_model->orderBy('order', 'asc')->get() as $category)
                             <li><a href="{{ route('plans', ['id' => $category->id]) }}" class="dropdown-item">{{ $category->name }}</a></li>
                         @endforeach
                     </ul>

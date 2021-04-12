@@ -24,11 +24,11 @@ class AffiliateController extends Controller
     {
         $request->validate(['conversion' => 'required|numeric|gt:0|lte:100']);
 
-        $affiliate_enabled = AffiliateProgram::find(1);
-        $affiliate_enabled->value = $request->input('enable') ? true : false;
+        $affiliate_enabled = AffiliateProgram::where('key', 'enabled')->first();
+        $affiliate_enabled->value = $request->has('enabled');
         $affiliate_enabled->save();
         
-        $affiliate_conversion = AffiliateProgram::find(2);
+        $affiliate_conversion = AffiliateProgram::where('key', 'conversion')->first();
         $affiliate_conversion->value = $request->input('conversion');
         $affiliate_conversion->save();
 

@@ -12,19 +12,11 @@ class CPanel
     public static $display_name = 'cPanel Zone';
 
     /**
-     * Set up the server subdomain manager
-     */
-    public function __construct()
-    {
-        //
-    }
-
-    /**
      * Return a list of subdomains
      */
     public static function getSubdomains()
     {
-        return ['cpanel.net'];
+        return [];
     }
 
     /**

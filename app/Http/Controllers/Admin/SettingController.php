@@ -29,29 +29,33 @@ class SettingController extends Controller
             'arc_widget_id' => 'required|string|max:255',
         ]);
 
-        $this->saveSetting($request, 1, 'company_name');
-        $this->saveSetting($request, 2, 'store_url');
-        $this->saveSetting($request, 3, 'logo_path');
-        $this->saveSetting($request, 4, 'favicon_path');
+        $this->saveSetting($request, 'company_name');
+        $this->saveSetting($request, 'store_url');
+        $this->saveSetting($request, 'logo_path');
+        $this->saveSetting($request, 'favicon_path');
         
-        $dark_mode = Setting::find(5);
-        $dark_mode->value = $request->input('dark_mode') ? true : false;
+        $dark_mode = Setting::where('key', 'dark_mode')->first();
+        $dark_mode->value = $request->has('dark_mode');
         $dark_mode->save();
+        
+        $open_registration = Setting::where('key', 'open_registration')->first();
+        $open_registration->value = $request->has('open_registration');
+        $open_registration->save();
 
-        $this->saveSetting($request, 6, 'panel_url');
-        $this->saveSetting($request, 7, 'panel_api_key');
-        $this->saveSetting($request, 8, 'phpmyadmin_url');
-        $this->saveSetting($request, 9, 'hcaptcha_public_key');
-        $this->saveSetting($request, 10, 'hcaptcha_secret_key');
-        $this->saveSetting($request, 11, 'google_analytics_id');
-        $this->saveSetting($request, 12, 'arc_widget_id');
+        $this->saveSetting($request, 'panel_url');
+        $this->saveSetting($request, 'panel_api_key');
+        $this->saveSetting($request, 'phpmyadmin_url');
+        $this->saveSetting($request, 'hcaptcha_public_key');
+        $this->saveSetting($request, 'hcaptcha_secret_key');
+        $this->saveSetting($request, 'google_analytics_id');
+        $this->saveSetting($request, 'arc_widget_id');
 
         return back()->with('success_msg', 'You have updated the store settings! Please click \'Reload Config\' above on the navigation bar to apply them.');
     }
 
-    private function saveSetting(Request $request, $id, $key)
+    private function saveSetting(Request $request, $key)
     {
-        $setting = Setting::find($id);
+        $setting = Setting::where('key', $key)->first();
         $setting->value = $request->input($key);
         $setting->save();
     }

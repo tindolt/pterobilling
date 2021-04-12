@@ -21,20 +21,20 @@ class AnnouncementController extends Controller
             'theme' => 'required|integer|in:0,1,2,3',
         ]);
 
-        $announcement = Announcement::find(1);
-        $announcement->value = $request->input('enable') ? true : false;
+        $announcement = Announcement::where('key', 'enabled')->first();
+        $announcement->value = $request->has('enabled');
         $announcement->save();
 
-        $this->saveAnnouncement($request, 2, 'subject');
-        $this->saveAnnouncement($request, 3, 'content');
-        $this->saveAnnouncement($request, 4, 'theme');
+        $this->saveAnnouncement($request, 'subject');
+        $this->saveAnnouncement($request, 'content');
+        $this->saveAnnouncement($request, 'theme');
 
         return back()->with('success_msg', 'You have updated the announcement! Please click \'Reload Config\' above on the navigation bar to publish the changes.');
     }
 
-    private function saveAnnouncement(Request $request, $id, $key)
+    private function saveAnnouncement(Request $request, $key)
     {
-        $announcement = Announcement::find($id);
+        $announcement = Announcement::where('key', $key)->first();
         $announcement->value = $request->input($key);
         $announcement->save();
     }

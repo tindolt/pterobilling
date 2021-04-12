@@ -32,9 +32,10 @@ Route::prefix('client')->name('client.')->group(function () {
 
     Route::prefix('{id}')->middleware('check.admin.client')->group(function () {
         Route::get('/', 'Admin\ClientController@show')->name('show');
-        Route::post('/basic', 'Client\ClientController@basic')->name('basic');
-        Route::post('/email', 'Client\ClientController@email')->name('email');
-        Route::post('/password', 'Client\ClientController@password')->name('password');
+        Route::post('/basic', 'Admin\ClientController@basic')->name('basic');
+        Route::post('/email', 'Admin\ClientController@email')->name('email');
+        Route::post('/password', 'Admin\ClientController@password')->name('password');
+        Route::post('/admin', 'Admin\ClientController@admin')->name('admin');
         Route::get('/servers', 'Admin\ClientController@servers')->name('servers');
         Route::get('/invoices', 'Admin\ClientController@invoices')->name('invoices');
         Route::get('/tickets', 'Admin\ClientController@tickets')->name('tickets');
@@ -56,13 +57,13 @@ Route::prefix('affiliate')->middleware('check.store.affiliate')->name('affiliate
 // Server Plans
 Route::prefix('plan')->name('plan.')->group(function () {
     Route::get('/', 'Admin\PlanController@index')->name('index');
+    Route::get('/create', 'Admin\PlanController@create')->name('create');
+    Route::post('/create', 'Admin\PlanController@store');
 
-    Route::prefix('{id}')->middleware('check.admin.plan')->group(function () {
+    Route::prefix('view/{id}')->middleware('check.admin.plan')->group(function () {
         Route::get('/', 'Admin\PlanController@show')->name('show');
         Route::post('/', 'Admin\PlanController@update');
-        Route::get('/delete', 'Admin\PlanController@delete')->name('delete');
-        Route::get('/create', 'Admin\PlanController@create')->name('create');
-        Route::post('/create', 'Admin\PlanController@store');
+        Route::post('/delete', 'Admin\PlanController@delete')->name('delete');
     });
 });
 
@@ -88,7 +89,7 @@ Route::prefix('addon')->name('addon.')->group(function () {
     Route::prefix('view/{id}')->middleware('check.admin.addon')->group(function () {
         Route::get('/', 'Admin\AddonController@show')->name('show');
         Route::post('/', 'Admin\AddonController@update');
-        Route::get('/delete', 'Admin\AddonController@delete')->name('delete');
+        Route::post('/delete', 'Admin\AddonController@delete')->name('delete');
     });
 });
 
@@ -101,7 +102,7 @@ Route::prefix('discount')->name('discount.')->group(function () {
     Route::prefix('view/{id}')->middleware('check.admin.discount')->group(function () {
         Route::get('/', 'Admin\DiscountController@show')->name('show');
         Route::post('/', 'Admin\DiscountController@update');
-        Route::get('/delete', 'Admin\DiscountController@delete')->name('delete');
+        Route::post('/delete', 'Admin\DiscountController@delete')->name('delete');
     });
 });
 
@@ -114,7 +115,7 @@ Route::prefix('coupon')->name('coupon.')->group(function () {
     Route::prefix('view/{id}')->middleware('check.admin.coupon')->group(function () {
         Route::get('/', 'Admin\CouponController@show')->name('show');
         Route::post('/', 'Admin\CouponController@update');
-        Route::get('/delete', 'Admin\CouponController@delete')->name('delete');
+        Route::post('/delete', 'Admin\CouponController@delete')->name('delete');
     });
 });
 
@@ -133,10 +134,13 @@ Route::prefix('invoice')->name('invoice.')->group(function () {
 // Currencies
 Route::prefix('currency')->name('currency.')->group(function () {
     Route::get('/', 'Admin\CurrencyController@index')->name('index');
+    Route::get('/create', 'Admin\CurrencyController@create')->name('create');
+    Route::post('/create', 'Admin\CurrencyController@store');
 
-    Route::prefix('{id}')->middleware('check.admin.currency')->group(function () {
+    Route::prefix('view/{id}')->middleware('check.admin.currency')->group(function () {
         Route::get('/', 'Admin\CurrencyController@show')->name('show');
-        Route::post('/', 'Admin\CurrencyController@store');
+        Route::post('/', 'Admin\CurrencyController@update');
+        Route::post('/delete', 'Admin\CurrencyController@delete')->name('delete');
         Route::post('/default', 'Admin\CurrencyController@default')->name('default');
     });
 });
@@ -144,10 +148,13 @@ Route::prefix('currency')->name('currency.')->group(function () {
 // Taxes
 Route::prefix('tax')->name('tax.')->group(function () {
     Route::get('/', 'Admin\TaxController@index')->name('index');
+    Route::get('/create', 'Admin\TaxController@create')->name('create');
+    Route::post('/create', 'Admin\TaxController@store');
 
-    Route::prefix('{id}')->middleware('check.admin.tax')->group(function () {
+    Route::prefix('view/{id}')->middleware('check.admin.tax')->group(function () {
         Route::get('/', 'Admin\TaxController@show')->name('show');
-        Route::post('/', 'Admin\TaxController@store');
+        Route::post('/', 'Admin\TaxController@update');
+        Route::post('/delete', 'Admin\TaxController@delete')->name('delete');
     });
 });
 

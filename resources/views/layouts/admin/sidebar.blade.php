@@ -1,7 +1,9 @@
+@inject('extension_manager', 'Extensions\ExtensionManager')
+
 <aside class="main-sidebar sidebar-dark-primary elevation-4 sidebar-no-expand">
     <!-- Brand Logo -->
     <a href="{{ route('admin.dash') }}" class="brand-link">
-    <img src="{{ config('app.logo_file_path') }}" alt="AdminLTE Logo" class="brand-image">
+    <img src="{{ config('app.logo_file_path') }}" alt="{{ config('app.company_name') }} Logo" class="brand-image">
     <span class="brand-text font-weight-light">{{ config('app.company_name') }}</span>
     </a>
     <!-- Sidebar -->
@@ -93,7 +95,7 @@
                         </li>
                     </ul>
                 </li>
-                <li class="nav-header">PLANS</li>
+                <li class="nav-header">PLANS AND PRICING</li>
                 <li class="nav-item">
                     <a href="{{ route('admin.plan.index') }}" class="nav-link @if(Route::currentRouteName() == 'admin.plan.index') active @endif">
                         <i class="nav-icon fas fa-scroll"></i>
@@ -109,7 +111,7 @@
                 <li class="nav-item">
                     <a href="{{ route('admin.addon.index') }}" class="nav-link @if(Route::currentRouteName() == 'admin.addon.index') active @endif">
                         <i class="nav-icon fas fa-puzzle-piece"></i>
-                        <p>Server Add-ons</p>
+                        <p>Add-ons</p>
                     </a>
                 </li>
                 <li class="nav-item">
@@ -146,7 +148,7 @@
                 <li class="nav-item">
                     <a href="{{ route('admin.tax.index') }}" class="nav-link @if(Route::currentRouteName() == 'admin.tax.index') active @endif">
                         <i class="nav-icon fas fa-funnel-dollar"></i>
-                        <p>Tax</p>
+                        <p>Taxes</p>
                     </a>
                 </li>
                 <li class="nav-header">SUPPORT</li>
@@ -217,12 +219,30 @@
                     </ul>
                 </li>
                 <li class="nav-header">EXTENSIONS</li>
-                <li class="nav-item">
-                    <a href="#" class="nav-link">
-                        <i class="nav-icon fas fa-plug"></i>
-                        <p>PayPal</p>
-                    </a>
-                </li>
+                @foreach ($extension_manager->gateway_extensions() as $extension)
+                    <li class="nav-item">
+                        <a href="{{ route('admin.extension.show', ['id' => str_replace('Extensions\\', '', $extension)]) }}" class="nav-link">
+                            <i class="nav-icon fas fa-plug"></i>
+                            <p>{{ str_replace('Extensions\\', '', $extension) }}</p>
+                        </a>
+                    </li>
+                @endforeach
+                @foreach ($extension_manager->subdomain_extensions() as $extension)
+                    <li class="nav-item">
+                        <a href="{{ route('admin.extension.show', ['id' => str_replace('Extensions\\', '', $extension)]) }}" class="nav-link">
+                            <i class="nav-icon fas fa-plug"></i>
+                            <p>{{ str_replace('Extensions\\', '', $extension) }}</p>
+                        </a>
+                    </li>
+                @endforeach
+                @foreach ($extension_manager->software_extensions() as $extension)
+                    <li class="nav-item">
+                        <a href="{{ route('admin.extension.show', ['id' => str_replace('Extensions\\', '', $extension)]) }}" class="nav-link">
+                            <i class="nav-icon fas fa-plug"></i>
+                            <p>{{ str_replace('Extensions\\', '', $extension) }}</p>
+                        </a>
+                    </li>
+                @endforeach
             </ul>
         </nav>
     </div>

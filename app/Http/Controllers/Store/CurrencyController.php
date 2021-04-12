@@ -9,7 +9,7 @@ class CurrencyController extends Controller
 {
     public function __invoke($id)
     {
-        $currency = Currency::where('name', $id)->first();
+        $currency = Currency::find($id);
 
         if (is_null($currency)) {
             $currency = Currency::where('default', true)->first();

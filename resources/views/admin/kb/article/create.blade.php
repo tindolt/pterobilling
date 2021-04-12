@@ -20,7 +20,7 @@
                         </div>
                         <div class="form-group col-lg-6">
                             <label for="orderInput">Order (The smaller, the higher display priority)</label>
-                            <input type="number" name="order" value="{{ old('order') }}" min="0" class="form-control" id="orderInput" placeholder="Order" required>
+                            <input type="number" name="order" value="{{ old('order') }}" class="form-control" id="orderInput" placeholder="Order" required>
                         </div>
                         <div class="form-group col-12">
                             <textarea type="text" name="content" id="contentInput" placeholder="Article Content" style="height:200px;" required>{!! old('content') !!}</textarea>

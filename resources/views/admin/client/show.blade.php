@@ -104,6 +104,29 @@
                     </div>
                 </form>
             </div>
+            <div class="card card-primary">
+                <div class="card-header">
+                    <h3 class="card-title">Administrator</h3>
+                </div>
+                <form action="{{ route('admin.client.admin', ['id' => $id]) }}" method="POST">
+                    @csrf
+
+                    <div class="card-body">
+                        <div class="form-group">
+                            <div class="alert alert-warning">
+                                Only promote the user you trust to an admin, who can access everything inside the admin area!
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-footer">
+                        @if ($client->is_admin)
+                            <button type="submit" class="btn btn-danger">Demote Client</button>
+                        @else
+                            <button type="submit" class="btn btn-success">Promote Client</button>
+                        @endif
+                    </div>
+                </form>
+            </div>
         </div>
     </div>
 @endsection

@@ -16,12 +16,22 @@ class ClientSeeder extends Seeder
      */
     public function run()
     {
-        Client::create([
-            'email' => 'admin@example.com',
-            'email_verified_at' => Carbon::now()->toDateTimeString(),
-            'user_id' => 1,
-            'password' => Hash::make('password'),
-            'is_admin' => true,
-        ]);
+        $i = 0;
+        
+        if (count(Client::all()) == 0) {
+            Client::create([
+                'email' => 'admin@example.com',
+                'email_verified_at' => Carbon::now()->toDateTimeString(),
+                'user_id' => 1,
+                'password' => Hash::make('password'),
+                'is_admin' => true,
+            ]);
+            ++$i;
+        }
+
+        if ($i > 0)
+            $this->command->info('Seeded and updated the clients table successfully!');
+        else
+            $this->command->line('Records already exist in the clients table. Skipped seeding!');
     }
 }

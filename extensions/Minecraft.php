@@ -10,14 +10,6 @@ class Minecraft
     public static $display_name = 'Minecraft';
 
     /**
-     * Set up the server software installer
-     */
-    public function __construct()
-    {
-        //
-    }
-
-    /**
      * Return the software names and available versions that can be installed
      */
     public static function getSoftwares()

@@ -17,7 +17,6 @@ class CreateTaxesTable extends Migration
             $table->id();
             $table->string('country')->unique();
             $table->integer('percent')->unsigned()->default(0);
-            $table->decimal('amount')->unsigned()->default(0);
             $table->timestamps();
         });
     }

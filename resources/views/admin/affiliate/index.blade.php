@@ -31,8 +31,8 @@
                             @foreach ($affiliates as $affiliate)
                                 <tr>
                                     <td>{{ $affiliate->id }}</a></td>
-                                    <td>{{ $client_model->find($affiliate->client_id)->email }}</td>
-                                    <td>{{ $client_model->find($affiliate->buyer_id)->email }}</td>
+                                    <td><a href="{{ route('admin.client.show', ['id' => $ticket->client_id]) }}" target="_blank">{{ $client_model->find($affiliate->client_id)->email }}</a></td>
+                                    <td><a href="{{ route('admin.client.show', ['id' => $ticket->buyer_id]) }}" target="_blank">{{ $client_model->find($affiliate->buyer_id)->email }}</a></td>
                                     <td>{{ $affiliate->product }}</td>
                                     <td>{!! session('currency')->symbol !!}{{ number_format($affiliate->commission * session('currency')->rate, 2) }} {{ session('currency')->name }}</td>
                                     <td>{{ $affiliate->conversion }}%</td>

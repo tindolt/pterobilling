@@ -25,16 +25,16 @@ class CreatePlansTable extends Migration
             $table->integer('databases')->unsigned();
             $table->integer('backups')->unsigned();
             $table->integer('allocations')->unsigned();
+            $table->integer('egg_id')->unsigned();
             $table->decimal('price')->unsigned();
             $table->string('cycles');
             $table->decimal('setup_fee')->unsigned()->default(0.00);
             $table->integer('trial')->unsigned()->default(0);
             $table->integer('discount')->unsigned()->nullable();
             $table->string('coupons')->nullable();
-            $table->integer('addon_limit')->unsigned()->default(0);
             $table->integer('global_limit')->unsigned()->default(0);
             $table->integer('per_client_limit')->unsigned()->default(0);
-            $table->integer('order')->unsigned()->default(0);
+            $table->integer('order')->default(1000);
             $table->timestamps();
         });
     }

@@ -5,7 +5,7 @@
 <nav class="main-header navbar navbar-expand-md @if(config('app.dark_mode')) navbar-dark @else navbar-white navbar-light @endif">
     <div class="container">
         <a href="{{ route('home') }}" class="navbar-brand">
-        <img src="{{ config('app.logo_file_path') }}" alt="AdminLTE Logo" height="50px">
+        <img src="{{ config('app.logo_file_path') }}" alt="{{ config('app.company_name') }} Logo" height="50px">
         <span class="brand-text font-weight-light">{{ config('app.company_name') }}</span>
         </a>
         <button class="navbar-toggler order-1" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
@@ -19,7 +19,7 @@
                     <ul aria-labelledby="plansMenu" class="dropdown-menu border-0 shadow">
                         <li><a href="{{ route('plans') }}" class="dropdown-item">All Plans</a></li>
                         <div class="dropdown-divider"></div>
-                        @foreach ($category_model->orderBy('order', 'desc')->get() as $category)
+                        @foreach ($category_model->orderBy('order', 'asc')->get() as $category)
                             <li><a href="{{ route('plans', ['id' => $category->id]) }}" class="dropdown-item">{{ $category->name }}</a></li>
                         @endforeach
                     </ul>

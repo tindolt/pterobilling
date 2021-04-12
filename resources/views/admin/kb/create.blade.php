@@ -14,7 +14,7 @@
                         </div>
                         <div class="form-group col-lg-6">
                             <label for="orderInput">Order (The smaller, the higher display priority)</label>
-                            <input type="number" name="order" value="{{ old('order') }}" min="0" class="form-control" id="orderInput" placeholder="Order" required>
+                            <input type="number" name="order" value="{{ old('order') }}" class="form-control" id="orderInput" placeholder="Order" required>
                         </div>
                     </div>
                     <div class="card-footer row justify-content-center">

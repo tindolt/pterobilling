@@ -14,6 +14,16 @@ class CategorySeeder extends Seeder
      */
     public function run()
     {
-        Category::create(['name' => 'Example Category']);
+        $i = 0;
+        
+        if (count(Category::all()) == 0) {
+            Category::create(['name' => 'Example Category']);
+            ++$i;
+        }
+
+        if ($i > 0)
+            $this->command->info('Seeded and updated the categories table successfully!');
+        else
+            $this->command->line('Records already exist in the categories table. Skipped seeding!');
     }
 }

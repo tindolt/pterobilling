@@ -14,17 +14,35 @@ class AffiliateSeeder extends Seeder
      */
     public function run()
     {
-        AffiliateProgram::create([
-            'key' => 'enabled',
-            'value' => 'true',
-        ]);
-        AffiliateProgram::create([
-            'key' => 'conversion',
-            'value' => '50',
-        ]);
-        AffiliateProgram::create([
-            'key' => 'payout_methods',
-            'value' => '["credit"]',
-        ]);
+        $i = 0;
+
+        if (is_null(AffiliateProgram::where('key', 'enabled')->first())) {
+            AffiliateProgram::create([
+                'key' => 'enabled',
+                'value' => 'true',
+            ]);
+            ++$i;
+        }
+
+        if (is_null(AffiliateProgram::where('key', 'conversion')->first())) {
+            AffiliateProgram::create([
+                'key' => 'conversion',
+                'value' => '50',
+            ]);
+            ++$i;
+        }
+
+        if (is_null(AffiliateProgram::where('key', 'payout_methods')->first())) {
+            AffiliateProgram::create([
+                'key' => 'payout_methods',
+                'value' => '["credit"]',
+            ]);
+            ++$i;
+        }
+        
+        if ($i > 0)
+            $this->command->info('Seeded and updated the affiliate_programs table successfully!');
+        else
+            $this->command->line('Records already exist in the affiliate_programs table. Skipped seeding!');
     }
 }

@@ -30,6 +30,8 @@ return [
 
     'dark_mode' => $setting_model::where('key', 'dark_mode')->value('value'),
 
+    'open_registration' => $setting_model::where('key', 'open_registration')->value('value'),
+
     'panel_url' => $setting_model::where('key', 'panel_url')->value('value'),
 
     'panel_api_key' => $setting_model::where('key', 'panel_api_key')->value('value'),

@@ -25,7 +25,7 @@
                                 <tr>
                                     <td><a href="{{ route('client.invoice.show', ['id' => $invoice->id]) }}">{{ $invoice->id }}</a></td>
                                     <td>{{ json_decode($invoice->products, true)[0] }}</td>
-                                    <td>{!! session('currency')->symbol !!}{{ number_format($invoice->total_due * session('currency')->rate, 2) }} {{ session('currency')->name }}</td>
+                                    <td>{!! session('currency')->symbol !!}{{ number_format($subtotal * ($tax_model->find($invoice->tax_id)->percent / 100) * session('currency')->rate) }} {{ session('currency')->name }}</td>
                                     <td>{{ $invoice->created_at }}</td>
                                     <td>{{ $invoice->due_date }}</td>
                                 </tr>
@@ -54,7 +54,7 @@
                                 <tr>
                                     <td><a href="{{ route('client.invoice.show', ['id' => $invoice->id]) }}">{{ $invoice->id }}</a></td>
                                     <td>{{ json_decode($invoice->products, true)[0] }}</td>
-                                    <td>{!! session('currency')->symbol !!}{{ number_format($invoice->total_due * session('currency')->rate, 2) }} {{ session('currency')->name }}</td>
+                                    <td>{!! session('currency')->symbol !!}{{ number_format($subtotal * ($tax_model->find($invoice->tax_id)->percent / 100) * session('currency')->rate) }} {{ session('currency')->name }}</td>
                                     <td>{{ $invoice->created_at }}</td>
                                     <td>{{ $invoice->updated_at }}</td>
                                 </tr>

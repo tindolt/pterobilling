@@ -19,13 +19,11 @@ class CreateAddonsTable extends Migration
             $table->string('resource');
             $table->integer('amount')->unsigned();
             $table->decimal('price')->unsigned();
-            $table->string('plans')->nullable();
             $table->string('categories')->nullable();
             $table->decimal('setup_fee')->unsigned()->default(0);
-            $table->integer('trial')->unsigned()->default(0);
             $table->integer('global_limit')->unsigned()->default(0);
             $table->integer('per_client_limit')->unsigned()->default(0);
-            $table->integer('order')->unsigned()->default(0);
+            $table->integer('order')->default(1000);
             $table->timestamps();
         });
     }
