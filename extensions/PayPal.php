@@ -2,6 +2,7 @@
 
 namespace Extensions;
 
+use App\Models\Extension;
 use Illuminate\Http\Request;
 
 class PayPal
@@ -36,7 +37,7 @@ class PayPal
      */
     public static function viewSettings()
     {
-        //return view('');
+        return view('admin.extension.paypal', ['title' => 'PayPal', 'settings' => Extension::where('extension', 'PayPal')->get()]);
     }
 
     /**
@@ -44,6 +45,6 @@ class PayPal
      */
     public static function saveSettings(Request $request)
     {
-        //return view('');
+        return back()->with('success_msg', 'You have updated the PayPal extension settings! Please click \'Reload Config\' above on the navigation bar to apply them.');
     }
 }

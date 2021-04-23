@@ -4,6 +4,36 @@ use App\Models\Setting;
 
 $setting_model = Setting::class;
 
+try {
+    $company_name = $setting_model::where('key', 'company_name')->value('value');
+    $url = $setting_model::where('key', 'store_url')->value('value');
+    $logo_file_path = $setting_model::where('key', 'logo_path')->value('value');
+    $favicon_file_path = $setting_model::where('key', 'favicon_path')->value('value');
+    $dark_mode = $setting_model::where('key', 'dark_mode')->value('value');
+    $open_registration = $setting_model::where('key', 'open_registration')->value('value');
+    $panel_url = $setting_model::where('key', 'panel_url')->value('value');
+    $panel_api_key = $setting_model::where('key', 'panel_api_key')->value('value');
+    $phpmyadmin_url = $setting_model::where('key', 'phpmyadmin_url')->value('value');
+    $hcaptcha_site_key = $setting_model::where('key', 'hcaptcha_public_key')->value('value');
+    $hcaptcha_secret_key = $setting_model::where('key', 'hcaptcha_secret_key')->value('value');
+    $google_analytics_id = $setting_model::where('key', 'google_analytics_id')->value('value');
+    $arc_widget_id = $setting_model::where('key', 'arc_widget_id')->value('value');
+} catch (Throwable $err) {
+    $company_name = 'Company Name';
+    $url = 'https://example.com';
+    $logo_file_path = '/img/icon.webp';
+    $favicon_file_path = '/img/favicon.webp';
+    $dark_mode = 'true';
+    $open_registration = 'true';
+    $panel_url = 'https://panel.example.com';
+    $panel_api_key = null;
+    $phpmyadmin_url = 'https://pma.example.com';
+    $hcaptcha_site_key = '72c60a15-1b23-4aa1-a44e-940f4b3555ae';
+    $hcaptcha_secret_key = '0xe7F8c19870D5e3955b397bcB51BCe424AB728240';
+    $google_analytics_id = null;
+    $arc_widget_id = 'pZbCgsXG';
+}
+
 return [
     /*
     |--------------------------------------------------------------------------
@@ -18,35 +48,23 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | PteroBilling Configurations
+    | PteroBilling Settings
     |--------------------------------------------------------------------------
     */
 
-    'company_name' => $setting_model::where('key', 'company_name')->value('value'),
+    'company_name' => $company_name,
+    'logo_file_path' => $logo_file_path,
+    'favicon_file_path' => $favicon_file_path,
+    'dark_mode' => $dark_mode,
+    'open_registration' => $open_registration,
+    'panel_url' => $panel_url,
+    'panel_api_key' => $panel_api_key,
+    'phpmyadmin_url' => $phpmyadmin_url,
 
-    'logo_file_path' => $setting_model::where('key', 'logo_path')->value('value'),
-
-    'favicon_file_path' => $setting_model::where('key', 'favicon_path')->value('value'),
-
-    'dark_mode' => $setting_model::where('key', 'dark_mode')->value('value'),
-
-    'open_registration' => $setting_model::where('key', 'open_registration')->value('value'),
-
-    'panel_url' => $setting_model::where('key', 'panel_url')->value('value'),
-
-    'panel_api_key' => $setting_model::where('key', 'panel_api_key')->value('value'),
-
-    'phpmyadmin_url' => $setting_model::where('key', 'phpmyadmin_url')->value('value'),
-
-    /*
-    |--------------------------------------------------------------------------
-    | Additional Settings
-    |--------------------------------------------------------------------------
-    */
-
-    'google_analytics_id' => $setting_model::where('key', 'google_analytics_id')->value('value'),
-
-    'arc_widget_id' => $setting_model::where('key', 'arc_widget_id')->value('value'),
+    'hcaptcha_site_key' => $hcaptcha_site_key,
+    'hcaptcha_secret_key' => $hcaptcha_secret_key,
+    'google_analytics_id' => $google_analytics_id,
+    'arc_widget_id' => $arc_widget_id,
 
     /*
     |--------------------------------------------------------------------------
@@ -98,7 +116,7 @@ return [
     |
     */
 
-    'url' => $setting_model::where('key', 'store_url')->value('value'),
+    'url' => $url,
 
     'asset_url' => env('ASSET_URL', null),
 

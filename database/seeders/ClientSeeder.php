@@ -2,6 +2,8 @@
 
 namespace Database\Seeders;
 
+use App\Models\Currency;
+use App\Models\Tax;
 use Illuminate\Database\Seeder;
 use App\Models\Client;
 use Carbon\Carbon;
@@ -24,6 +26,8 @@ class ClientSeeder extends Seeder
                 'email_verified_at' => Carbon::now()->toDateTimeString(),
                 'user_id' => 1,
                 'password' => Hash::make('password'),
+                'currency' => Currency::where('default', true)->value('name'),
+                'country' => Tax::where('country', '0')->value('country'),
                 'is_admin' => true,
             ]);
             ++$i;
