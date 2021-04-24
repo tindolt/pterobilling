@@ -14,13 +14,12 @@
     <h3>Announcement: An early access will be released soon!</h3>
 </div>
 
-### When will a stable version be released?
-Around **Mid-April**.
+[![PHP Composer](https://github.com/pterobilling/pterobilling/actions/workflows/php.yml/badge.svg)](https://github.com/pterobilling/pterobilling/actions/workflows/php.yml)
 
 ## Features
 - Free and open-source
-- A user-friendly client area and powerful admin area with a beautiful theme (customizable)
-- Create your server plans and add-ons with custom settings (CPU, RAM, disk, databases, backups, allocations), prices, billing cycles, setup fees, free trial, discounts, coupon codes, global limits, and per client limits
+- A user-friendly client area and powerful admin area with a beautiful, customizable [AdminLTE theme made by ColorlibHQ](https://github.com/ColorlibHQ/AdminLTE)
+- Create your server plans and add-ons with custom settings (CPU, RAM, disk, databases, backups, extra ports), prices, nests/eggs, billing cycles, setup fees, free trial, discounts, coupon codes, global limits, and per client limits
 - Automatically create panel accounts and game servers for your clients
 - Automatically bill your clients, create invoices, and collect payments (one-time or recurring)
 - Advanced billing system*: multiple payment gateways, currencies, taxes, and prepaid account credit
@@ -28,7 +27,12 @@ Around **Mid-April**.
 - Built-in support center with a ticketing system, knowledge base, system status page, and announcements
 - Built-in subdomain manager* and software installer* for game servers
 - Built-in contact form, terms of service, privacy policy, and system status pages
-- *Extendable: add more features by installing extensions (PayPal, Cloudflare Zone, cPanel Zone, Minecraft JAR, hCaptcha)
+- *Extendable: add more features by installing more extensions (see pre-installed extensions below)
+
+### Pre-installed Extensions
+PayPal, Cloudflare Zone, cPanel Zone, Minecraft JAR
+
+Please feel free to suggest more on [our Discord server](https://discord.gg/GQ5EWQz6MQ) (*Make sure to check the to-do list first*)
 
 ## Getting Started
 Please read our [documentation](https://docs.alaister.net).
@@ -38,7 +42,7 @@ Please read our [documentation](https://docs.alaister.net).
 
 Need help setting up PteroBilling? Ask on the [discussions page](https://github.com/pterobilling/pterobilling/discussions).
 
-Have a Discord account? Join our [Discord server](https://discord.gg/GQ5EWQz6MQ).
+Have a Discord account? Join [our Discord server](https://discord.gg/GQ5EWQz6MQ).
 
 **PLEASE DON'T ASK FOR HELP ON THE ISSUES PAGE!** That's for bug reports and feature requests.
 
