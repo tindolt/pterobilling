@@ -57,7 +57,7 @@
                             @if (in_array($plan->category_id, json_decode($addon->categories, true)))
                                 <div class="form-check">
                                     <input class="form-check-input" type="checkbox" name="addon_{{ $addon->id }}" value="true" onchange="updateAddonSummary({{ $addon }});">
-                                    <p class="form-check-label">{{ $addon->name }} <span class="float-right">{!! session('currency')->symbol !!}{{ number_format($addon->price * session('currency')->rate * $percent_off, 2) }} {{ json_decode($plan->cycles)[0] }} (${{ number_forma($addon->setup_fee * session('currency')->rate * $percent_off, 2) }} setup fee)</span></p>
+                                    <p class="form-check-label">{{ $addon->name }} <span class="float-right">{!! session('currency')->symbol !!}{{ number_format($addon->price * session('currency')->rate * $percent_off, 2) }} {{ json_decode($plan->cycles)[0] }} (${{ number_format($addon->setup_fee * session('currency')->rate * $percent_off, 2) }} setup fee)</span></p>
                                 </div>
                             @endif
                         @endforeach
