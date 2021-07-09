@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "a0307cbc807bcdebd8e0e267a93a2609",
+    "content-hash": "e9559892851981acf48a009cb6659a0d",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -120,16 +120,16 @@
         },
         {
             "name": "cloudflare/sdk",
-            "version": "dev-master",
+            "version": "1.2.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/cloudflare/cloudflare-php.git",
-                "reference": "7db3d6e62c7ab8fa29780354e8d370c49939cdec"
+                "reference": "d97cf24ee2fcb2218cc8cce427f0c21f32c886fd"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/cloudflare/cloudflare-php/zipball/7db3d6e62c7ab8fa29780354e8d370c49939cdec",
-                "reference": "7db3d6e62c7ab8fa29780354e8d370c49939cdec",
+                "url": "https://api.github.com/repos/cloudflare/cloudflare-php/zipball/d97cf24ee2fcb2218cc8cce427f0c21f32c886fd",
+                "reference": "d97cf24ee2fcb2218cc8cce427f0c21f32c886fd",
                 "shasum": ""
             },
             "require": {
@@ -143,7 +143,6 @@
                 "phpmd/phpmd": "@stable",
                 "phpunit/phpunit": "^5.7"
             },
-            "default-branch": true,
             "type": "library",
             "autoload": {
                 "psr-4": {
@@ -2548,22 +2547,27 @@
         },
         {
             "name": "srmklive/paypal",
-            "version": "1.9.0",
+            "version": "3.0.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/srmklive/laravel-paypal.git",
-                "reference": "779bc87eb4cd62982e4f2f57fb667fe47c78e259"
+                "reference": "0aefc864b351770f9e82b2fc88d8aa6c87de3c87"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/srmklive/laravel-paypal/zipball/779bc87eb4cd62982e4f2f57fb667fe47c78e259",
-                "reference": "779bc87eb4cd62982e4f2f57fb667fe47c78e259",
+                "url": "https://api.github.com/repos/srmklive/laravel-paypal/zipball/0aefc864b351770f9e82b2fc88d8aa6c87de3c87",
+                "reference": "0aefc864b351770f9e82b2fc88d8aa6c87de3c87",
                 "shasum": ""
             },
             "require": {
-                "guzzlehttp/guzzle": "~6.0|~7.0",
-                "illuminate/support": "~5.1|~5.2|~5.3|~5.4|~5.5|~5.6|~5.7|~5.8|~6.0|~7.0|~8.0",
-                "nesbot/carbon": "~1.0|~2.0"
+                "guzzlehttp/guzzle": "~7.0",
+                "illuminate/support": "~6.0|~7.0|~8.0",
+                "nesbot/carbon": "~2.0",
+                "php": ">=7.2|^8.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^8.0|^9.0",
+                "symfony/var-dumper": "~5.0"
             },
             "type": "library",
             "extra": {
@@ -2601,9 +2605,9 @@
             ],
             "support": {
                 "issues": "https://github.com/srmklive/laravel-paypal/issues",
-                "source": "https://github.com/srmklive/laravel-paypal/tree/1.9.0"
+                "source": "https://github.com/srmklive/laravel-paypal/tree/3.0.3"
             },
-            "time": "2021-06-07T16:21:12+00:00"
+            "time": "2021-03-02T09:52:07+00:00"
         },
         {
             "name": "swiftmailer/swiftmailer",
@@ -7798,9 +7802,7 @@
     ],
     "aliases": [],
     "minimum-stability": "dev",
-    "stability-flags": {
-        "cloudflare/sdk": 20
-    },
+    "stability-flags": [],
     "prefer-stable": true,
     "prefer-lowest": false,
     "platform": {
