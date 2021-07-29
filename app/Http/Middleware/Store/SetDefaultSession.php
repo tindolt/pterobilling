@@ -18,13 +18,13 @@ class SetDefaultSession
      */
     public function handle(Request $request, Closure $next)
     {
-        $this->checkIfExist('currency', Currency::where('default', true)->first());
-        $this->checkIfExist('tax', Tax::where('country', '0')->first());
+        $this->setSession('currency', Currency::where('default', true)->first());
+        $this->setSession('tax', Tax::where('country', 'Global')->first());
 
         return $next($request);
     }
 
-    private function checkIfExist($key, $value)
+    private function setSession($key, $value)
     {
         if (is_null(session($key))) {
             session([$key => $value]);

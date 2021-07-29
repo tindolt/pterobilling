@@ -2,6 +2,8 @@
 
 @inject('kb_article_model', 'App\Models\KbArticle')
 
+@section('title', 'Knowledge Base')
+
 @section('content')
     <div class="row">
         <div class="col-lg-3">

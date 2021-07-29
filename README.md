@@ -3,7 +3,7 @@
     <h1>PteroBilling</h1>
     <h3>An open-source Laravel 8 online store, client area, and billing software specially made for Pterodactyl panel</h3>
     <img src="https://img.shields.io/github/v/release/pterobilling/pterobilling?sort=semver&color=green&label=stable&style=for-the-badge" alt="stable release badge">&emsp;
-    <img src="https://img.shields.io/github/v/release/pterobilling/pterobilling?include_prereleases&sort=semver&label=latest&style=for-the-badge" lt="latest release badge)">&emsp;
+    <img src="https://img.shields.io/github/v/release/pterobilling/pterobilling?include_prereleases&sort=semver&label=latest&style=for-the-badge" alt="latest release badge">&emsp;
     <img src="https://img.shields.io/github/stars/pterobilling/pterobilling?style=for-the-badge" alt="stars badge">&emsp;
     <img src="https://img.shields.io/github/watchers/pterobilling/pterobilling?style=for-the-badge" alt="watchers badge">&emsp;
     <img src="https://img.shields.io/packagist/dt/pterobilling/pterobilling?color=brightgreen&style=for-the-badge" alt="downloads badge">
@@ -13,8 +13,6 @@
     <br>
     <h3>Announcement: An early access will be released soon!</h3>
 </div>
-
-[![PHP Composer](https://github.com/pterobilling/pterobilling/actions/workflows/php.yml/badge.svg)](https://github.com/pterobilling/pterobilling/actions/workflows/php.yml)
 
 ## Features
 - Free and open-source
@@ -30,12 +28,12 @@
 - *Extendable: add more features by installing more extensions (see pre-installed extensions below)
 
 ### Pre-installed Extensions
-PayPal, Cloudflare Zone, cPanel Zone, Minecraft JAR
+PayPal, Cloudflare, Minecraft
 
 Please feel free to suggest more on [our Discord server](https://discord.gg/GQ5EWQz6MQ) (*Make sure to check the to-do list first*)
 
 ## Getting Started
-Please read our [documentation](https://docs.alaister.net).
+Please read our [documentation](https://project.alaister.net).
 
 ## Support
 **Make sure you have gone through the documentation before asking for help. Thank you!**
@@ -45,6 +43,19 @@ Need help setting up PteroBilling? Ask on the [discussions page](https://github.
 Have a Discord account? Join [our Discord server](https://discord.gg/GQ5EWQz6MQ).
 
 **PLEASE DON'T ASK FOR HELP ON THE ISSUES PAGE!** That's for bug reports and feature requests.
+
+## Contributors
+Github Username | Discord Tag | Details
+--- | --- | ---
+[MinePlay85](https://github.com/MinePlay85) | MinePlay85#0001 | [Installer Script](https://github.com/MinePlay85/PteroBilling-installer)
+[Bricklou](https://github.com/Bricklou) | Bricklou#8055 | PteroBilling Theme
+-- | ◱ j̶͗͘ù̷͝r̷̈́͆û̶̈#0001 | [Domain, Web Hosting, Website](https://pterobilling.org)
+
+### Donors
+Github Username | Discord Tag
+--- | ---
+-- | Lobo#3451
+[raflymln](https://github.com/raflymln) | RAFLYMLN#8225
 
 ## License
 PteroBilling and AdminLTE, the website theme it uses, are licensed under the MIT license. Please take a look at the `LICENSE` and `AdminLTE-LICENSE` files.

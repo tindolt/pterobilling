@@ -2,6 +2,8 @@
 
 @inject('affiliate_model', 'App\Models\AffiliateEarning')
 
+@section('title', 'Affiliate Program')
+
 @section('content')
     <div class="row">
         <div class="col-lg-3 col-md-6">

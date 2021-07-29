@@ -1,13 +1,15 @@
 @extends('layouts.store')
 
+@section('title', 'Reset Password')
+
 @section('content')
     <div class="row justify-content-center">
         <div class="col-lg-6">
             <div class="card card-primary">
                 <div class="card-header">
-                    <h3 class="card-title">Change your password</h3>
+                    <h3 class="card-title">Reset Password</h3>
                 </div>
-                <form action="" method="POST">
+                <form action="{{ route('api.store.reset') }}" method="POST" data-callback="resetForm">
                     @csrf
 
                     <input type="hidden" name="token" value="{{ $token }}" required>
@@ -15,7 +17,7 @@
                     <div class="card-body">
                         <div class="form-group">
                             <label for="passwordInput">Email Address</label>
-                            <input type="email" name="email" value="{{ old('email') }}" class="form-control" id="passwordInput" placeholder="Email Address" required autofocus>
+                            <input type="email" name="email" class="form-control" id="passwordInput" placeholder="Email Address" required autofocus>
                         </div>
                         <div class="form-group">
                             <label for="passwordInput">Password</label>
@@ -28,7 +30,7 @@
                         @include('layouts.store.hcaptcha')
                     </div>
                     <div class="card-footer">
-                        <button type="submit" class="btn btn-primary">Change Password</button>
+                        <button type="submit" class="btn btn-primary">Reset Password</button>
                     </div>
                 </form>
             </div>

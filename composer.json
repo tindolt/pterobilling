@@ -1,6 +1,7 @@
 {
     "name": "pterobilling/pterobilling",
     "description": "An open-source Laravel 8 online store, client area, and billing software specially made for Pterodactyl panel",
+    "homepage": "https://pterobilling.org",
     "type": "project",
     "license": "MIT",
     "authors": [
@@ -9,14 +10,24 @@
             "email": "contact@alaister.net",
             "homepage": "https://about.alaister.net",
             "role": "Developer"
+        },
+        {
+            "name": "MinePlay85",
+            "role": "Collaborator"
+        },
+        {
+            "name": "Louis Bailleau",
+            "email": "louis.bailleau@free.fr",
+            "homepage": "https://bricklou.info",
+            "role": "Collaborator"
         }
     ],
     "support": {
-        "email": "pterobilling@alaister.net",
+        "email": "alaister@pterobilling.org",
         "issues": "https://github.com/pterobilling/pterobilling/issues",
         "forum": "https://github.com/pterobilling/pterobilling/discussions",
         "source": "https://github.com/pterobilling/pterobilling",
-        "docs": "https://docs.alaister.net"
+        "docs": "https://docs.pterobilling.org"
     },
     "funding": [
         {
@@ -24,28 +35,34 @@
             "url": "https://paypal.me/alaisterleung"
         }
     ],
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "https://github.com/pterobilling/pterodactyl-sdk"
+        }
+    ],
     "require": {
-        "php": "^7.3|^8.0",
-        "cloudflare/sdk": "^1.2.0",
-        "fideloper/proxy": "^4.4.1",
-        "fruitcake/laravel-cors": "^v2.0.4",
-        "guzzlehttp/guzzle": "^7.3.0",
-        "laravel/framework": "^v8.49.2",
-        "laravel/tinker": "^v2.6.1",
-        "predis/predis": "^v1.1.7",
-        "queueworker/sansdaemon": "^v1.2.4",
-        "srmklive/paypal": "^3.0.3"
+        "php": "^7.4|^8.0",
+        "cerbero/command-validator": "^2.5",
+        "cloudflare/sdk": "^1.1",
+        "fideloper/proxy": "^4.4",
+        "fruitcake/laravel-cors": "^2.0",
+        "guzzlehttp/guzzle": "^7.0",
+        "laravel/framework": "^8.34",
+        "laravel/tinker": "^2.6",
+        "predis/predis": "^1.1",
+        "pterobilling/pterodactyl-sdk": "dev-master",
+        "queueworker/sansdaemon": "^1.2",
+        "srmklive/paypal": "~1.0"
     },
     "require-dev": {
-        "facade/ignition": "^2.10.2",
-        "fakerphp/faker": "^v1.15.0",
-        "laravel/breeze": "^v1.3.1",
-        "laravel/sail": "^v1.8.4",
-        "laravel/telescope": "^v4.5.1",
-        "malukenho/mcbumpface": "^1.1.5",
-        "mockery/mockery": "^1.4.3",
-        "nunomaduro/collision": "^v5.5.0",
-        "phpunit/phpunit": "^9.5.6"
+        "facade/ignition": "^2.5",
+        "fakerphp/faker": "^1.9",
+        "laravel/sail": "^1.4",
+        "laravel/telescope": "^4.4",
+        "mockery/mockery": "^1.4",
+        "nunomaduro/collision": "^5.3",
+        "phpunit/phpunit": "^9.5"
     },
     "config": {
         "optimize-autoloader": true,
@@ -63,7 +80,10 @@
             "Extensions\\": "extensions/",
             "Database\\Factories\\": "database/factories/",
             "Database\\Seeders\\": "database/seeders/"
-        }
+        },
+        "files": [
+            "bootstrap/helpers.php"
+        ]
     },
     "autoload-dev": {
         "psr-4": {

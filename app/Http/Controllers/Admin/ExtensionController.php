@@ -11,39 +11,17 @@ class ExtensionController extends Controller
     public function show($id)
     {
         $extension = $this->getExtension($id);
-        return $extension::viewSettings();
+        return $extension::show();
     }
 
     public function store(Request $request, $id)
     {
         $extension = $this->getExtension($id);
-        return $extension::saveSettings($request);
+        return $extension::store($request);
     }
 
     private function getExtension($name)
     {
-        foreach (ExtensionManager::gateway_extensions() as $extension) {
-            if ($this->endsWith($extension, $name))
-                return $extension;
-        }
-        
-        foreach (ExtensionManager::subdomain_extensions() as $extension) {
-            if ($this->endsWith($extension, $name))
-                return $extension;
-        }
-        
-        foreach (ExtensionManager::software_extensions() as $extension) {
-            if ($this->endsWith($extension, $name))
-                return $extension;
-        }
-    }
-
-    private function endsWith($haystack, $needle)
-    {
-        $length = strlen($needle);
-        if (!$length) {
-            return true;
-        }
-        return substr($haystack, -$length) === $needle;
+        foreach (ExtensionManager::getAllExtensions() as $extension) if ($extension::$display_name == urldecode($name)) return $extension;
     }
 }

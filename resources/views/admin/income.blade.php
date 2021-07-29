@@ -2,11 +2,7 @@
 
 @inject('client_model', 'App\Models\Client')
 
-@section('styles')
-    <noscript>
-        <link rel="stylesheet" href="/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
-    </noscript>
-@endsection
+@section('title', 'Income')
 
 @section('content')
     <div class="row">
@@ -33,7 +29,7 @@
             </div>
         </div>
         <div class="col-lg-3 col-md-6">
-            <div class="small-box bg-warning">
+            <div class="small-box bg-primary">
                 <div class="inner">
                     <h3>{!! session('currency')->symbol !!}{{ number_format($total_income[2] * session('currency')->rate, 2) }} {{ session('currency')->name }}</h3>
                     <p>Income (Last 90 Days)</p>
@@ -44,7 +40,7 @@
             </div>
         </div>
         <div class="col-lg-3 col-md-6">
-            <div class="small-box bg-danger">
+            <div class="small-box bg-default">
                 <div class="inner">
                     <h3>{!! session('currency')->symbol !!}{{ number_format($total_income[3] * session('currency')->rate, 2) }} {{ session('currency')->name }}</h3>
                     <p>Income (This Year)</p>
@@ -64,11 +60,11 @@
                 <table id="income-table" class="table table-hover text-nowrap">
                     <thead>
                         <tr>
-                            <th style="width:5%">ID</th>
-                            <th style="width:25%">Client</th>
-                            <th style="width:35%">Item</th>
-                            <th style="width:15%">Price</th>
-                            <th style="width:20%">Date</th>
+                            <th>ID</th>
+                            <th>Client</th>
+                            <th>Item</th>
+                            <th>Price</th>
+                            <th>Date</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -84,11 +80,11 @@
                     </tbody>
                     <tfoot>
                         <tr>
-                            <th style="width:5%">ID</th>
-                            <th style="width:25%">Client</th>
-                            <th style="width:35%">Item</th>
-                            <th style="width:10%">Price</th>
-                            <th style="width:25%">Date</th>
+                            <th>ID</th>
+                            <th>Client</th>
+                            <th>Item</th>
+                            <th>Price</th>
+                            <th>Date</th>
                         </tr>
                     </tfoot>
                 </table>
@@ -97,15 +93,8 @@
     </div>
 @endsection
 
-@section('scripts')
-    <script>
-        (function() {
-            var css = document.createElement('link');
-            css.href = '/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css';
-            css.rel = 'stylesheet';
-            document.getElementsByTagName('head')[0].appendChild(css);
-        })();
-    </script>
+@section('admin_scripts')
+    <script> lazyLoadCss('/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css'); </script>
 
     <script src="/plugins/datatables/jquery.dataTables.min.js"></script>
     <script src="/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>

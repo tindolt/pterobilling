@@ -1,10 +1,8 @@
 @extends('layouts.admin')
 
-@section('styles')
-    <noscript>
-        <link rel="stylesheet" href="/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
-    </noscript>
-@endsection
+@inject('tax_model', 'App\Models\Tax')
+
+@section('title', 'Taxes')
 
 @section('content')
     <div class="row">
@@ -20,31 +18,28 @@
                     <table id="taxes-table" class="table table-hover text-nowrap">
                         <thead>
                             <tr>
-                                <th style="width:10%">ID</th>
-                                <th style="width:65%">Country Name</th>
-                                <th style="width:25%">Tax Percentage</th>
+                                <th>ID</th>
+                                <th>Country Name</th>
+                                <th>Tax Percentage</th>
+                                <th>Tax Amount</th>
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($taxes as $tax)
+                            @foreach ($tax_model->all() as $tax)
                                 <tr>
                                     <td><a href="{{ route('admin.tax.show', ['id' => $tax->id]) }}">{{ $tax->id }}</a></td>
-                                    <td>
-                                        @if ($tax->country === '0')
-                                            Global
-                                        @else
-                                            {{ $tax->country }}
-                                        @endif
-                                        </td>
+                                    <td>{{ $tax->country }}</td>
                                     <td>{{ $tax->percent }}</td>
+                                    <td>{{ $tax->amount }}</td>
                                 </tr>
                             @endforeach
                         </tbody>
                         <tfoot>
                             <tr>
-                                <th style="width:10%">ID</th>
-                                <th style="width:65%">Country Name</th>
-                                <th style="width:25%">Tax (%)</th>
+                                <th>ID</th>
+                                <th>Country Name</th>
+                                <th>Tax Percentage</th>
+                                <th>Tax Amount</th>
                             </tr>
                         </tfoot>
                     </table>
@@ -54,15 +49,8 @@
     </div>
 @endsection
 
-@section('scripts')
-    <script>
-        (function() {
-            var css = document.createElement('link');
-            css.href = '/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css';
-            css.rel = 'stylesheet';
-            document.getElementsByTagName('head')[0].appendChild(css);
-        })();
-    </script>
+@section('admin_scripts')
+    <script> lazyLoadCss('/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css'); </script>
 
     <script src="/plugins/datatables/jquery.dataTables.min.js"></script>
     <script src="/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>

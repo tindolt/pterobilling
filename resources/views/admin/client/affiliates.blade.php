@@ -1,6 +1,12 @@
+@php $header_route = 'admin.client.index'; @endphp
+
 @extends('layouts.admin')
 
 @inject('client_model', 'App\Models\Client')
+@inject('affiliate_model', 'App\Models\AffiliateEarning')
+
+@section('title', $client->email)
+@section('header', 'Clients')
 
 @section('content')
     <div class="row">
@@ -9,9 +15,6 @@
                 <div class="card-header d-flex p-0">
                     <ul class="nav ml-auto p-2">
                         <li class="nav-item"><a class="nav-link" href="{{ route('admin.client.show', ['id' => $id]) }}">Settings</a></li>
-                        <li class="nav-item"><a class="nav-link" href="{{ route('admin.client.servers', ['id' => $id]) }}">Servers</a></li>
-                        <li class="nav-item"><a class="nav-link" href="{{ route('admin.client.invoices', ['id' => $id]) }}">Invoices</a></li>
-                        <li class="nav-item"><a class="nav-link" href="{{ route('admin.client.tickets', ['id' => $id]) }}">Support Tickets</a></li>
                         <li class="nav-item"><a class="nav-link active" href="{{ route('admin.client.affiliates', ['id' => $id]) }}">Affiliates</a></li>
                         <li class="nav-item"><a class="nav-link" href="{{ route('admin.client.credit', ['id' => $id]) }}">Credit</a></li>
                     </ul>
@@ -80,19 +83,19 @@
                 <table class="table table-hover text-nowrap">
                     <thead>
                         <tr>
-                            <th style="width:5%">ID</th>
-                            <th style="width:15%">Referer</th>
-                            <th style="width:15%">Buyer</th>
-                            <th style="width:15%">Product</th>
-                            <th style="width:10%">Commission</th>
-                            <th style="width:10%">Conversion</th>
-                            <th style="width:10%">Status</th>
-                            <th style="width:17%">Date</th>
-                            <th style="width:3%">Action</th>
+                            <th>ID</th>
+                            <th>Referer</th>
+                            <th>Buyer</th>
+                            <th>Product</th>
+                            <th>Commission</th>
+                            <th>Conversion</th>
+                            <th>Status</th>
+                            <th>Date</th>
+                            <th>Action</th>
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach ($affiliates as $affiliate)
+                        @foreach ($affiliate_model->where('client_id', $client->id)->get() as $affiliate)
                             <tr>
                                 <td>{{ $affiliate->id }}</a></td>
                                 <td>{{ $client_model->find($affiliate->client_id)->email }}</td>
@@ -115,13 +118,14 @@
                                 </td>
                                 <td>{{ $affiliate->created_at }}</td>
                                 <td>
-                                    <div class="btn-group">
-                                        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown"></button>
-                                        <ul class="dropdown-menu">
-                                            <li><a class="dropdown-item" href="{{ route('admin.affiliate.accept', ['id' => $affiliate->id]) }}">Accept</a></li>
-                                            <li><a class="dropdown-item" href="{{ route('admin.affiliate.reject', ['id' => $affiliate->id]) }}">Reject</a></li>
-                                        </ul>
-                                    </div>
+                                    @if ($affiliate->status === 1)
+                                        <form action="{{ route('api.admin.affiliate.accept', ['id' => $$affiliate->id]) }}" method="POST" data-callback="actionForm">
+                                            <button type="submit" class="btn btn-success"><i class="fas fa-check"></i></button>
+                                        </form>
+                                        <form action="{{ route('api.admin.affiliate.reject', ['id' => $$affiliate->id]) }}" method="POST" data-callback="actionForm">
+                                            <button type="submit" class="btn btn-danger"><i class="fas fa-times"></i></button>
+                                        </form>
+                                    @endif
                                 </td>
                             </tr>
                         @endforeach
@@ -131,3 +135,17 @@
         </div>
     </div>
 @endsection
+
+<script>
+    function actionForm(data) {
+        if (data.success) {
+            toastr.success(data.success)
+        } else if (data.error) {
+            toastr.error(data.error)
+        } else if (data.errors) {
+            data.errors.forEach(error => { toastr.error(error) });
+        } else {
+            wentWrong()
+        }
+    }
+</script>

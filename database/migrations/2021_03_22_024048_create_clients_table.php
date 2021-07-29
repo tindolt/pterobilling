@@ -18,8 +18,7 @@ class CreateClientsTable extends Migration
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->integer('user_id')->unsigned()->nullable()->unique();
-            $table->string('api_key')->nullable();
-            $table->string('password');
+            $table->string('password')->unique();
             $table->integer('referer_id')->unsigned()->nullable();
             $table->decimal('credit')->unsigned()->default(0.00);
             $table->integer('clicks')->unsigned()->default(0);
@@ -30,6 +29,8 @@ class CreateClientsTable extends Migration
             $table->string('country');
             $table->string('timezone')->default('UTC');
             $table->string('language')->default('EN');
+            $table->boolean('auto_renew')->default(true);
+            $table->boolean('is_active')->default(true);
             $table->boolean('is_admin')->default(false);
             $table->rememberToken();
             $table->timestamps();

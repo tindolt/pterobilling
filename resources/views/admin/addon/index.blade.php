@@ -1,10 +1,8 @@
 @extends('layouts.admin')
 
-@section('styles')
-    <noscript>
-        <link rel="stylesheet" href="/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
-    </noscript>
-@endsection
+@inject('addon_model', 'App\Models\Addon')
+
+@section('title', 'Plan Add-ons')
 
 @section('content')
     <div class="row">
@@ -20,17 +18,15 @@
                     <table id="addons-table" class="table table-hover text-nowrap">
                         <thead>
                             <tr>
-                                <th style="width:5%">Order</th>
-                                <th style="width:5%">ID</th>
-                                <th style="width:40%">Name</th>
-                                <th style="width:10%">Resource</th>
-                                <th style="width:10%">Amount</th>
-                                <th style="width:15%">Price</th>
-                                <th style="width:15%">Set-up Fee</th>
+                                <th>Order</th>
+                                <th>ID</th>
+                                <th>Name</th>
+                                <th>Resource</th>
+                                <th>Extra Amount</th>
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($addons as $addon)
+                            @foreach ($addon_model->all() as $addon)
                                 <tr>
                                     <td>{{ $addon->order }}</td>
                                     <td><a href="{{ route('admin.addon.show', ['id' => $addon->id]) }}">{{ $addon->id }}</a></td>
@@ -55,23 +51,22 @@
                                             @case('extra_port')
                                                 Extra Port
                                                 @break
+                                            @case('dedicated_ip')
+                                                Dedicated IP
+                                                @break
                                         @endswitch
                                     </td>
                                     <td>{{ $addon->amount }}</td>
-                                    <td>{!! session('currency')->symbol !!}{{ number_format($addon->price * session('currency')->rate , 2) }} {{ session('currency')->name }}</td>
-                                    <td>{!! session('currency')->symbol !!}{{ number_format($addon->setup_fee * session('currency')->rate , 2) }} {{ session('currency')->name }}</td>
                                 </tr>
                             @endforeach
                         </tbody>
                         <tfoot>
                             <tr>
-                                <th style="width:5%">Order</th>
-                                <th style="width:5%">ID</th>
-                                <th style="width:30%">Name</th>
-                                <th style="width:15%">Resource</th>
-                                <th style="width:15%">Amount</th>
-                                <th style="width:15%">Price</th>
-                                <th style="width:15%">Set-up Fee</th>
+                                <th>Order</th>
+                                <th>ID</th>
+                                <th>Name</th>
+                                <th>Resource</th>
+                                <th>Extra Amount</th>
                             </tr>
                         </tfoot>
                     </table>
@@ -81,15 +76,8 @@
     </div>
 @endsection
 
-@section('scripts')
-    <script>
-        (function() {
-            var css = document.createElement('link');
-            css.href = '/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css';
-            css.rel = 'stylesheet';
-            document.getElementsByTagName('head')[0].appendChild(css);
-        })();
-    </script>
+@section('admin_scripts')
+    <script> lazyLoadCss('/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css'); </script>
 
     <script src="/plugins/datatables/jquery.dataTables.min.js"></script>
     <script src="/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>

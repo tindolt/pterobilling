@@ -8,13 +8,34 @@ class Addon extends Model
 {
     protected $fillable = [
         'name',
+        'description',
         'resource',
         'amount',
-        'price',
         'categories',
-        'setup_fee',
         'global_limit',
         'per_client_limit',
+        'per_server_limit',
         'order',
     ];
+
+    public static function verifyAddon(Addon $addon, Client $client = null)
+    {
+        if ($client && $addon->per_client_limit) {
+            $addons = 0;
+            foreach (Server::where('client_id', $client->id)->where(function ($query) { $query->where('status', 0)->orWhere('status', 1); })->get() as $server) {
+                if ($quantity = ServerAddon::where('server_id', $server->id)->where('addon_id', $addon->id)->value('quantity')) $addons += $quantity;
+            }
+            if ($addons >= $addon->per_client_limit) {
+                return false;
+            }
+        }
+        
+        if (is_null($addon->global_limit)) return true;
+
+        $addons = 0;
+        foreach (Server::where('status', 0)->orWhere('status', 1)->get() as $server) {
+            if ($quantity = ServerAddon::where('server_id', $server->id)->where('addon_id', $addon->id)->value('quantity')) $addons += $quantity;
+        }
+        return $addons >= $addon->global_limit;
+    }
 }

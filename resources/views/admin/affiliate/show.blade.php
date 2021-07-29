@@ -1,23 +1,28 @@
 @extends('layouts.admin')
 
+@inject('affiliate_model', 'App\Models\AffiliateProgram')
+
+@section('title', 'Affiliate Program')
+
 @section('content')
     <div class="row">
         <div class="col-lg-12">
             <div class="card">
-                <form action="" method="POST">
+                <form action="{{ route('api.admin.affiliate.update') }}" method="PUT" data-callback="changeSetting">
                     @csrf
 
                     <div class="card-body row">
                         <div class="col-lg-5">
                             <div class="form-group">
-                                <div class="custom-control custom-switch">
-                                    <input type="checkbox" name="enabled" value="yes" class="custom-control-input" @if ($affiliate_settings[0]->value) checked @endif id="enabledInput">
-                                    <label class="custom-control-label" for="enabledInput">Enable Affiliate Program</label>
-                                </div>
+                                <label for="enabledInput">Enable Affiliate Program</label>
+                                <select class="form-control" name="enabled">
+                                    <option value="1" @if ($affiliate_model->where('key', 'enabled')->value('value')) selected @endif>Yes</option>
+                                    <option value="0" @unless ($affiliate_model->where('key', 'enabled')->value('value')) selected @endunless>No</option>
+                                </select>
                             </div>
                             <div class="form-group">
                                 <label for="conversionInput">Conversion (%)</label>
-                                <input type="number" name="conversion" value="{{ $affiliate_settings[1]->value }}" class="form-control" id="conversionInput" placeholder="Conversion Rate" required>
+                                <input type="text" name="conversion" value="{{ $affiliate_model->where('key', 'conversion')->value('value') }}" class="form-control" id="conversionInput" placeholder="Conversion Rate" required>
                             </div>
                         </div>
                         <div class="col-lg-6 offset-lg-1">
@@ -35,4 +40,21 @@
             </div>
         </div>
     </div>
+@endsection
+
+@section('admin_scripts')
+    <script>
+        function changeSetting(data) {
+            if (data.success) {
+                toastr.success(data.success)
+                waitRedirect('{{ route('admin.cache') }}')
+            } else if (data.error) {
+                toastr.error(data.error)
+            } else if (data.errors) {
+                data.errors.forEach(error => { toastr.error(error) });
+            } else {
+                wentWrong()
+            }
+        }
+    </script>
 @endsection

@@ -4,11 +4,9 @@
 @inject('invoice_model', 'App\Models\Invoice')
 @inject('ticket_model', 'App\Models\Ticket')
 
+@section('title', 'Admin Dashboard')
+
 @section('content')
-    <div class="callout callout-info">
-        <h5>Version Checker</h5>
-        <p>Currently running <b>{{ config('app.version') }}</b> and the latest 'stable' version <span id="latest-version">(loading...)</span>.</p>
-    </div>
     <div class="row">
         <div class="col-lg-3 col-md-6">
             <div class="small-box bg-success">
@@ -67,6 +65,9 @@
             </div>
         </div>
     </div>
+    <div class="callout callout-info">
+        <p>Currently running <b>{{ config('app.version') }}</b> and the latest 'stable' version <span id="latest-version">(loading...)</span>.</p>
+    </div>
     <div class="row">
         <div class="col-lg-12">
             <div class="card card-primary">
@@ -75,9 +76,6 @@
                     <div class="card-tools">
                         <button type="button" class="btn btn-tool" data-card-widget="collapse">
                             <i class="fas fa-minus"></i>
-                        </button>
-                        <button type="button" class="btn btn-tool" data-card-widget="remove">
-                            <i class="fas fa-times"></i>
                         </button>
                     </div>
                 </div>
@@ -94,9 +92,6 @@
                         <button type="button" class="btn btn-tool" data-card-widget="collapse">
                             <i class="fas fa-minus"></i>
                         </button>
-                        <button type="button" class="btn btn-tool" data-card-widget="remove">
-                            <i class="fas fa-times"></i>
-                        </button>
                     </div>
                 </div>
                 <div class="card-body">
@@ -112,9 +107,6 @@
                         <button type="button" class="btn btn-tool" data-card-widget="collapse">
                             <i class="fas fa-minus"></i>
                         </button>
-                        <button type="button" class="btn btn-tool" data-card-widget="remove">
-                            <i class="fas fa-times"></i>
-                        </button>
                     </div>
                 </div>
                 <div class="card-body">
@@ -127,25 +119,15 @@
     </div>
 @endsection
 
-@section('scripts')
+@section('admin_scripts')
     <script src="/plugins/chart.js/Chart.min.js"></script>
     <script>
-        var versionSpan = document.getElementById('latest-version');
-
-        function getLatest() {
-            fetch('https://api.github.com/repos/pterobilling/pterobilling/releases/latest')
-            .then((resp) => resp.json())
-            .then(function(data) {
-                versionSpan.innerHTML = (data.tag_name) ? `is <b>${data.tag_name}</b>` : `hasn't been released yet`;
-            })
-            .catch(function(error) {
-                console.error(error);
-            });
-        }
-
-        getLatest();
-    </script>
-    <script>
+        $.ajax({'url': 'https://api.github.com/repos/pterobilling/pterobilling/releases/latest', 'success': function (data) {
+            $('#latest-version').html((data.tag_name) ? `is <b>${data.tag_name}</b>` : `hasn't been released yet`)
+        }, 'error': function () {
+            $('#latest-version').html(`hasn't been released yet`)
+        }})
+        
         $(function() {
             var chartOptions = {
                 maintainAspectRatio: false,

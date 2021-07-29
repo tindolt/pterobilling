@@ -17,7 +17,9 @@ class CheckIfAffiliateProgramEnabled
     public function handle(Request $request, Closure $next)
     {
         if (!config('affiliate.enabled')) {
-            return back()->with('warning_msg', 'Sorry, but the affiliate program hasn\'t been enabled.');
+            if ($request->expectsJson()) return abort(400);
+
+            return back()->with('warning_msg', 'The affiliate program has been disabled.');
         }
         return $next($request);
     }

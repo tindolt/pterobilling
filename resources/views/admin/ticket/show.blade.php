@@ -1,6 +1,12 @@
+@php $header_route = "admin.ticket.index"; @endphp
+
 @extends('layouts.admin')
 
+@inject('ticket_content_model', 'App\Models\TicketContent')
 @inject('client_model', 'App\Models\Client')
+
+@section('title', 'Ticket #'.$ticket->id)
+@section('header', 'Support Tickets')
 
 @section('content')
     <div class="row">
@@ -28,7 +34,10 @@
                                     <span class="badge bg-warning">Pending</span>
                                     @break
                                 @case(3)
-                                    <span class="badge bg-danger">Closed</span>
+                                    <span class="badge bg-danger">Closed</span> 
+                                    @if ($ticket->is_locked)
+                                        <span class="badge bg-danger">Locked</span>
+                                    @endif
                                     @break
                             @endswitch
                         </p>
@@ -49,8 +58,8 @@
             <div class="card">
                 <div class="card-body">
                     <div class="direct-chat-messages">
-                        @foreach ($replies as $ticket_content)
-                            @if ($ticket_content->replier_id == $ticket->client_id)
+                        @foreach ($ticket_content_model->where('ticket_id', $id)->oldest()->get() as $ticket_content)
+                            @if ($ticket_content->replier_id === $ticket->client_id)
                                 <div class="direct-chat-msg right">
                                     <div class="direct-chat-infos clearfix">
                                         <span class="direct-chat-name float-right">{{ $client_model->find($ticket->client_id)->value('email') }}</span>
@@ -72,7 +81,7 @@
                 </div>
             </div>
             <div class="card">
-                <form action="" method="POST">
+                <form action="{{ route('api.admin.ticket.update', ['id' => $id]) }}" method="PUT" data-callback="updateForm" id="updateForm">
                     @csrf
 
                     <div class="card-header">
@@ -81,16 +90,39 @@
                     <div class="card-body row">
                         <div class="form-group col-12">
                             <label for="messageInput">Message</label>
-                            <textarea type="text" name="message" class="form-control" id="messageInput" placeholder="Please enter your message here..." style="height:200px;" required>{{ old('message') }}</textarea>
+                            <textarea type="text" name="message" class="form-control" id="messageInput" style="height:200px;"></textarea>
                         </div>
                     </div>
                     <div class="card-footer row justify-content-center">
                         <button type="submit" class="btn btn-success btn-sm col-lg-1 col-md-3">Reply</button>
-                        <button type="submit" name="close" value="true" form="closeForm" class="btn btn-danger btn-sm col-lg-1 col-md-3 offset-1">Close</button>
+                        @if ($ticket->status !== 3)
+                            <button type="submit" name="close" value="true" class="btn btn-danger btn-sm col-lg-1 col-md-3 offset-1">Close</button>
+                        @endif
+                        @if ($ticket->is_locked)
+                            <button type="submit" name="unlock" value="true" class="btn btn-warning btn-sm col-lg-1 col-md-3 offset-1">Unlock</button>
+                        @else
+                            <button type="submit" name="lock" value="true" class="btn btn-danger btn-sm col-lg-1 col-md-3 offset-1">Lock</button>
+                        @endif
                     </div>
                 </form>
-                <form action="" method="POST" id="closeForm"> @csrf </form>
             </div>
         </div>
     </div>
+@endsection
+
+@section('admin_scripts')
+    <script>
+        function updateForm(data) {
+            if (data.success) {
+                toastr.success(data.success)
+                waitRedirect(window.location.href)
+            } else if (data.error) {
+                toastr.error(data.error)
+            } else if (data.errors) {
+                data.errors.forEach(error => { toastr.error(error) });
+            } else {
+                wentWrong()
+            }
+        }
+    </script>
 @endsection

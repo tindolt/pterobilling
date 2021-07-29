@@ -15,25 +15,27 @@ class CreatePlansTable extends Migration
     {
         Schema::create('plans', function (Blueprint $table) {
             $table->id();
-            $table->string('name')->unique();
+            $table->string('name');
+            $table->text('description')->nullable();
             $table->integer('category_id')->unsigned();
-            $table->integer('cpu')->unsigned();
             $table->integer('ram')->unsigned();
-            $table->integer('swap');
+            $table->integer('cpu')->unsigned();
             $table->integer('disk')->unsigned();
+            $table->integer('swap');
             $table->integer('io')->unsigned();
             $table->integer('databases')->unsigned();
             $table->integer('backups')->unsigned();
-            $table->integer('allocations')->unsigned();
-            $table->integer('egg_id')->unsigned();
-            $table->decimal('price')->unsigned();
-            $table->string('cycles');
-            $table->decimal('setup_fee')->unsigned()->default(0.00);
-            $table->integer('trial')->unsigned()->default(0);
+            $table->integer('extra_ports')->unsigned();
+            $table->string('nodes_id');
+            $table->integer('min_port')->unsigned()->nullable();
+            $table->string('nests_eggs_id');
+            $table->text('server_description')->nullable();
             $table->integer('discount')->unsigned()->nullable();
             $table->string('coupons')->nullable();
-            $table->integer('global_limit')->unsigned()->default(0);
-            $table->integer('per_client_limit')->unsigned()->default(0);
+            $table->integer('days_before_suspend')->unsigned()->nullable();
+            $table->integer('global_limit')->unsigned()->nullable();
+            $table->integer('per_client_limit')->unsigned()->nullable();
+            $table->integer('per_client_trial_limit')->unsigned()->nullable();
             $table->integer('order')->default(1000);
             $table->timestamps();
         });

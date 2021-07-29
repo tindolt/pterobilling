@@ -15,14 +15,14 @@ class CreateAddonsTable extends Migration
     {
         Schema::create('addons', function (Blueprint $table) {
             $table->id();
-            $table->string('name')->unique();
+            $table->string('name');
+            $table->text('description')->nullable();
             $table->string('resource');
             $table->integer('amount')->unsigned();
-            $table->decimal('price')->unsigned();
             $table->string('categories')->nullable();
-            $table->decimal('setup_fee')->unsigned()->default(0);
-            $table->integer('global_limit')->unsigned()->default(0);
-            $table->integer('per_client_limit')->unsigned()->default(0);
+            $table->integer('global_limit')->unsigned()->nullable();
+            $table->integer('per_client_limit')->unsigned()->nullable();
+            $table->integer('per_server_limit')->unsigned()->nullable();
             $table->integer('order')->default(1000);
             $table->timestamps();
         });

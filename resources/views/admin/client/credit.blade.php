@@ -1,4 +1,11 @@
+@php $header_route = 'admin.client.index'; @endphp
+
 @extends('layouts.admin')
+
+@inject('credit_model', 'App\Models\Credit')
+
+@section('title', $client->email)
+@section('header', 'Clients')
 
 @section('content')
     <div class="row">
@@ -7,9 +14,6 @@
                 <div class="card-header d-flex p-0">
                     <ul class="nav ml-auto p-2">
                         <li class="nav-item"><a class="nav-link" href="{{ route('admin.client.show', ['id' => $id]) }}">Settings</a></li>
-                        <li class="nav-item"><a class="nav-link" href="{{ route('admin.client.servers', ['id' => $id]) }}">Servers</a></li>
-                        <li class="nav-item"><a class="nav-link" href="{{ route('admin.client.invoices', ['id' => $id]) }}">Invoices</a></li>
-                        <li class="nav-item"><a class="nav-link" href="{{ route('admin.client.tickets', ['id' => $id]) }}">Support Tickets</a></li>
                         <li class="nav-item"><a class="nav-link" href="{{ route('admin.client.affiliates', ['id' => $id]) }}">Affiliates</a></li>
                         <li class="nav-item"><a class="nav-link active" href="{{ route('admin.client.credit', ['id' => $id]) }}">Credit</a></li>
                     </ul>
@@ -32,13 +36,13 @@
                 <div class="card-header">
                     <h3 class="card-title">Edit Credit Balance</h3>
                 </div>
-                <form action="" method="POST">
+                <form action="{{ route('api.admin.client.credit', ['id' => $id]) }}" method="PUT" data-callback="creditForm">
                     @csrf
 
                     <div class="card-body">
                         <div class="form-group">
                             <label for="creditInput">Credit Amount</label>
-                            <input type="number" name="credit" class="form-control" id="creditInput" placeholder="Credit Amount" required>
+                            <input type="text" name="credit" class="form-control" id="creditInput" placeholder="Credit Amount" required>
                         </div>
                     </div>
                     <div class="card-footer">
@@ -58,15 +62,15 @@
                     <table class="table table-hover text-nowrap">
                         <thead>
                             <tr>
-                                <th style="width:10%">ID</th>
-                                <th style="width:30%">Details</th>
-                                <th style="width:15%">Change</th>
-                                <th style="width:15%">Balance</th>
-                                <th style="width:30%">Date</th>
+                                <th>ID</th>
+                                <th>Details</th>
+                                <th>Change</th>
+                                <th>Balance</th>
+                                <th>Date</th>
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($credits as $credit)
+                            @foreach ($credit_model->where('client_id', $client->id)->get() as $credit)
                                 <tr>
                                     <td>{{ $credit->id }}</td>
                                     <td>{{ $credit->details }}</td>
@@ -88,4 +92,22 @@
             </div>
         </div>
     </div>
+@endsection
+
+@section('admin_scripts')
+    <script>
+        function creditForm(data) {
+            if (data.success) {
+                toastr.success(data.success)
+                resetForms()
+                waitRedirect(window.location.href);
+            } else if (data.error) {
+                toastr.error(data.error)
+            } else if (data.errors) {
+                data.errors.forEach(error => { toastr.error(error) });
+            } else {
+                wentWrong()
+            }
+        }
+    </script>
 @endsection

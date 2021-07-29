@@ -27,7 +27,7 @@ class PageSeeder extends Seeder
         if (is_null(Page::where('name', 'contact')->first())) {
             Page::create([
                 'name' => 'contact',
-                'content' => config('mail.from.address', 'hello@example.com'),
+                'content' => null,
             ]);
             ++$i;
         }
@@ -35,7 +35,7 @@ class PageSeeder extends Seeder
         if (is_null(Page::where('name', 'status')->first())) {
             Page::create([
                 'name' => 'status',
-                'content' => "<h1>Welcome to your System Status page.</h1>\n<p>You may edit this page in the admin area.</p>",
+                'content' => null,
             ]);
             ++$i;
         }

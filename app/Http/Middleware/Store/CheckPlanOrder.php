@@ -17,13 +17,16 @@ class CheckPlanOrder
      */
     public function handle(Request $request, Closure $next)
     {
-        if (is_null($request->user())) {
-            session(['redirect_to' => url()->current()]);
-            return redirect()->route('client.login');
+        if (is_null($plan = Plan::find($request->route('id')))) return abort(404);
+
+        if (!Plan::verifyPlan($plan)) {
+            return back()->with(['warning_msg', 'The server plan is currently out of stock.']);
         }
-        
-        if (is_null(Plan::find($request->route('id')))) {
-            return abort(404);
+
+        if ($client = $request->user()) {
+            if (!Plan::verifyPlan($plan, $client)) {
+                return back()->with(['danger_msg', 'You have reached the maximum limit of servers using this server plan!']);
+            }
         }
 
         return $next($request);

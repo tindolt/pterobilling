@@ -17,10 +17,7 @@ class CheckTicketPermission
      */
     public function handle(Request $request, Closure $next)
     {
-        $id = $request->route('id');
-        $ticket = Ticket::find($id);
-
-        if (is_null($ticket)) {
+        if (is_null($ticket = Ticket::find($request->route('id')))) {
             return abort(403);
         } elseif ($ticket->client_id !== $request->user()->id) {
             return abort(403);

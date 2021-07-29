@@ -12,9 +12,10 @@ try {
     $dark_mode = $setting_model::where('key', 'dark_mode')->value('value');
     $open_registration = $setting_model::where('key', 'open_registration')->value('value');
     $panel_url = $setting_model::where('key', 'panel_url')->value('value');
-    $panel_api_key = $setting_model::where('key', 'panel_api_key')->value('value');
+    $panel_client_api_key = $setting_model::where('key', 'panel_client_api_key')->value('value');
+    $panel_app_api_key = $setting_model::where('key', 'panel_app_api_key')->value('value');
     $phpmyadmin_url = $setting_model::where('key', 'phpmyadmin_url')->value('value');
-    $hcaptcha_site_key = $setting_model::where('key', 'hcaptcha_public_key')->value('value');
+    $hcaptcha_site_key = $setting_model::where('key', 'hcaptcha_site_key')->value('value');
     $hcaptcha_secret_key = $setting_model::where('key', 'hcaptcha_secret_key')->value('value');
     $google_analytics_id = $setting_model::where('key', 'google_analytics_id')->value('value');
     $arc_widget_id = $setting_model::where('key', 'arc_widget_id')->value('value');
@@ -26,7 +27,8 @@ try {
     $dark_mode = 'true';
     $open_registration = 'true';
     $panel_url = 'https://panel.example.com';
-    $panel_api_key = null;
+    $panel_client_api_key = null;
+    $panel_app_api_key = null;
     $phpmyadmin_url = 'https://pma.example.com';
     $hcaptcha_site_key = '72c60a15-1b23-4aa1-a44e-940f4b3555ae';
     $hcaptcha_secret_key = '0xe7F8c19870D5e3955b397bcB51BCe424AB728240';
@@ -58,7 +60,8 @@ return [
     'dark_mode' => $dark_mode,
     'open_registration' => $open_registration,
     'panel_url' => $panel_url,
-    'panel_api_key' => $panel_api_key,
+    'panel_client_api_key' => $panel_client_api_key,
+    'panel_app_api_key' => $panel_app_api_key,
     'phpmyadmin_url' => $phpmyadmin_url,
 
     'hcaptcha_site_key' => $hcaptcha_site_key,
@@ -229,6 +232,8 @@ return [
         /*
          * Package Service Providers...
          */
+        // Pterodactyl SDK
+        PterodactylSDK\PterodactylSDKServiceProvider::class,
         // PayPal Integration
         Srmklive\PayPal\Providers\PayPalServiceProvider::class,
 
@@ -279,6 +284,7 @@ return [
         'Mail' => Illuminate\Support\Facades\Mail::class,
         'Notification' => Illuminate\Support\Facades\Notification::class,
         'Password' => Illuminate\Support\Facades\Password::class,
+        'PterodactylSDK' => PterodactylSDK\PterodactylSDKFacade::class,
         'Queue' => Illuminate\Support\Facades\Queue::class,
         'Redirect' => Illuminate\Support\Facades\Redirect::class,
         //'Redis' => Illuminate\Support\Facades\Redis::class, // Incompatible with PHP Redis extension

@@ -1,4 +1,5 @@
 @inject('server_model', 'App\Models\Server')
+@inject('kb_category_model', 'App\Models\KbCategory')
 
 <aside class="main-sidebar sidebar-dark-primary elevation-4">
     <!-- Brand Logo -->
@@ -20,7 +21,7 @@
             </div>
         </div>
         <!-- Sidebar Menu -->
-        <nav class="mt-2">
+        <nav class="mt-2" id="sidebar-menu">
             <ul class="nav nav-pills nav-sidebar flex-column nav-legacy nav-flat" data-widget="treeview" role="menu" data-accordion="false">
                 <!-- Add icons to the links using the .nav-icon class
                     with font-awesome or any other icon font library -->
@@ -42,25 +43,20 @@
                         <p>Pterodactyl Panel</p>
                     </a>
                 </li>
-                <li class="nav-item">
-                    <a href="{{ config('app.phpmyadmin_url') }}" class="nav-link" target="_blank">
-                        <i class="fas fa-tools nav-icon"></i>
-                        <p>phpMyAdmin</p>
-                    </a>
-                </li>
+                @if (config('app.phpmyadmin_url'))
+                    <li class="nav-item">
+                        <a href="{{ config('app.phpmyadmin_url') }}" class="nav-link" target="_blank">
+                            <i class="fas fa-tools nav-icon"></i>
+                            <p>phpMyAdmin</p>
+                        </a>
+                    </li>
+                @endif
                 <li class="nav-header">ACTIVE SERVERS</li>
                 @foreach ($server_model->where(['client_id' => auth()->user()->id, 'status' => 0])->get() as $server)
                     <li class="nav-item">
                         <a href="javascript:void(0);" class="nav-link">
                             <i class="fas fa-server nav-icon"></i>
-                            <p>
-                                @if(session('server_' . $server->id))
-                                    {{ session('server_' . $server->id) }}
-                                @else
-                                    Server #{{ $server->id }}
-                                @endif
-                                <i class="right fas fa-angle-left"></i>
-                            </p>
+                            <p><span data-server-name="{{ $server->identifier }}">Loading...</span> <i class="right fas fa-angle-left"></i></p>
                         </a>
                         <ul class="nav nav-treeview">
                             <li class="nav-item">
@@ -105,23 +101,27 @@
                 </li>
                 <li class="nav-header">SUPPORT CENTER</li>
                 <li class="nav-item">
-                    <a href="{{ route('client.ticket.index') }}" class="nav-link @if(Route::currentRouteName() == 'client.support.index') active @endif">
+                    <a href="{{ route('client.ticket.index') }}" class="nav-link @if(Route::currentRouteName() == 'client.ticket.index') active @endif">
                         <i class="fas fa-ticket-alt nav-icon"></i>
                         <p>Support Tickets</p>
                     </a>
                 </li>
+                @if ($kb_category_model->exists())
                 <li class="nav-item">
                     <a href="{{ route('kb') }}" class="nav-link">
                         <i class="fas fa-book nav-icon"></i>
                         <p>Knowledge Base</p>
                     </a>
                 </li>
+                @endif
+                @if (config('page.status'))
                 <li class="nav-item">
                     <a href="{{ route('status') }}" class="nav-link">
                         <i class="fas fa-network-wired nav-icon"></i>
                         <p>System Status</p>
                     </a>
                 </li>
+                @endif
                 <li class="nav-header">ACCOUNT</li>
                 <li class="nav-item">
                     <a href="{{ route('client.affiliate.show') }}" class="nav-link @if(Route::currentRouteName() == 'client.affiliate.show') active @endif">

@@ -1,12 +1,9 @@
 @extends('layouts.admin')
 
+@inject('kb_category_model', 'App\Models\KbCategory')
 @inject('article_model', 'App\Models\KbArticle')
 
-@section('styles')
-    <noscript>
-        <link rel="stylesheet" href="/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
-    </noscript>
-@endsection
+@section('title', 'Knowledge Base')
 
 @section('content')
     <div class="row">
@@ -19,31 +16,31 @@
                     </div>
                 </div>
                 <div class="card-body table-responsive">
-                    <table id="categories-table" class="table table-hover text-nowrap">
+                    <table id="kb-categories-table" class="table table-hover text-nowrap">
                         <thead>
                             <tr>
-                                <th style="width:10%">Order</th>
-                                <th style="width:10%">ID</th>
-                                <th style="width:70%">Name</th>
-                                <th style="width:10%">Articles</th>
+                                <th>Order</th>
+                                <th>ID</th>
+                                <th>Name</th>
+                                <th>Articles</th>
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($categories as $category)
+                            @foreach ($kb_category_model->all() as $category)
                                 <tr>
                                     <td>{{ $category->order }}</td>
-                                    <td><a href="{{ route('admin.kb.show', ['id' => $category->id]) }}">{{ $category->id }}</a></td>
+                                    <td><a href="{{ route('admin.kb.show', ['category_id' => $category->id]) }}">{{ $category->id }}</a></td>
                                     <td>{{ $category->name }}</td>
-                                    <td>{{ count($article_model->where('category_id', $category->id)->get()) }}</td>
+                                    <td>{{ $article_model->where('category_id', $category->id)->count() }}</td>
                                 </tr>
                             @endforeach
                         </tbody>
                         <tfoot>
                             <tr>
-                                <th style="width:10%">Order</th>
-                                <th style="width:10%">ID</th>
-                                <th style="width:70%">Name</th>
-                                <th style="width:10%">Articles</th>
+                                <th>Order</th>
+                                <th>ID</th>
+                                <th>Name</th>
+                                <th>Articles</th>
                             </tr>
                         </tfoot>
                     </table>
@@ -53,22 +50,15 @@
     </div>
 @endsection
 
-@section('scripts')
-    <script>
-        (function() {
-            var css = document.createElement('link');
-            css.href = '/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css';
-            css.rel = 'stylesheet';
-            document.getElementsByTagName('head')[0].appendChild(css);
-        })();
-    </script>
+@section('admin_scripts')
+    <script> lazyLoadCss('/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css'); </script>
 
     <script src="/plugins/datatables/jquery.dataTables.min.js"></script>
     <script src="/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
 
     <script>
         $(function () {
-            $("#categories-table").DataTable({"responsive": false, "lengthChange": false, "autoWidth": false});
+            $("#kb-categories-table").DataTable({"responsive": false, "lengthChange": false, "autoWidth": false});
         });
     </script>
 @endsection

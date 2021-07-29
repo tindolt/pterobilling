@@ -20,6 +20,11 @@ if (file_exists(__DIR__.'/../storage/framework/maintenance.php')) {
     require __DIR__.'/../storage/framework/maintenance.php';
 }
 
+/**
+ * Restore original visitor IPs if the application is behind Cloudflare
+ */
+if (isset($_SERVER['HTTP_CF_CONNECTING_IP'])) $_SERVER['REMOTE_ADDR'] = $_SERVER['HTTP_CF_CONNECTING_IP'];
+
 /*
 |--------------------------------------------------------------------------
 | Register The Auto Loader

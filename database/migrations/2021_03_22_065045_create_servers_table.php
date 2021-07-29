@@ -19,15 +19,15 @@ class CreateServersTable extends Migration
             $table->string('identifier')->nullable()->unique();
             $table->integer('client_id')->unsigned();
             $table->integer('plan_id')->unsigned();
-            $table->string('billing_cycle');
-            $table->timestamp('next_due')->nullable();
+            $table->integer('plan_cycle')->unsigned();
+            $table->timestamp('due_date')->nullable();
             $table->string('payment_method');
-            $table->string('addon')->nullable();
             $table->string('subdomain_name')->nullable();
             $table->string('subdomain')->nullable();
             $table->integer('subdomain_port')->unsigned()->nullable();
             $table->string('subdomain_provider')->nullable();
             $table->tinyInteger('status')->unsigned()->default(1);
+            $table->timestamp('last_notif')->nullable();
             $table->timestamps();
         });
     }

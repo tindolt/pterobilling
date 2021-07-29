@@ -1,3 +1,5 @@
+@php $header_route = ''; @endphp
+
 @extends('layouts.client')
 
 @inject('plan_model', 'App\Models\Plan')
@@ -5,6 +7,10 @@
 @php
     $plan = $plan_model->find($server->plan_id)->first();
 @endphp
+
+@section('title', 'Server Info')
+@section('header', 'My Servers')
+@section('subheader', "Server #${id}")
 
 @section('content')
     <div class="row">
@@ -52,7 +58,7 @@
                         <b>Recurring Amount</b><br>
                         <b>Billing Cycle</b><br>
                         <b>Server Creation Date</b><br>
-                        <b>Next Due Date</b><br>
+                        <b>Due Date</b><br>
                         <b>Payment Method</b><br>
                         <b>Backup Payment Method</b>
                     </p>
@@ -116,7 +122,7 @@
                         <a href="{{ config('app.panel_url') }}/server/{{ $server->id }}/settings"><i class="fas fa-cogs"></i> Settings</a><br>
                         <a href="{{ route('client.server.subdomain.show', ['id' => 1]) }}"><i class="fas fa-globe"></i> Subdomain Name</a><br>
                         <a href="{{ route('client.server.software.show', ['id' => 1]) }}"><i class="fas fa-download"></i> Software Installer</a><br>
-                        <a href="{{ config('app.phpmyadmin_url') }}"><i class="fas fa-tools"></i> phpMyAdmin</a>
+                        @if (config('app.phpmyadmin_url')) <a href="{{ config('app.phpmyadmin_url') }}"><i class="fas fa-tools"></i> phpMyAdmin</a> @endif
                     </p>
                 </div>
             </div>

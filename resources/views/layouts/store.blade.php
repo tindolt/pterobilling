@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
-        <title>{{ $title }} - {{ config('app.company_name') }}</title>
+        <title>@yield('title') - {{ config('app.company_name') }}</title>
         @include('layouts.styles')
     </head>
     <body class="hold-transition layout-top-nav @if(config('app.dark_mode')) dark-mode @endif">
@@ -13,20 +13,20 @@
             @include('layouts.store.nav')
 
             <!-- Content Wrapper. Contains page content -->
-            <div class="content-wrapper">
+            <div class="content-wrapper" id="page-content">
                 <!-- Content Header (Page header) -->
                 @include('layouts.store.header')
 
                 <!-- Main content -->
                 <div class="content">
-                    <div class="container">
-                        @unless ($secure)
-                            @include('layouts.store.secure')
-                        @endunless
+                    <div class="container" id="content-container">
+                        @include('layouts.store.alerts')
                         @include('layouts.store.announcement')
                         @include('layouts.store.messages')
                         @yield('content')
                     </div>
+                    
+                    @include('layouts.store.modals')
                 </div>
             </div>
 
@@ -35,5 +35,6 @@
         </div>
 
         @include('layouts.scripts')
+        @include('layouts.store.scripts')
     </body>
 </html>

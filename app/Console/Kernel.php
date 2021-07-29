@@ -2,6 +2,7 @@
 
 namespace App\Console;
 
+use App\Jobs\ServerExpiry;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 
@@ -12,9 +13,7 @@ class Kernel extends ConsoleKernel
      *
      * @var array
      */
-    protected $commands = [
-        //
-    ];
+    protected $commands = [];
 
     /**
      * Define the application's command schedule.
@@ -24,7 +23,11 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        $schedule->command('telescope:prune')->daily();
+        $schedule->job(new ServerExpiry, 'long')->everyTenMinutes();
+        $schedule->command('queue:work --sansdaemon --queue=high,default --tries=3')->everyMinute()->runInBackground();
+        $schedule->command('queue:work --sansdaemon --queue=long --tries=3')->everyFiveMinutes()->runInBackground();
+        $schedule->command('queue:retry all')->everyThreeHours()->runInBackground();
+        $schedule->command('telescope:prune')->weekly();
     }
 
     /**
@@ -35,7 +38,5 @@ class Kernel extends ConsoleKernel
     protected function commands()
     {
         $this->load(__DIR__.'/Commands');
-
-        require base_path('routes/console.php');
     }
 }

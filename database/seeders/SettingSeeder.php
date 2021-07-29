@@ -67,14 +67,22 @@ class SettingSeeder extends Seeder
         if (is_null(Setting::where('key', 'panel_url')->first())) {
             Setting::create([
                 'key' => 'panel_url',
-                'value' => 'https://panel.example.com',
+                'value' => null,
             ]);
             ++$i;
         }
 
-        if (is_null(Setting::where('key', 'panel_api_key')->first())) {
+        if (is_null(Setting::where('key', 'panel_client_api_key')->first())) {
             Setting::create([
-                'key' => 'panel_api_key',
+                'key' => 'panel_client_api_key',
+                'value' => null,
+            ]);
+            ++$i;
+        }
+
+        if (is_null(Setting::where('key', 'panel_app_api_key')->first())) {
+            Setting::create([
+                'key' => 'panel_app_api_key',
                 'value' => null,
             ]);
             ++$i;
@@ -83,14 +91,14 @@ class SettingSeeder extends Seeder
         if (is_null(Setting::where('key', 'phpmyadmin_url')->first())) {
             Setting::create([
                 'key' => 'phpmyadmin_url',
-                'value' => 'https://pma.example.com',
+                'value' => null,
             ]);
             ++$i;
         }
 
-        if (is_null(Setting::where('key', 'hcaptcha_public_key')->first())) {
+        if (is_null(Setting::where('key', 'hcaptcha_site_key')->first())) {
             Setting::create([
-                'key' => 'hcaptcha_public_key',
+                'key' => 'hcaptcha_site_key',
                 'value' => '72c60a15-1b23-4aa1-a44e-940f4b3555ae',
             ]);
             ++$i;
@@ -115,7 +123,7 @@ class SettingSeeder extends Seeder
         if (is_null(Setting::where('key', 'arc_widget_id')->first())) {
             Setting::create([
                 'key' => 'arc_widget_id',
-                'value' => 'pZbCgsXG',
+                'value' => 'qtir15bF',
             ]);
             ++$i;
         }

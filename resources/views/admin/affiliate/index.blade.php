@@ -1,12 +1,9 @@
 @extends('layouts.admin')
 
+@inject('affiliate_model', 'App\Models\AffiliateEarning')
 @inject('client_model', 'App\Models\Client')
 
-@section('styles')
-    <noscript>
-        <link rel="stylesheet" href="/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
-    </noscript>
-@endsection
+@section('title', 'Affiliates')
 
 @section('content')
     <div class="row">
@@ -16,23 +13,23 @@
                     <table id="affiliates-table" class="table table-hover text-nowrap">
                         <thead>
                             <tr>
-                                <th style="width:5%">ID</th>
-                                <th style="width:15%">Referer</th>
-                                <th style="width:15%">Buyer</th>
-                                <th style="width:15%">Product</th>
-                                <th style="width:10%">Commission</th>
-                                <th style="width:10%">Conversion</th>
-                                <th style="width:10%">Status</th>
-                                <th style="width:17%">Date</th>
-                                <th style="width:3%">Action</th>
+                                <th>ID</th>
+                                <th>Referer</th>
+                                <th>Buyer</th>
+                                <th>Product</th>
+                                <th>Commission</th>
+                                <th>Conversion</th>
+                                <th>Status</th>
+                                <th>Date</th>
+                                <th>Action</th>
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($affiliates as $affiliate)
+                            @foreach ($affiliate_model->all() as $affiliate)
                                 <tr>
                                     <td>{{ $affiliate->id }}</a></td>
-                                    <td><a href="{{ route('admin.client.show', ['id' => $ticket->client_id]) }}" target="_blank">{{ $client_model->find($affiliate->client_id)->email }}</a></td>
-                                    <td><a href="{{ route('admin.client.show', ['id' => $ticket->buyer_id]) }}" target="_blank">{{ $client_model->find($affiliate->buyer_id)->email }}</a></td>
+                                    <td><a href="{{ route('admin.client.show', ['id' => $affiliate->client_id]) }}" target="_blank">{{ $client_model->find($affiliate->client_id)->email }}</a></td>
+                                    <td><a href="{{ route('admin.client.show', ['id' => $affiliate->buyer_id]) }}" target="_blank">{{ $client_model->find($affiliate->buyer_id)->email }}</a></td>
                                     <td>{{ $affiliate->product }}</td>
                                     <td>{!! session('currency')->symbol !!}{{ number_format($affiliate->commission * session('currency')->rate, 2) }} {{ session('currency')->name }}</td>
                                     <td>{{ $affiliate->conversion }}%</td>
@@ -51,28 +48,29 @@
                                     </td>
                                     <td>{{ $affiliate->created_at }}</td>
                                     <td>
-                                        <div class="btn-group">
-                                            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown"></button>
-                                            <ul class="dropdown-menu">
-                                                <li><a class="dropdown-item" href="{{ route('admin.affiliate.accept', ['id' => $affiliate->id]) }}">Accept</a></li>
-                                                <li><a class="dropdown-item" href="{{ route('admin.affiliate.reject', ['id' => $affiliate->id]) }}">Reject</a></li>
-                                            </ul>
-                                        </div>
+                                        @if ($affiliate->status === 1)
+                                            <form action="{{ route('api.admin.affiliate.accept', ['id' => $$affiliate->id]) }}" method="POST" data-callback="actionForm">
+                                                <button type="submit" class="btn btn-success"><i class="fas fa-check"></i></button>
+                                            </form>
+                                            <form action="{{ route('api.admin.affiliate.reject', ['id' => $$affiliate->id]) }}" method="POST" data-callback="actionForm">
+                                                <button type="submit" class="btn btn-danger"><i class="fas fa-times"></i></button>
+                                            </form>
+                                        @endif
                                     </td>
                                 </tr>
                             @endforeach
                         </tbody>
                         <tfoot>
                             <tr>
-                                <th style="width:5%">ID</th>
-                                <th style="width:15%">Referer</th>
-                                <th style="width:15%">Buyer</th>
-                                <th style="width:15%">Product</th>
-                                <th style="width:10%">Commission</th>
-                                <th style="width:10%">Conversion</th>
-                                <th style="width:10%">Status</th>
-                                <th style="width:17%">Date</th>
-                                <th style="width:3%">Action</th>
+                                <th>ID</th>
+                                <th>Referer</th>
+                                <th>Buyer</th>
+                                <th>Product</th>
+                                <th>Commission</th>
+                                <th>Conversion</th>
+                                <th>Status</th>
+                                <th>Date</th>
+                                <th>Action</th>
                             </tr>
                         </tfoot>
                     </table>
@@ -82,15 +80,8 @@
     </div>
 @endsection
 
-@section('scripts')
-    <script>
-        (function() {
-            var css = document.createElement('link');
-            css.href = '/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css';
-            css.rel = 'stylesheet';
-            document.getElementsByTagName('head')[0].appendChild(css);
-        })();
-    </script>
+@section('admin_scripts')
+    <script> lazyLoadCss('/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css'); </script>
 
     <script src="/plugins/datatables/jquery.dataTables.min.js"></script>
     <script src="/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
@@ -99,5 +90,19 @@
         $(function () {
             $("#affiliates-table").DataTable({"responsive": false, "lengthChange": false, "autoWidth": false});
         });
+    </script>
+
+    <script>
+        function actionForm(data) {
+            if (data.success) {
+                toastr.success(data.success)
+            } else if (data.error) {
+                toastr.error(data.error)
+            } else if (data.errors) {
+                data.errors.forEach(error => { toastr.error(error) });
+            } else {
+                wentWrong()
+            }
+        }
     </script>
 @endsection

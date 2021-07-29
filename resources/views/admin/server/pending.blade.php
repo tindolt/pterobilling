@@ -2,11 +2,7 @@
 
 @inject('plan_model', 'App\Models\Plan')
 
-@section('styles')
-    <noscript>
-        <link rel="stylesheet" href="/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
-    </noscript>
-@endsection
+@section('title', 'Pending Servers')
 
 @section('content')
     <div class="row">
@@ -16,11 +12,11 @@
                     <table id="servers-table" class="table table-hover text-nowrap">
                         <thead>
                             <tr>
-                                <th style="width:5%">ID</th>
-                                <th style="width:10%">Panel ID</th>
-                                <th style="width:30%">Client</th>
-                                <th style="width:28%">Plan</th>
-                                <th style="width:27%">Order Date</th>
+                                <th>ID</th>
+                                <th>Panel ID</th>
+                                <th>Client (Owner)</th>
+                                <th>Plan</th>
+                                <th>Order Date</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -36,11 +32,11 @@
                         </tbody>
                         <tfoot>
                             <tr>
-                                <th style="width:5%">ID</th>
-                                <th style="width:10%">Panel ID</th>
-                                <th style="width:30%">Client</th>
-                                <th style="width:28%">Plan</th>
-                                <th style="width:27%">Creation Date</th>
+                                <th>ID</th>
+                                <th>Panel ID</th>
+                                <th>Client (Owner)</th>
+                                <th>Plan</th>
+                                <th>Creation Date</th>
                             </tr>
                         </tfoot>
                     </table>
@@ -50,15 +46,8 @@
     </div>
 @endsection
 
-@section('scripts')
-    <script>
-        (function() {
-            var css = document.createElement('link');
-            css.href = '/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css';
-            css.rel = 'stylesheet';
-            document.getElementsByTagName('head')[0].appendChild(css);
-        })();
-    </script>
+@section('admin_scripts')
+    <script> lazyLoadCss('/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css'); </script>
 
     <script src="/plugins/datatables/jquery.dataTables.min.js"></script>
     <script src="/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>

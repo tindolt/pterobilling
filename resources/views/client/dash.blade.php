@@ -7,6 +7,8 @@
 @inject('ticket_model', 'App\Models\Ticket')
 @inject('credit_model', 'App\Models\Credit')
 
+@section('title', 'Dashboard')
+
 @section('content')
     <div class="row">
         <div class="col-lg-3 col-md-6">
@@ -72,17 +74,18 @@
                 <div class="card-header">
                     <h3 class="card-title">Active Servers</h3>
                     <div class="card-tools">
-                        <a href="{{ route('client.server.index') }}" class="btn btn-default btn-sm float-right">View All Servers <i class="fas fa-arrow-circle-right"></i></a>
+                        <a href="{{ route('client.server.index') }}" class="btn btn-default btn-sm">View All Servers <i class="fas fa-arrow-circle-right"></i></a>
+                        <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i></button>
                     </div>
                 </div>
                 <div class="card-body table-responsive p-0">
                     <table class="table table-hover text-nowrap">
                         <thead>
                             <tr>
-                                <th style="width:10%">ID</th>
-                                <th style="width:35%">Plan</th>
-                                <th style="width:45%">Server Name</th>
-                                <th style="width:10%">Status</th>
+                                <th>ID</th>
+                                <th>Plan</th>
+                                <th>Server Name</th>
+                                <th>Status</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -108,16 +111,17 @@
                 <div class="card-header">
                     <h3 class="card-title">Recent Support Tickets</h3>
                     <div class="card-tools">
-                        <a href="{{ route('client.ticket.index') }}" class="btn btn-default btn-sm float-right">View All Support Tickets <i class="fas fa-arrow-circle-right"></i></a>
+                        <a href="{{ route('client.ticket.index') }}" class="btn btn-default btn-sm">View All Support Tickets <i class="fas fa-arrow-circle-right"></i></a>
+                        <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i></button>
                     </div>
                 </div>
                 <div class="card-body table-responsive p-0">
                     <table class="table table-hover text-nowrap">
                         <thead>
                             <tr>
-                                <th style="width:10%">ID</th>
-                                <th style="width:70%">Subject</th>
-                                <th style="width:20%">Status</th>
+                                <th>ID</th>
+                                <th>Subject</th>
+                                <th>Status</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -153,17 +157,18 @@
                 <div class="card-header">
                     <h3 class="card-title">Unpaid Invoices</h3>
                     <div class="card-tools">
-                        <a href="{{ route('client.invoice.index') }}" class="btn btn-default btn-sm float-right">View All Invoices <i class="fas fa-arrow-circle-right"></i></a>
+                        <a href="{{ route('client.invoice.index') }}" class="btn btn-default btn-sm">View All Invoices <i class="fas fa-arrow-circle-right"></i></a>
+                        <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i></button>
                     </div>
                 </div>
                 <div class="card-body table-responsive p-0">
                     <table class="table table-hover text-nowrap">
                         <thead>
                             <tr>
-                                <th style="width:10%">ID</th>
-                                <th style="width:45%">Item</th>
-                                <th style="width:15%">Amount</th>
-                                <th style="width:30%">Due Date</th>
+                                <th>ID</th>
+                                <th>Item</th>
+                                <th>Amount</th>
+                                <th>Due Date</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -190,18 +195,19 @@
                 <div class="card-header">
                     <h3 class="card-title">Credit Transactions</h3>
                     <div class="card-tools">
-                        <a href="{{ route('client.credit.show') }}" class="btn btn-default btn-sm float-right">More details <i class="fas fa-arrow-circle-right"></i></a>
+                        <a href="{{ route('client.credit.show') }}" class="btn btn-default btn-sm">More details <i class="fas fa-arrow-circle-right"></i></a>
+                        <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i></button>
                     </div>
                 </div>
                 <div class="card-body table-responsive p-0">
                     <table class="table table-hover text-nowrap">
                         <thead>
                             <tr>
-                                <th style="width:10%">ID</th>
-                                <th style="width:30%">Details</th>
-                                <th style="width:15%">Change</th>
-                                <th style="width:15%">Balance</th>
-                                <th style="width:30%">Date</th>
+                                <th>ID</th>
+                                <th>Details</th>
+                                <th>Change</th>
+                                <th>Balance</th>
+                                <th>Date</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -226,44 +232,4 @@
             </div>
         </div>
     </div>
-@endsection
-
-@section('scripts')
-    <script>
-        function updateStatus(identifier) {
-            var server_status = document.getElementById(`server_status_${identifier}`);
-
-            function callApi(action, callback) {
-                fetch(`/api/pterodactyl/{{ auth()->user()->api_key }}/${action}/GET`)
-                .then((resp) => resp.json())
-                .then(function(data) {
-                    (callback)(data);
-                })
-                .catch(function(error) {
-                    console.error(error);
-                });
-            }
-
-            callApi(`serversSLASH${identifier}SLASHresources`, function(data) {
-                switch (data.attributes.current_state) {
-                    case "starting":
-                        server_status.innerHTML = `<span class="badge bg-info">Starting</span>`;
-                        break;
-                    case "running":
-                        server_status.innerHTML = `<span class="badge bg-success">Online</span>`;
-                        break;
-                    case "stopping":
-                        server_status.innerHTML = `<span class="badge bg-info">Stopping</span>`;
-                        break;
-                    case "offline":
-                        server_status.innerHTML = `<span class="badge bg-danger">Offline</span>`;
-                        break;
-                }
-            });
-        }
-        
-        @foreach ($server_model->where(['client_id' => auth()->user()->id, 'status' => 0])->get() as $server)
-            updateStatus({{ $server->identifier }});
-        @endforeach
-    </script>
 @endsection

@@ -1,13 +1,9 @@
 @extends('layouts.admin')
 
-@inject('coupon_expiry', 'App\View\Classes\CouponExpiry')
+@inject('coupon_model', 'App\Models\Coupon')
 @inject('used_coupon_model', 'App\Models\UsedCoupon')
 
-@section('styles')
-    <noscript>
-        <link rel="stylesheet" href="/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
-    </noscript>
-@endsection
+@section('title', 'Coupons')
 
 @section('content')
     <div class="row">
@@ -23,17 +19,17 @@
                     <table id="coupons-table" class="table table-hover text-nowrap">
                         <thead>
                             <tr>
-                                <th style="width:5%">ID</th>
-                                <th style="width:30%">Code</th>
-                                <th style="width:10%">Percent Off</th>
-                                <th style="width:10%">Is Global?</th>
-                                <th style="width:10%">Expired?</th>
-                                <th style="width:10%">Total Uses</th>
-                                <th style="width:25%">Expiry Date</th>
+                                <th>ID</th>
+                                <th>Code</th>
+                                <th>Percent Off</th>
+                                <th>Global?</th>
+                                <th>Usable?</th>
+                                <th>Total Uses</th>
+                                <th>Expiry Date</th>
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($coupons as $coupon)
+                            @foreach ($coupon_model->all() as $coupon)
                                 <tr>
                                     <td><a href="{{ route('admin.coupon.show', ['id' => $coupon->id]) }}">{{ $coupon->id }}</a></td>
                                     <td>{{ $coupon->code }}</td>
@@ -46,12 +42,10 @@
                                         @endif
                                     </td>
                                     <td>
-                                        @if (is_null($coupon->end_date))
-                                            <i class="fas fa-times"></i> No
-                                        @elseif ($coupon_expiry->checkCoupon($coupon->id))
-                                            <i class="fas fa-times"></i> No
-                                        @else
+                                        @if ($coupon_model->verifyCoupon($coupon))
                                             <i class="fas fa-check"></i> Yes
+                                        @else
+                                            <i class="fas fa-times"></i> No
                                         @endif
                                     </td>
                                     <td>{{ $used_coupon_model->where('coupon_id', $coupon->id)->count() }}</td>
@@ -61,13 +55,13 @@
                         </tbody>
                         <tfoot>
                             <tr>
-                                <th style="width:5%">ID</th>
-                                <th style="width:30%">Code</th>
-                                <th style="width:10%">Percent Off</th>
-                                <th style="width:10%">Is Global?</th>
-                                <th style="width:10%">Expired?</th>
-                                <th style="width:10%">Total Uses</th>
-                                <th style="width:25%">Expiry Date</th>
+                                <th>ID</th>
+                                <th>Code</th>
+                                <th>Percent Off</th>
+                                <th>Global?</th>
+                                <th>Usable?</th>
+                                <th>Total Uses</th>
+                                <th>Expiry Date</th>
                             </tr>
                         </tfoot>
                     </table>
@@ -77,15 +71,8 @@
     </div>
 @endsection
 
-@section('scripts')
-    <script>
-        (function() {
-            var css = document.createElement('link');
-            css.href = '/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css';
-            css.rel = 'stylesheet';
-            document.getElementsByTagName('head')[0].appendChild(css);
-        })();
-    </script>
+@section('admin_scripts')
+    <script> lazyLoadCss('/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css'); </script>
 
     <script src="/plugins/datatables/jquery.dataTables.min.js"></script>
     <script src="/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>

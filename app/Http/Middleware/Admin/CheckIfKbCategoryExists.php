@@ -17,14 +17,7 @@ class CheckIfKbCategoryExists
      */
     public function handle(Request $request, Closure $next)
     {
-        $id = $request->route('id');
-        $category = KbCategory::find($id);
-
-        if (is_null($category)) {
-            return abort(404);
-        } else {
-            view()->share(['category' => $category]);
-            return $next($request);
-        }
+        return (is_null(KbCategory::find($request->route('category_id'))))
+            ? abort(404) : $next($request);
     }
 }

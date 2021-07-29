@@ -11,16 +11,16 @@ class ContactForm extends Notification implements ShouldQueue
 {
     use Queueable;
 
-    protected $sender;
+    protected $msg_id;
 
     /**
      * Create a new notification instance.
      *
      * @return void
      */
-    public function __construct($sender)
+    public function __construct($id)
     {
-        $this->sender = $sender;
+        $this->msg_id = $id;
     }
 
     /**
@@ -47,8 +47,8 @@ class ContactForm extends Notification implements ShouldQueue
             'body_message' => 'You received a new message from the contact form of your PteroBilling store.',
             'body_action' => 'Please click the button below to read the message in the admin area.',
             'button_text' => 'View Message',
-            'button_url' => url()->route('admin.page.contact', ['id' => 'contact', 'msg_id' => $this->sender->id]),
-            'notice' => 'You may change the email address that receives this kind of emails in the admin area.',
+            'button_url' => url()->route('admin.page.message', ['msg_id' => $this->msg_id]),
+            'notice' => 'You may change the email address that receives contact form notifications in the admin area.',
         ]);
     }
 

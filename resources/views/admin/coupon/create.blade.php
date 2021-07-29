@@ -1,38 +1,44 @@
+@php $header_route = "admin.coupon.index"; @endphp
+
 @extends('layouts.admin')
+
+@section('title', 'Create Coupon')
+@section('header', 'Coupons')
 
 @section('content')
     <div class="row">
         <div class="col-lg-12">
             <div class="card">
-                <form action="" method="POST">
+                <form action="{{ route('api.admin.coupon.create') }}" method="POST" data-callback="createForm">
                     @csrf
 
                     <div class="card-body row">
-                        <div class="form-group col-lg-6">
+                        <div class="form-group col-lg-4">
                             <label for="codeInput">Coupon Code</label>
-                            <input type="text" name="code" value="{{ old('code') }}" class="form-control" id="codeInput" placeholder="Coupon Code" required>
+                            <input type="text" name="code" class="form-control" id="codeInput" placeholder="Coupon Code" required>
                         </div>
-                        <div class="form-group col-lg-6">
+                        <div class="form-group col-lg-4">
                             <label for="percentOffInput">Percent Off</label>
-                            <input type="number" name="percent_off" value="{{ old('percent_off') }}" min="1" max="100" step="1" class="form-control" id="percentOffInput" placeholder="Percent Off" required>
+                            <input type="text" name="percent_off" min="1" max="100" step="1" class="form-control" id="percentOffInput" placeholder="Percent Off" required>
                         </div>
-                        <div class="form-group col-lg-6">
-                            <label for="globalLimitInput">Global Limit (max. uses of this coupon)</label>
-                            <input type="number" name="global_limit" value="{{ old('global_limit') }}" min="0" step="1" class="form-control" id="globalLimitInput" placeholder="Global Limit" required>
+                        <div class="form-group col-lg-4">
+                            <label for="globalLimitInput">Global Limit (max. uses) (Optional)</label>
+                            <input type="text" name="global_limit" class="form-control" id="globalLimitInput" placeholder="0 = Cannot be used">
                         </div>
-                        <div class="form-group col-lg-6">
-                            <label for="perClientLimitInput">Per Client Limit (max. uses per client of this coupon)</label>
-                            <input type="number" name="per_client_limit" value="{{ old('per_client_limit') }}" min="0" step="1" class="form-control" id="perClientLimitInput" placeholder="Per Client Limit" required>
+                        <div class="form-group col-lg-4">
+                            <label for="perClientInput">Per Client Limit (max. uses per client) (Optional)</label>
+                            <input type="text" name="per_client_limit" class="form-control" id="perClientInput" placeholder="0 = Cannot be used">
                         </div>
-                        <div class="form-group col-lg-6">
-                            <div class="custom-control custom-switch">
-                                <input type="checkbox" name="is_global" value="yes" class="custom-control-input" @if (old('is_global')) checked @endif id="isGlobalInput">
-                                <label class="custom-control-label" for="isGlobalInput">Is Global? (apply to the whole store?)</label>
-                            </div>
+                        <div class="form-group col-lg-4">
+                            <label for="isGlobalInput">Global? (can be used in the whole store?)</label>
+                            <select class="form-control" name="is_global">
+                                <option value="1">Yes</option>
+                                <option value="0">No</option>
+                            </select>
                         </div>
-                        <div class="form-group col-lg-6">
-                            <label for="endDateInput">End Date (optional)</label>
-                            <input type="date" name="end_date" value="{{ old('end_date') }}" class="form-control" id="endDateInput">
+                        <div class="form-group col-lg-4">
+                            <label for="endDateInput">End Date (Optional)</label>
+                            <input type="date" name="end_date" class="form-control" id="endDateInput">
                         </div>
                     </div>
                     <div class="card-footer row justify-content-center">
@@ -43,4 +49,21 @@
             </div>
         </div>
     </div>
+@endsection
+
+@section('admin_scripts')
+    <script>
+        function createForm(data) {
+            if (data.success) {
+                toastr.success(data.success)
+                resetForms()
+            } else if (data.error) {
+                toastr.error(data.error)
+            } else if (data.errors) {
+                data.errors.forEach(error => { toastr.error(error) });
+            } else {
+                wentWrong()
+            }
+        }
+    </script>
 @endsection

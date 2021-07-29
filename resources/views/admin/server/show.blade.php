@@ -1,11 +1,16 @@
+@php
+    $header_route = 'admin.servers.active';
+    $plan = $plan_model->find($server->plan_id)->first();
+@endphp
+
 @extends('layouts.admin')
 
 @inject('plan_model', 'App\Models\Plan')
 @inject('addon_model', 'App\Models\Addon')
 
-@php
-    $plan = $plan_model->find($server->plan_id)->first();
-@endphp
+@section('title', 'Server Info')
+@section('header', 'Active Servers')
+@section('subheader', "Server #${id}")
 
 @section('content')
     <div class="row">
@@ -31,13 +36,15 @@
                             None
                         @endif
                     </p>
-                    <form action="{{ route('admin.server.suspend', ['id' => $server->id]) }}" method="POST">
-                        @if ($server->status === 2)
+                    @if ($server->status === 2)
+                        <form action="{{ route('admin.server.suspend', ['id' => $server->id]) }}" method="POST">
                             <button type="submit" class="btn btn-warning btn-sm col-12">Unsuspend Server <i class="fas fa-arrow-circle-right"></i></button>
-                        @else
+                        </form>
+                    @else
+                        <form action="{{ route('admin.server.unsuspend', ['id' => $server->id]) }}" method="POST">
                             <button type="submit" class="btn btn-danger btn-sm col-12">Suspend Server <i class="fas fa-arrow-circle-right"></i></button>
-                        @endif
-                    </form>
+                        </form>
+                    @endif
                 </div>
             </div>
             <div class="card">
@@ -74,7 +81,7 @@
                         <b>Recurring Amount</b><br>
                         <b>Billing Cycle</b><br>
                         <b>Server Creation Date</b><br>
-                        <b>Next Due Date</b><br>
+                        <b>Due Date</b><br>
                         <b>Payment Method</b><br>
                         <b>Backup Payment Method</b>
                     </p>

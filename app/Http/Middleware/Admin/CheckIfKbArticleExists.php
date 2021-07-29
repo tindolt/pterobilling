@@ -17,14 +17,7 @@ class CheckIfKbArticleExists
      */
     public function handle(Request $request, Closure $next)
     {
-        $article_id = $request->route('article_id');
-        $article = KbArticle::find($article_id);
-
-        if (is_null($article)) {
-            return abort(404);
-        } else {
-            view()->share(['article' => $article]);
-            return $next($request);
-        }
+        return (is_null(KbArticle::find($request->route('article_id'))))
+            ? abort(404) : $next($request);
     }
 }

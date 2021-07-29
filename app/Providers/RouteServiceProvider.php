@@ -38,29 +38,52 @@ class RouteServiceProvider extends ServiceProvider
         $this->configureRateLimiting();
 
         $this->routes(function () {
-            Route::prefix('api')
-                ->middleware('api')
-                ->namespace($this->namespace)
-                ->group(base_path('routes/api.php'));
-            
-            /* Store */
+            /** Store */
             Route::middleware('web')
                 ->namespace($this->namespace)
                 ->group(base_path('routes/store.php'));
 
-            /* Client Area */
-            Route::prefix('my')
+            /** Client Area */
+            Route::prefix('/my')
                 ->name('client.')
-                ->middleware(['web', 'auth', 'verified', 'cache.servers'])
+                ->middleware(['web', 'auth', 'verified'])
                 ->namespace($this->namespace)
                 ->group(base_path('routes/client.php'));
 
-            /* Admin Area */
-            Route::prefix('admin')
+            /** Admin Area */
+            Route::prefix('/admin')
                 ->name('admin.')
                 ->middleware(['web', 'auth', 'verified', 'admin'])
                 ->namespace($this->namespace)
                 ->group(base_path('routes/admin.php'));
+            
+            /**
+             * API (Internal Use Only)
+             */
+            Route::prefix('/api/store')
+                ->name('api.store.')
+                ->middleware(['web', 'throttle:api'])
+                ->namespace($this->namespace)
+                ->group(base_path('routes/api/store.php'));
+            
+            Route::prefix('/api/client')
+                ->name('api.client.')
+                ->middleware(['web', 'auth', 'verified', 'throttle:api'])
+                ->namespace($this->namespace)
+                ->group(base_path('routes/api/client.php'));
+            
+            Route::prefix('/api/admin')
+                ->name('api.admin.')
+                ->middleware(['web', 'auth', 'verified', 'admin', 'throttle:api'])
+                ->namespace($this->namespace)
+                ->group(base_path('routes/api/admin.php'));
+
+            /** Extensions */
+            Route::prefix('/extension')
+                ->name('extension.')
+                ->middleware('web')
+                ->namespace('Extensions')
+                ->group(base_path('routes/extensions.php'));
         });
     }
 
@@ -72,7 +95,11 @@ class RouteServiceProvider extends ServiceProvider
     protected function configureRateLimiting()
     {
         RateLimiter::for('api', function (Request $request) {
-            return Limit::perMinute(60)->by(optional($request->user())->id ?: $request->ip());
+            if ($request->user()) {
+                return $request->user()->is_admin ? Limit::none() : Limit::perMinute(120)->by($request->user()->id);
+            }
+
+            return Limit::perMinute(30)->by($request->ip());
         });
     }
 }

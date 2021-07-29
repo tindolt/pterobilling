@@ -17,7 +17,7 @@ class CloseRegistration
     public function handle(Request $request, Closure $next)
     {
         if (!config('app.open_registration')) {
-            return back()->with('warning_msg', 'You cannot register for an account now because the registration has been closed!');
+            return abort(403);
         }
         
         return $next($request);

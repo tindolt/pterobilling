@@ -1,20 +1,25 @@
+@php $header_route = "admin.kb.index"; @endphp
+
 @extends('layouts.admin')
+
+@section('title', 'Create Knowledge Base Category')
+@section('header', 'Knowledge Base')
 
 @section('content')
     <div class="row">
         <div class="col-lg-12">
             <div class="card">
-                <form action="" method="POST">
+                <form action="{{ route('api.admin.kb.create') }}" method="POST" data-callback="createForm">
                     @csrf
 
                     <div class="card-body row">
                         <div class="form-group col-lg-6">
                             <label for="nameInput">Category Name</label>
-                            <input type="text" name="name" value="{{ old('name') }}" class="form-control" id="nameInput" placeholder="Category Name" required>
+                            <input type="text" name="name" class="form-control" id="nameInput" placeholder="Category Name" required>
                         </div>
                         <div class="form-group col-lg-6">
                             <label for="orderInput">Order (The smaller, the higher display priority)</label>
-                            <input type="number" name="order" value="{{ old('order') }}" class="form-control" id="orderInput" placeholder="Order" required>
+                            <input type="text" name="order" value="1000" class="form-control" id="orderInput" placeholder="Order" required>
                         </div>
                     </div>
                     <div class="card-footer row justify-content-center">
@@ -25,4 +30,21 @@
             </div>
         </div>
     </div>
+@endsection
+
+@section('admin_scripts')
+    <script>
+        function createForm(data) {
+            if (data.success) {
+                toastr.success(data.success)
+                resetForms()
+            } else if (data.error) {
+                toastr.error(data.error)
+            } else if (data.errors) {
+                data.errors.forEach(error => { toastr.error(error) });
+            } else {
+                wentWrong()
+            }
+        }
+    </script>
 @endsection

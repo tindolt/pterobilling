@@ -1,12 +1,8 @@
 @extends('layouts.admin')
 
-@inject('discount_expiry', 'App\View\Classes\DiscountExpiry')
+@inject('discount_model', 'App\Models\Discount')
 
-@section('styles')
-    <noscript>
-        <link rel="stylesheet" href="/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
-    </noscript>
-@endsection
+@section('title', 'Discounts')
 
 @section('content')
     <div class="row">
@@ -22,16 +18,16 @@
                     <table id="discounts-table" class="table table-hover text-nowrap">
                         <thead>
                             <tr>
-                                <th style="width:5%">ID</th>
-                                <th style="width:30%">Name</th>
-                                <th style="width:10%">Percent Off</th>
-                                <th style="width:15%">Is Global?</th>
-                                <th style="width:15%">Expired?</th>
-                                <th style="width:25%">Expiry Date</th>
+                                <th>ID</th>
+                                <th>Name</th>
+                                <th>Percent Off</th>
+                                <th>Global?</th>
+                                <th>Usable?</th>
+                                <th>Expiry Date</th>
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($discounts as $discount)
+                            @foreach ($discount_model->all() as $discount)
                                 <tr>
                                     <td><a href="{{ route('admin.discount.show', ['id' => $discount->id]) }}">{{ $discount->id }}</a></td>
                                     <td>{{ $discount->name }}</td>
@@ -44,12 +40,10 @@
                                         @endif
                                     </td>
                                     <td>
-                                        @if (is_null($discount->end_date))
-                                            <i class="fas fa-times"></i> No
-                                        @elseif ($discount_expiry->checkDiscount($discount->id))
-                                            <i class="fas fa-times"></i> No
-                                        @else
+                                        @if ($discount_model->verifyDiscount($discount))
                                             <i class="fas fa-check"></i> Yes
+                                        @else
+                                            <i class="fas fa-times"></i> No
                                         @endif
                                     </td>
                                     <td>{{ $discount->end_date }}</td>
@@ -58,12 +52,12 @@
                         </tbody>
                         <tfoot>
                             <tr>
-                                <th style="width:5%">ID</th>
-                                <th style="width:30%">Name</th>
-                                <th style="width:10%">Percent Off</th>
-                                <th style="width:15%">Is Global?</th>
-                                <th style="width:15%">Expired?</th>
-                                <th style="width:25%">Expiry Date</th>
+                                <th>ID</th>
+                                <th>Name</th>
+                                <th>Percent Off</th>
+                                <th>Global?</th>
+                                <th>Usable?</th>
+                                <th>Expiry Date</th>
                             </tr>
                         </tfoot>
                     </table>
@@ -73,15 +67,8 @@
     </div>
 @endsection
 
-@section('scripts')
-    <script>
-        (function() {
-            var css = document.createElement('link');
-            css.href = '/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css';
-            css.rel = 'stylesheet';
-            document.getElementsByTagName('head')[0].appendChild(css);
-        })();
-    </script>
+@section('admin_scripts')
+    <script> lazyLoadCss('/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css'); </script>
 
     <script src="/plugins/datatables/jquery.dataTables.min.js"></script>
     <script src="/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>

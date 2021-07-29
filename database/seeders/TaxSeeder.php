@@ -16,8 +16,8 @@ class TaxSeeder extends Seeder
     {
         $i = 0;
 
-        if (count(Tax::all()) == 0) {
-            Tax::create(['country' => '0']);
+        if (Tax::where('country', 'Global')->doesntExist()) {
+            Tax::create(['country' => 'Global']);
             ++$i;
         }
 

@@ -1,24 +1,36 @@
+@php $header_route = "admin.currency.index"; @endphp
+
 @extends('layouts.admin')
+
+@section('title', 'Add Currency')
+@section('header', 'Currencies')
 
 @section('content')
     <div class="row">
         <div class="col-lg-12">
             <div class="card">
-                <form action="" method="POST">
+                <form action="{{ route('api.admin.currency.create') }}" method="POST" data-callback="createForm">
                     @csrf
 
                     <div class="card-body row">
-                        <div class="form-group col-lg-4">
-                            <label for="nameInput">Currency Name (3 Letters)</label>
-                            <input type="text" name="name" value="{{ old('name') }}" class="form-control" id="nameInput" placeholder="(e.g. USD)" required>
+                        <div class="form-group col-lg-3">
+                            <label for="nameInput">3-Letter Currency Name</label>
+                            <input type="text" name="name" class="form-control" id="nameInput" placeholder="e.g. USD" required>
                         </div>
-                        <div class="form-group col-lg-4">
-                            <label for="symbolInput">Symbol (HTML Entity Code)</label>
-                            <input type="text" name="symbol" value="{{ old('symbol') }}" class="form-control" id="symbolInput" placeholder="(e.g. &#38;#36;)" required>
+                        <div class="form-group col-lg-3">
+                            <label for="symbolInput">Symbol (HTML Code)</label>
+                            <input type="text" name="symbol" class="form-control" id="symbolInput" placeholder="e.g. &#38;#36;" required>
                         </div>
-                        <div class="form-group col-lg-4">
+                        <div class="form-group col-lg-3">
                             <label for="rateInput">Conversion Rate</label>
-                            <input type="number" name="rate" step="0.000000001" value="{{ old('rate') }}" class="form-control" id="rateInput" placeholder="Conversion Rate" required>
+                            <input type="text" name="rate" class="form-control" id="rateInput" placeholder="Conversion Rate" required>
+                        </div>
+                        <div class="form-group col-lg-3">
+                            <label for="defaultInput">Default Currency</label>
+                            <select class="form-control" name="default">
+                                <option value="1">Yes</option>
+                                <option value="0">No</option>
+                            </select>
                         </div>
                         <div class="form-group col-lg-12">
                             <div class="alert alert-info">
@@ -34,4 +46,21 @@
             </div>
         </div>
     </div>
+@endsection
+
+@section('admin_scripts')
+    <script>
+        function createForm(data) {
+            if (data.success) {
+                toastr.success(data.success)
+                resetForms()
+            } else if (data.error) {
+                toastr.error(data.error)
+            } else if (data.errors) {
+                data.errors.forEach(error => { toastr.error(error) });
+            } else {
+                wentWrong()
+            }
+        }
+    </script>
 @endsection

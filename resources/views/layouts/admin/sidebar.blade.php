@@ -105,13 +105,13 @@
                 <li class="nav-item">
                     <a href="{{ route('admin.category.index') }}" class="nav-link @if(Route::currentRouteName() == 'admin.category.index') active @endif">
                         <i class="nav-icon far fa-folder"></i>
-                        <p>Categories</p>
+                        <p>Server Categories</p>
                     </a>
                 </li>
                 <li class="nav-item">
                     <a href="{{ route('admin.addon.index') }}" class="nav-link @if(Route::currentRouteName() == 'admin.addon.index') active @endif">
                         <i class="nav-icon fas fa-puzzle-piece"></i>
-                        <p>Add-ons</p>
+                        <p>Plan Add-ons</p>
                     </a>
                 </li>
                 <li class="nav-item">
@@ -165,7 +165,7 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="{{ route('admin.announce.show') }}" class="nav-link @if(Route::currentRouteName() == 'admin.announcement.show') active @endif">
+                    <a href="{{ route('admin.announce.index') }}" class="nav-link @if(Route::currentRouteName() == 'admin.announcement.index') active @endif">
                         <i class="nav-icon fas fa-bullhorn"></i>
                         <p>Announcements</p>
                     </a>
@@ -187,31 +187,31 @@
                     </a>
                     <ul class="nav nav-treeview">
                         <li class="nav-item">
-                            <a href="{{ route('admin.page.show', ['id' => 'home']) }}" class="nav-link">
+                            <a href="{{ route('admin.page.show', ['name' => 'home']) }}" class="nav-link">
                                 <i class="nav-icon fas fa-home"></i>
                                 <p>Home Page</p>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="{{ route('admin.page.show', ['id' => 'contact']) }}" class="nav-link">
+                            <a href="{{ route('admin.page.contact') }}" class="nav-link">
                                 <i class="nav-icon fas fa-at"></i>
                                 <p>Contact Form</p>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="{{ route('admin.page.show', ['id' => 'terms']) }}" class="nav-link">
+                            <a href="{{ route('admin.page.show', ['name' => 'terms']) }}" class="nav-link">
                                 <i class="nav-icon fas fa-file-alt"></i>
                                 <p>Terms of Service</p>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="{{ route('admin.page.show', ['id' => 'privacy']) }}" class="nav-link">
+                            <a href="{{ route('admin.page.show', ['name' => 'privacy']) }}" class="nav-link">
                                 <i class="nav-icon far fa-file-alt"></i>
                                 <p>Privacy Policy</p>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="{{ route('admin.page.show', ['id' => 'status']) }}" class="nav-link">
+                            <a href="{{ route('admin.page.show', ['name' => 'status']) }}" class="nav-link">
                                 <i class="nav-icon fas fa-chart-bar"></i>
                                 <p>Status Page</p>
                             </a>
@@ -219,27 +219,11 @@
                     </ul>
                 </li>
                 <li class="nav-header">EXTENSIONS</li>
-                @foreach ($extension_manager->gateway_extensions() as $extension)
+                @foreach ($extension_manager->getAllExtensions() as $extension)
                     <li class="nav-item">
-                        <a href="{{ route('admin.extension.show', ['id' => str_replace('Extensions\\', '', $extension)]) }}" class="nav-link">
+                        <a href="{{ route('admin.extension.show', ['id' => $extension::$display_name]) }}" class="nav-link">
                             <i class="nav-icon fas fa-plug"></i>
-                            <p>{{ str_replace('Extensions\\', '', $extension) }}</p>
-                        </a>
-                    </li>
-                @endforeach
-                @foreach ($extension_manager->subdomain_extensions() as $extension)
-                    <li class="nav-item">
-                        <a href="{{ route('admin.extension.show', ['id' => str_replace('Extensions\\', '', $extension)]) }}" class="nav-link">
-                            <i class="nav-icon fas fa-plug"></i>
-                            <p>{{ str_replace('Extensions\\', '', $extension) }}</p>
-                        </a>
-                    </li>
-                @endforeach
-                @foreach ($extension_manager->software_extensions() as $extension)
-                    <li class="nav-item">
-                        <a href="{{ route('admin.extension.show', ['id' => str_replace('Extensions\\', '', $extension)]) }}" class="nav-link">
-                            <i class="nav-icon fas fa-plug"></i>
-                            <p>{{ str_replace('Extensions\\', '', $extension) }}</p>
+                            <p>{{ $extension::$display_name }}</p>
                         </a>
                     </li>
                 @endforeach

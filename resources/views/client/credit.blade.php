@@ -2,6 +2,8 @@
 
 @inject('credit_model', 'App\Models\Credit')
 
+@section('title', 'Account Credit')
+
 @section('content')
     <div class="row">
         <div class="col-lg-6 col-md-6">

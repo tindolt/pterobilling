@@ -48,7 +48,7 @@ return [
 
         'redis' => [
             'driver' => 'redis',
-            'connection' => 'broadcasting',
+            'connection' => 'default',
         ],
 
         'log' => [

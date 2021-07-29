@@ -17,15 +17,11 @@ class CheckInvoicePermission
      */
     public function handle(Request $request, Closure $next)
     {
-        $id = $request->route('id');
-        $invoice = Invoice::find($id);
-
-        if (is_null($invoice)) {
+        if (is_null($invoice = Invoice::find($request->route('id')))) {
             return abort(403);
         } elseif ($invoice->client_id !== $request->user()->id) {
             return abort(403);
         } else {
-            view()->share(['invoice' => $invoice]);
             return $next($request);
         }
     }

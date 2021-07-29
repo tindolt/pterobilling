@@ -15,9 +15,11 @@ class CreateCategoriesTable extends Migration
     {
         Schema::create('categories', function (Blueprint $table) {
             $table->id();
-            $table->string('name')->unique();
-            $table->integer('global_limit')->unsigned()->default(0);
-            $table->integer('per_client_limit')->unsigned()->default(0);
+            $table->string('name');
+            $table->text('description')->nullable();
+            $table->integer('global_limit')->unsigned()->nullable();
+            $table->integer('per_client_limit')->unsigned()->nullable();
+            $table->integer('per_client_trial_limit')->unsigned()->nullable();
             $table->integer('order')->default(1000);
             $table->timestamps();
         });

@@ -3,6 +3,8 @@
 @inject('kb_category_model', 'App\Models\KbCategory')
 @inject('kb_article_model', 'App\Models\KbArticle')
 
+@section('title', 'Knowledge Base')
+
 @section('content')
     <div class="row justify-content-center">
         @foreach ($kb_category_model->orderBy('order', 'asc')->get() as $kb_category)

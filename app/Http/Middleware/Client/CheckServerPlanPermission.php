@@ -2,6 +2,8 @@
 
 namespace App\Http\Middleware\Client;
 
+use App\Models\Plan;
+use App\Models\Server;
 use Closure;
 use Illuminate\Http\Request;
 
@@ -16,7 +18,9 @@ class CheckServerPlanPermission
      */
     public function handle(Request $request, Closure $next)
     {
-        $plan_id = $request->route('plan_id');
-        return $next($request);
+        if (is_null($plan = Plan::find($request->route('plan_id')))) return abort(404);
+
+        return $plan->category_id !== Plan::find(Server::find($request->route('id'))->plan_id)->category_id
+            ? abort(403) : $next($request);
     }
 }

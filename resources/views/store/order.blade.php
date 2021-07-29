@@ -128,6 +128,36 @@
     </div>
 @endsection
 
+@section('store_scripts')
+    <script>
+        $("form :input").change(function() {
+            const data = $(this).serialize()
+            $.debounce(function() {
+                $.ajax({
+                    'url': {{ route('api.store.order.summary') }},
+                    'data': data,
+                    'headers': {
+                        'Accept': 'application/json; charset=UTF-8',
+                        'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
+                        'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                    },
+                    'method': 'GET',
+                    'success': function(data) {
+                        if (data.success) {
+                            
+                        } else if (data.error) {
+                            toastr.error(data.error)
+                        } else {
+                            wentWrong()
+                        }
+                    },
+                    'error': function() { wentWrong() }
+                })
+            }, 500)
+        });
+    </script>
+@endsection
+
 @section('scripts')
     <script>
         var orderDetailsInput = document.getElementById("order-details");

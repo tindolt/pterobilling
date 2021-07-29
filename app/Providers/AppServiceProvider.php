@@ -2,6 +2,9 @@
 
 namespace App\Providers;
 
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Blade;
+use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -25,11 +28,11 @@ class AppServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    public function boot(\Illuminate\Http\Request $request)
+    public function boot()
     {
-        // To fix ngrok base URL problem
-        if ($request->server->has('HTTP_X_ORIGINAL_HOST')) {
-            $this->app['url']->forceRootUrl($request->server('HTTP_X_FORWARDED_PROTO').'://'.$request->server('HTTP_X_ORIGINAL_HOST'));
-        }
+        Blade::directive('bearer', function (Request $request, $expression) {
+            $token = ($expression == 'user') ? Crypt::encryptString($request->user()->password) : Crypt::encryptString(config('app.key'));
+            return "<?php echo $token ?>";
+        });
     }
 }

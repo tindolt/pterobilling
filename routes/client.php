@@ -6,100 +6,78 @@ use Illuminate\Support\Facades\Route;
  * Client Area
  */
 // Dashboard
-Route::get('/', 'Client\DashController@show')->name('dash');
+Route::get('/', 'ClientAreaController@dash')->name('dash');
 
 // Servers
-Route::prefix('server')->name('server.')->group(function () {
+Route::prefix('/server')->name('server.')->group(function () {
     // List all servers
-    Route::get('/', 'Client\ServerController@index')->name('index');
+    Route::get('/', 'ClientAreaController@servers')->name('index');
 
-    Route::prefix('{id}')->middleware('check.client.server')->group(function () {
+    Route::prefix('/{id}')->middleware('check.client.server')->group(function () {
         // Show server information
-        Route::get('/', 'Client\ServerController@show')->name('show');
+        Route::get('/', 'ClientAreaController@server')->name('show');
 
         // Manage server plan
-        Route::prefix('plan')->name('plan.')->group(function () {
-            Route::get('/', 'Client\PlanController@show')->name('show');
-            Route::get('/cancel', 'Client\PlanController@cancel')->name('cancel');
-            Route::post('/cancel', 'Client\PlanController@destroy');
-            Route::get('/change/{plan_id}', 'Client\PlanController@change')->middleware('check.client.plan')->name('change');
-            Route::post('/change/{plan_id}', 'Client\PlanController@store')->middleware('check.client.plan');
-            Route::get('/checkout', 'Client\PlanController@confirm')->name('checkout');
-            Route::post('/checkout', 'Client\PlanController@checkout');
-            Route::get('/changed', 'Client\PlanController@changed')->name('changed');
+        Route::prefix('/plan')->name('plan.')->group(function () {
+            Route::get('/', 'ClientAreaController@plan')->name('show');
+            Route::get('/{plan_id}/change', 'ClientAreaController@changePlan')->middleware('check.client.plan')->name('change');
+            Route::get('/{plan_id}/checkout', 'ClientAreaController@planCheckout')->middleware('check.client.plan')->name('checkout');
         });
 
         // Manage server add-ons
-        Route::prefix('addon')->name('addon.')->group(function () {
-            Route::get('/', 'Client\AddonController@show')->name('show');
-            Route::get('/remove/{addon_id}', 'Client\AddonController@remove')->middleware('check.client.addon:remove')->name('remove');
-            Route::post('/remove/{addon_id}', 'Client\AddonController@destroy')->middleware('check.client.addon:remove');
-            Route::get('/add/{addon_id}', 'Client\AddonController@add')->middleware('check.client.addon:add')->name('add');
-            Route::post('/add/{addon_id}', 'Client\AddonController@store')->middleware('check.client.addon:add');
-            Route::get('/checkout', 'Client\AddonController@confirm')->name('checkout');
-            Route::post('/checkout', 'Client\AddonController@checkout');
-            Route::get('/added', 'Client\AddonController@added')->name('added');
+        Route::prefix('/addon')->name('addon.')->group(function () {
+            Route::get('/', 'ClientAreaController@addon')->name('show');
+            Route::get('/{addon_id}/add', 'ClientAreaController@addAddon')->middleware('check.client.addon')->name('add');
+            Route::get('/{addon_id}/checkout', 'ClientAreaController@addonCheckout')->middleware('check.client.addon')->name('checkout');
         });
 
         // Server subdomain manager
-        Route::prefix('subdomain')->middleware('soon')->name('subdomain.')->group(function () {
-            Route::get('/', 'Client\SubdomainController@show')->name('show');
-            Route::post('/', 'Client\SubdomainController@store');
+        Route::prefix('/subdomain')->middleware('soon')->name('subdomain.')->group(function () {
+            Route::get('/', 'ClientAreaController@subdomain')->name('show');
         });
 
         // Server software installer
-        Route::prefix('software')->middleware('soon')->name('software.')->group(function () {
-            Route::get('/', 'Client\SoftwareController@show')->name('show');
-            Route::post('/', 'Client\SoftwareController@store');
+        Route::prefix('/software')->middleware('soon')->name('software.')->group(function () {
+            Route::get('/', 'ClientAreaController@software')->name('show');
         });
     });
 });
 
 // Invoices
-Route::prefix('invoice')->name('invoice.')->group(function () {
-    Route::get('/', 'Client\InvoiceController@index')->name('index');
+Route::prefix('/invoice')->name('invoice.')->group(function () {
+    Route::get('/', 'ClientAreaController@invoices')->name('index');
 
-    Route::prefix('{id}')->middleware('check.client.invoice')->group(function () {
-        Route::get('/', 'Client\InvoiceController@show')->name('show');
-        Route::post('/', 'Client\InvoiceController@store');
-        Route::get('/print', 'Client\InvoiceController@print')->name('print');
-        Route::get('/paid', 'Client\InvoiceController@paid')->name('paid');
+    Route::prefix('/{id}')->middleware('check.client.invoice')->group(function () {
+        Route::get('/', 'ClientAreaController@invoice')->name('show');
+        Route::get('/print', 'ClientAreaController@printInvoice')->name('print');
+        Route::get('/pay', 'ClientAreaController@payInvoice')->name('pay');
     });
 });
 
 // Support Tickets
-Route::prefix('ticket')->name('ticket.')->group(function () {
-    Route::get('/', 'Client\TicketController@index')->name('index');
-    Route::get('/create','Client\TicketController@create')->name('create');
-    Route::post('/create', 'Client\TicketController@store');
+Route::prefix('/ticket')->name('ticket.')->group(function () {
+    Route::get('/', 'ClientAreaController@tickets')->name('index');
+    Route::get('/create','ClientAreaController@createTicket')->name('create');
 
-    Route::prefix('view/{id}')->middleware('check.client.ticket')->group(function () {
-        Route::get('/', 'Client\TicketController@show')->name('show');
-        Route::post('/', 'Client\TicketController@update');
+    Route::prefix('/view/{id}')->middleware('check.client.ticket')->group(function () {
+        Route::get('/', 'ClientAreaController@ticket')->name('show');
     });
 });
 
 // Affiliate Program
-Route::prefix('affiliate')->middleware('check.store.affiliate')->name('affiliate.')->group(function () {
-    Route::get('/', 'Client\AffiliateController@show')->name('show');
-    Route::post('/', 'Client\AffiliateController@store');
+Route::prefix('/affiliate')->middleware('check.store.affiliate')->name('affiliate.')->group(function () {
+    Route::get('/', 'ClientAreaController@affiliate')->name('show');
 });
 
 // Account Settings
-Route::prefix('account')->name('account.')->group(function () {
-    Route::get('/', 'Client\AccountController@show')->name('show');
-    Route::post('/basic', 'Client\AccountController@basic')->name('basic');
-    Route::post('/api', 'Client\AccountController@api')->name('api');
-    Route::post('/email', 'Client\AccountController@email')->name('email');
-    Route::post('/password', 'Client\AccountController@password')->name('password');
+Route::prefix('/account')->name('account.')->group(function () {
+    Route::get('/', 'ClientAreaController@account')->name('show');
 });
 
 // Account Credit
-Route::prefix('credit')->name('credit.')->group(function () {
-    Route::get('/', 'Client\CreditController@show')->name('show');
-    Route::post('/', 'Client\CreditController@store');
-    Route::get('/added', 'Client\CreditController@added')->name('added');
+Route::prefix('/credit')->name('credit.')->group(function () {
+    Route::get('/', 'ClientAreaController@credit')->name('show');
 });
 
 // Logout
-Route::get('/logout', 'Client\AccountController@destroy')->withoutMiddleware('verified')->name('logout');
+Route::get('/logout', 'ClientAreaController@logout')->withoutMiddleware('verified')->name('logout');

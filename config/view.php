@@ -1,5 +1,7 @@
 <?php
 
+use Extensions\ExtensionManager;
+
 return [
 
     /*
@@ -13,9 +15,7 @@ return [
     |
     */
 
-    'paths' => [
-        resource_path('views'),
-    ],
+    'paths' => array_merge([resource_path('views')], ExtensionManager::getAllViews()),
 
     /*
     |--------------------------------------------------------------------------

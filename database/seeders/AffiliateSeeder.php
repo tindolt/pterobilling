@@ -31,14 +31,6 @@ class AffiliateSeeder extends Seeder
             ]);
             ++$i;
         }
-
-        if (is_null(AffiliateProgram::where('key', 'payout_methods')->first())) {
-            AffiliateProgram::create([
-                'key' => 'payout_methods',
-                'value' => '["credit"]',
-            ]);
-            ++$i;
-        }
         
         if ($i > 0)
             $this->command->info('Seeded and updated the affiliate_programs table successfully!');

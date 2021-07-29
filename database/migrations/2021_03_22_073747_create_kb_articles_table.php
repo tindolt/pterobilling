@@ -16,8 +16,8 @@ class CreateKbArticlesTable extends Migration
         Schema::create('kb_articles', function (Blueprint $table) {
             $table->id();
             $table->integer('category_id')->unsigned();
-            $table->string('subject')->unique();
-            $table->string('content', 5000);
+            $table->string('subject');
+            $table->text('content');
             $table->integer('order')->default(1000);
             $table->timestamps();
         });

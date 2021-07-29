@@ -10,5 +10,6 @@ class TicketContent extends Model
         'ticket_id',
         'replier_id',
         'message',
+        'attachment',
     ];
 }

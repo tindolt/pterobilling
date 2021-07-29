@@ -1,7 +1,12 @@
+@php $header_route = "client.ticket.index"; @endphp
+
 @extends('layouts.client')
 
-@inject('ticket_model', 'App\Models\TicketContent')
+@inject('ticket_content_model', 'App\Models\TicketContent')
 @inject('client_model', 'App\Models\Client')
+
+@section('title', 'Ticket #'.$ticket->id)
+@section('header', 'Support Tickets')
 
 @section('content')
     <div class="row">
@@ -50,7 +55,7 @@
             <div class="card">
                 <div class="card-body">
                     <div class="direct-chat-messages">
-                        @foreach ($ticket_model->where('ticket_id', $ticket->id)->get() as $ticket_content)
+                        @foreach ($ticket_content_model->where('ticket_id', $ticket->id)->get() as $ticket_content)
                             @if ($ticket_content->replier_id == auth()->user()->id)
                                 <div class="direct-chat-msg right">
                                     <div class="direct-chat-infos clearfix">
@@ -73,7 +78,7 @@
                 </div>
             </div>
             <div class="card">
-                <form action="" method="POST">
+                <form action="{{ route('api.client.ticket.update', ['id' => $id]) }}" method="PUT" data-callback="updateForm" id="updateForm">
                     @csrf
 
                     <div class="card-header">
@@ -82,17 +87,35 @@
                     <div class="card-body row">
                         <div class="form-group col-12">
                             <label for="messageInput">Message</label>
-                            <textarea type="text" name="message" class="form-control" id="messageInput" placeholder="Please enter your message here..." style="height:200px;" required>{{ old('message') }}</textarea>
+                            <textarea type="text" name="message" class="form-control" id="messageInput" placeholder="50 characters required" style="height:200px;"></textarea>
                         </div>
                     </div>
                     @include('layouts.store.hcaptcha')
                     <div class="card-footer row justify-content-center">
                         <button type="submit" class="btn btn-primary btn-sm col-lg-1 col-md-3">Reply</button>
-                        <button type="submit" name="solved" value="true" form="solvedForm" class="btn btn-success btn-sm col-lg-2 col-md-4 offset-1">Mark Solved</button>
+                        @if ($ticket->status !== 0)
+                            <button type="submit" name="solved" value="true" class="btn btn-success btn-sm col-lg-2 col-md-4 offset-1">Mark Solved</button>
+                        @endif
                     </div>
                 </form>
-                <form action="" method="POST" id="solvedForm"> @csrf </form>
             </div>
         </div>
     </div>
+@endsection
+
+@section('client_scripts')
+    <script>
+        function updateForm(data) {
+            if (data.success) {
+                toastr.success(data.success)
+                waitRedirect(window.location.href)
+            } else if (data.error) {
+                toastr.error(data.error)
+            } else if (data.errors) {
+                data.errors.forEach(error => { toastr.error(error) });
+            } else {
+                wentWrong()
+            }
+        }
+    </script>
 @endsection

@@ -26,7 +26,6 @@ class Client extends Model implements
         'email',
         'email_verified_at',
         'user_id',
-        'api_key',
         'password',
         'referer_id',
         'credit',
@@ -38,6 +37,8 @@ class Client extends Model implements
         'country',
         'timezone',
         'language',
+        'auto_renew',
+        'is_active',
         'is_admin',
     ];
 

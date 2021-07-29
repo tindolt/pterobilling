@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
-        <title>{{ $title }} | Client Area - {{ config('app.company_name') }}</title>
+        <title>@yield('title') | Client Area - {{ config('app.company_name') }}</title>
         @include('layouts.styles')
     </head>
     <body class="hold-transition sidebar-mini layout-fixed layout-navbar-fixed @if(config('app.dark_mode')) dark-mode @endif">
@@ -22,12 +22,9 @@
 
                 <!-- Main content -->
                 <div class="content">
-                    <div class="container-fluid">
-                        @unless ($secure)
-                            @include('layouts.store.secure')
-                        @endunless
+                    <div class="container-fluid" id="content-container">
+                        @include('layouts.store.alerts')
                         @include('layouts.store.announcement')
-                        @include('layouts.client.alert')
                         @include('layouts.store.messages')
                         @yield('content')
                     </div>
@@ -39,5 +36,6 @@
         </div>
 
         @include('layouts.scripts')
+        @include('layouts.client.scripts')
     </body>
 </html>

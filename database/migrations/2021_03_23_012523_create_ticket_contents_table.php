@@ -17,7 +17,8 @@ class CreateTicketContentsTable extends Migration
             $table->id();
             $table->integer('ticket_id')->unsigned();
             $table->integer('replier_id')->unsigned();
-            $table->string('message', 5000);
+            $table->text('message');
+            $table->string('attachment')->nullable();
             $table->timestamps();
         });
     }

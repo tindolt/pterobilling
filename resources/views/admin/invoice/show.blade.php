@@ -46,8 +46,8 @@
                         <table class="table table-striped">
                             <thead>
                                 <tr>
-                                    <th style="width:85%">Product</th>
-                                    <th style="width:15%">Subtotal</th>
+                                    <th>Product</th>
+                                    <th>Subtotal</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -74,7 +74,7 @@
                         <div class="table-responsive">
                             <table class="table">
                                 <tr>
-                                    <th style="width:35%">Primary</th>
+                                    <th>Primary</th>
                                     <td>{{ $invoice->payment_method }}</td>
                                 </tr>
                                 <tr>
@@ -96,7 +96,7 @@
                                     }
                                 @endphp
                                 <tr>
-                                    <th style="width:60%">Subtotal</th>
+                                    <th>Subtotal</th>
                                     <td>{!! session('currency')->symbol !!}{{ number_format($subtotal * session('currency')->rate, 2) }} {{ session('currency')->name }}</td>
                                 </tr>
                                 <tr>

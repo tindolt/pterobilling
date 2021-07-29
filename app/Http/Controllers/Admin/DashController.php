@@ -7,6 +7,7 @@ use App\Models\Client;
 use App\Models\Income;
 use Carbon\Carbon;
 use Carbon\CarbonPeriod;
+use Illuminate\Support\Facades\Artisan;
 
 class DashController extends Controller
 {
@@ -29,5 +30,16 @@ class DashController extends Controller
         }
 
         return view('admin.dash', ['title' => 'Admin Dashboard', 'incomes' => $incomes, 'orders' => $orders, 'clients' => $clients]);
+    }
+
+    public function cache()
+    {
+        if (Artisan::call('config:cache') != 0)
+            return back()->with('danger_msg', 'Failed to clear cached configurations!');
+        
+        if (Artisan::call('queue:restart') != 0)
+            return back()->with('danger_msg', 'Cleared cached configurations but failed to restart queue workers!');
+        
+        return back()->with('success_msg', 'Cleared cached configurations and restarted queue workers successfully!');
     }
 }
