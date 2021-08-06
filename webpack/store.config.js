@@ -1,5 +1,5 @@
 module.exports = (mix) => {
-  mix.ts('resources/js/store/app.ts', 'public/js/store.js')
+  mix.ts('resources/js/store/index.tsx', 'public/js/store.js')
 
   // Default theme
   mix.sass('./resources/css/themes/default/store.scss', 'public/css/themes/default/')

@@ -20,13 +20,15 @@ const webpackConfig = require('./webpack')
 const part = process.env.MIX_PART || null
 
 /*
- * Configure CSS part
+ * Configure Options
  */
-webpackConfig.style(mix)
-
-/*
- * Configure JS part
- */
+mix.options({
+  hmrOptions: {
+    host: '0.0.0.0',
+    port: 8080,
+  },
+  postCss: [require('autoprefixer'), require('tailwindcss')],
+})
 
 // Aliases
 mix.alias({

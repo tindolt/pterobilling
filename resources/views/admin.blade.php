@@ -10,7 +10,7 @@
         <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
 
         <!-- Styles -->
-        <style rel="stylesheet" href="{{ mix('css/themes/default/admin.css') }}"></style>
+        <link rel="stylesheet" href="{{ mix('css/themes/default/admin.css') }}" />
     </head>
     <body>
         <div id="app"></div>

@@ -1,12 +1,16 @@
 module.exports = {
-  purge: [
+  mode: 'jit',
+  purge: {
+    enabled: true,
+    content: [
       './storage/framework/view/*.php',
       './resources/**/*.blade.php',
-      './resources/**/*.js',
-      './resources/**/*.jsx',
+      './resources/**/*.ts',
+      './resources/**/*.tsx',
       './resources/**/*.css',
-      './resources/**/*.scss'
-  ],
+      './resources/**/*.scss',
+    ],
+  },
   darkMode: false, // or 'media' or 'class'
   theme: {
     extend: {},
