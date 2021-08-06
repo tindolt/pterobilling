@@ -12,7 +12,7 @@
         <!-- Styles -->
         <link rel="stylesheet" href="{{ mix('css/themes/default/store.css') }}" />
     </head>
-    <body>
+    <body data-compagny="Pterobilling" r-load>
         <div id="app"></div>
 
         <script src="{{ mix('js/store.js') }}"></script>

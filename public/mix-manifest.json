@@ -2,5 +2,7 @@
     "/js/store.js": "/js/store.js",
     "/css/themes/flat-light/store.css": "/css/themes/flat-light/store.css",
     "/css/themes/flat-dark/store.css": "/css/themes/flat-dark/store.css",
-    "/css/themes/default/store.css": "/css/themes/default/store.css"
+    "/css/themes/default/store.css": "/css/themes/default/store.css",
+    "/images/favicon.png": "/images/favicon.png",
+    "/images/icon.png": "/images/icon.png"
 }

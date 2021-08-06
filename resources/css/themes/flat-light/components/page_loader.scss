@@ -1,0 +1,15 @@
+.preloader {
+  @apply text-gray-900 bg-gray-100 w-screen h-screen fixed left-0 top-0 ease-linear duration-200;
+  @apply flex flex-col justify-center items-center;
+
+  z-index: 1000;
+  transition-property: height;
+
+  .preloader-logo {
+    @apply animate-bounce w-28 h-28;
+  }
+
+  .preloader-brand {
+    @apply uppercase;
+  }
+}
