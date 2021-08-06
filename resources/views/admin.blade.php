@@ -10,11 +10,11 @@
         <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
 
         <!-- Styles -->
-        <style rel="stylesheet" href="{{ mix('css/themes/default/base.css') }}"></style>
+        <style rel="stylesheet" href="{{ mix('css/themes/default/admin.css') }}"></style>
     </head>
     <body>
         <div id="app"></div>
 
-        <script src="{{ mix('js/app.js') }}"></script>
+        <script src="{{ mix('js/admin.js') }}"></script>
     </body>
 </html>

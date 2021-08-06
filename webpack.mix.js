@@ -1,6 +1,7 @@
 const mix = require('laravel-mix')
 const path = require('path')
 const ESLintPlugin = require('eslint-webpack-plugin')
+const webpackConfig = require('./webpack')
 
 /*
  |--------------------------------------------------------------------------
@@ -12,34 +13,26 @@ const ESLintPlugin = require('eslint-webpack-plugin')
  | file for the application as well as bundling up all the JS files.
  |
  */
-
-// Configure PostCSS plugins
-mix.options({
-  postCss: [require('autoprefixer'), require('tailwindcss')],
-})
-
 /**
- * DEFAULT THEME
+ * Environments parsing
  */
-mix.sass('./resources/css/themes/default/app.scss', 'public/css/themes/default/base.css')
+// Part to build (default will build all the parts => admin, client, store)
+const part = process.env.MIX_PART || null
 
-/**
- * FLAT-DARK THEME
+/*
+ * Configure CSS part
  */
-mix.sass('./resources/css/themes/flat-dark/app.scss', 'public/css/themes/flat-dark/base.css')
+webpackConfig.style(mix)
 
-/**
- * FLAT-LIGHT THEME
+/*
+ * Configure JS part
  */
-mix.sass('./resources/css/themes/flat-light/app.scss', 'public/css/themes/flat-light/base.css')
 
-/**
- * Frontend configuration
- */
 // Aliases
 mix.alias({
   '@': path.join(__dirname, 'resources/js'),
 })
+
 // ESLint / Prettier
 mix.webpackConfig({
   plugins: [
@@ -51,7 +44,15 @@ mix.webpackConfig({
     }),
   ],
 })
-mix.ts('resources/js/app.ts', 'public/js').react()
+
+// Admin files
+if (part === 'admin' || part === null) webpackConfig.admin(mix)
+// Store files
+if (part === 'store' || part === null) webpackConfig.store(mix)
+// Client files
+if (part === 'client' || part === null) webpackConfig.client(mix)
+
+mix.react()
 
 if (mix.inProduction()) {
   mix.version()

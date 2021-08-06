@@ -14,5 +14,13 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('app');
+    return view('store');
+});
+
+Route::get('/client', function () {
+    return view('client');
+});
+
+Route::get('/admin', function () {
+    return view('admin');
 });
