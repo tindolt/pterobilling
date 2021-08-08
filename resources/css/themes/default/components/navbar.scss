@@ -1,0 +1,255 @@
+@import '~@fortawesome/fontawesome-free/scss/fontawesome.scss';
+@import '~@fortawesome/fontawesome-free/scss/solid.scss';
+
+$navbar-height: theme('height.16');
+
+.navbar {
+  @apply bg-gray-700 text-white border-gray-400 border-b;
+  min-height: $navbar-height;
+  @apply relative;
+  @apply z-40;
+
+  & > .container {
+    @apply items-stretch flex w-full mx-auto px-2;
+    min-height: $navbar-height;
+  }
+}
+
+.navbar-brand {
+  @apply items-stretch flex flex-shrink-0;
+  min-height: $navbar-height;
+
+  .navbar-item {
+    @apply flex;
+
+    img {
+      @apply w-14 h-14 mr-2;
+      max-height: inherit !important;
+    }
+  }
+
+  .brand-text {
+    @apply text-lg;
+  }
+}
+
+.navbar-burger {
+  @apply mx-0 my-auto;
+  @apply p-2 rounded border-gray-700 border h-10 w-10;
+}
+
+.navbar-menu {
+  @apply hidden;
+}
+
+.navbar-item,
+.navbar-link {
+  @apply block leading-5 py-2 px-3 relative;
+  align-items: center;
+
+  .icon:only-child {
+    @apply -mx-1;
+  }
+}
+
+a.navbar-item,
+.navbar-link {
+  @apply cursor-pointer;
+
+  &:focus,
+  &:focus-within,
+  &:hover,
+  &.is-active {
+    @apply text-blue-400;
+  }
+}
+
+.navbar-item {
+  @apply flex-grow-0 flex-shrink-0;
+
+  img {
+    @apply max-h-7;
+  }
+
+  &.has-dropdown {
+    @apply p-0;
+  }
+}
+
+.navbar-link:not(.is-arrowless) {
+  &::after {
+    @extend .fas;
+    content: fa-content($fa-var-angle-down);
+    @apply relative ml-1;
+    margin-top: 0.1rem;
+  }
+}
+
+.navbar-dropdown {
+  @apply text-sm py-2 bg-white rounded-lg text-gray-900;
+
+  .navbar-item {
+    @apply px-6;
+  }
+}
+
+.navbar-start .navbar-dropdown {
+  @apply left-0;
+}
+
+.navbar-end .navbar-dropdown {
+  @apply right-0;
+}
+
+.navbar-divider {
+  @apply bg-gray-300 border-none mx-0 my-2;
+  height: 2px;
+}
+
+@media screen and (max-width: calc(theme('screens.lg') - 1px)) {
+  .navbar > .container {
+    @apply block;
+  }
+
+  .navbar-brand {
+    .navbar-item {
+      @apply mr-auto;
+    }
+    .navbar-burger {
+      @apply mr-2;
+    }
+  }
+
+  .navbar-link::after {
+    @apply hidden;
+  }
+
+  .navbar-menu {
+    @apply py-2 px-0;
+
+    &.is-active {
+      @apply block;
+    }
+  }
+
+  .navbar-dropdown {
+    @apply hidden rounded-lg;
+    &.is-active {
+      @apply block;
+    }
+  }
+}
+
+@screen lg {
+  .navbar,
+  .navbar-menu,
+  .navbar-start,
+  .navbar-end {
+    @apply items-stretch flex;
+  }
+
+  .navbar-burger {
+    @apply hidden;
+  }
+
+  .navbar-item,
+  .navbar-link {
+    @apply flex;
+  }
+
+  .navbar-item {
+    &.has-dropdown {
+      @apply items-stretch;
+    }
+    &.is-active,
+    &.is-hoverable:focus,
+    &.is-hoverable:focus-within,
+    &.is-hoverable:hover {
+      .navbar-dropdown {
+        @apply block;
+      }
+    }
+  }
+
+  .navbar-menu {
+    @apply flex-grow flex-shrink-0;
+  }
+
+  .navbar-start {
+    @apply justify-start mr-auto;
+  }
+
+  .navbar-end {
+    @apply justify-end ml-auto;
+  }
+
+  .navbar-dropdown {
+    @apply shadow-lg px-4 hidden text-sm;
+    @apply min-w-full absolute z-50;
+    top: 100%;
+
+    .navbar-item {
+      @apply px-2 py-1 whitespace-nowrap;
+    }
+
+    a.navbar-item {
+      &:focus,
+      &:hover,
+      &.active {
+        @apply text-blue-400;
+      }
+    }
+
+    &.is-right {
+      @apply left-auto right-0;
+    }
+  }
+
+  .navbar-item.has-dropdown {
+    &:focus,
+    &:hover,
+    &.is-active {
+      .navbar-link {
+        @apply text-blue-400;
+      }
+    }
+  }
+}
+
+.dark {
+  .navbar-divider {
+    @apply bg-gray-700;
+  }
+
+  .navbar-dropdown {
+    @apply bg-gray-800;
+
+    a.navbar-item {
+      &:focus,
+      &:hover,
+      &.active {
+        @apply text-blue-400;
+      }
+    }
+  }
+
+  a.navbar-item,
+  .navbar-link {
+    &:focus,
+    &:focus-within,
+    &:hover,
+    &.is-active {
+      @apply text-blue-300;
+    }
+  }
+
+  .navbar-item.has-dropdown {
+    &:focus,
+    &:hover,
+    &.is-active {
+      .navbar-link {
+        @apply text-blue-400;
+      }
+    }
+  }
+}

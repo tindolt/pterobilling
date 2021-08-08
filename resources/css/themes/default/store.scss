@@ -2,8 +2,6 @@
 @import 'tailwindcss/components';
 @import 'tailwindcss/utilities';
 
+// Components
 @import './components/page_loader.scss';
-
-[r-load] {
-  @apply bg-gray-900;
-}
+@import './components/navbar.scss';

@@ -6,7 +6,11 @@ interface PreloaderState {
   appName: string
 }
 
-export default class PageLoader extends React.Component<unknown, PreloaderState> {
+interface PreloaderProps {
+  needToLoad: boolean
+}
+
+export default class PageLoader extends React.Component<PreloaderProps, PreloaderState> {
   public state: PreloaderState = {
     loading: false,
     appName: '',
@@ -18,7 +22,6 @@ export default class PageLoader extends React.Component<unknown, PreloaderState>
     })
 
     document.onreadystatechange = () => {
-      console.log('test')
       if (document.readyState === 'complete') {
         setTimeout(() => {
           this.setState({
@@ -37,7 +40,7 @@ export default class PageLoader extends React.Component<unknown, PreloaderState>
     return (
       <div
         className={classNames('preloader', {
-          active: this.state.loading,
+          active: this.state.loading && (this.props.needToLoad || false),
         })}
       >
         <img className="preloader-logo" src="/images/icon.png" alt={`${this.state.appName} Logo`} />

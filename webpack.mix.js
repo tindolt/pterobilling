@@ -55,7 +55,9 @@ if (part === 'store' || part === null) webpackConfig.store(mix)
 if (part === 'client' || part === null) webpackConfig.client(mix)
 
 // Assets
-mix.copyDirectory('./resources/images', 'public/images')
+mix
+  .copyDirectory('./resources/images', 'public/images')
+  .copyDirectory('./resources/js/locales', 'public/locales')
 
 mix.react()
 
