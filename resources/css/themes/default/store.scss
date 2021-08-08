@@ -5,3 +5,8 @@
 // Components
 @import './components/page_loader.scss';
 @import './components/navbar.scss';
+
+html,
+body {
+  @apply bg-bgray-700;
+}

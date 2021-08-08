@@ -4,7 +4,7 @@
 $navbar-height: theme('height.16');
 
 .navbar {
-  @apply bg-gray-700 text-white border-gray-400 border-b;
+  @apply bg-bgray-800 text-bgray-200 border-bgray-600 border-b;
   min-height: $navbar-height;
   @apply relative;
   @apply z-40;
@@ -35,7 +35,7 @@ $navbar-height: theme('height.16');
 
 .navbar-burger {
   @apply mx-0 my-auto;
-  @apply p-2 rounded border-gray-700 border h-10 w-10;
+  @apply p-2 rounded border-bgray-600 border h-10 w-10;
 }
 
 .navbar-menu {
@@ -44,7 +44,7 @@ $navbar-height: theme('height.16');
 
 .navbar-item,
 .navbar-link {
-  @apply block leading-5 py-2 px-3 relative;
+  @apply block leading-5 py-2 px-3 relative text-left;
   align-items: center;
 
   .icon:only-child {
@@ -55,6 +55,10 @@ $navbar-height: theme('height.16');
 a.navbar-item,
 .navbar-link {
   @apply cursor-pointer;
+
+  &:not(.logo) {
+    @apply w-full;
+  }
 
   &:focus,
   &:focus-within,
@@ -86,10 +90,14 @@ a.navbar-item,
 }
 
 .navbar-dropdown {
-  @apply text-sm py-2 bg-white rounded-lg text-gray-900;
+  @apply text-sm py-2 bg-bgray-900 rounded-lg text-gray-200;
 
   .navbar-item {
-    @apply px-6;
+    @apply px-6 text-center;
+
+    &:hover {
+      @apply bg-bgray-800;
+    }
   }
 }
 
@@ -102,8 +110,8 @@ a.navbar-item,
 }
 
 .navbar-divider {
-  @apply bg-gray-300 border-none mx-0 my-2;
-  height: 2px;
+  @apply bg-bgray-600 border-none my-2 mx-4;
+  height: 1px;
 }
 
 @media screen and (max-width: calc(theme('screens.lg') - 1px)) {
@@ -157,6 +165,13 @@ a.navbar-item,
     @apply flex;
   }
 
+  a.navbar-item,
+  .navbar-link {
+    &:not(.logo) {
+      @apply w-auto;
+    }
+  }
+
   .navbar-item {
     &.has-dropdown {
       @apply items-stretch;
@@ -184,12 +199,12 @@ a.navbar-item,
   }
 
   .navbar-dropdown {
-    @apply shadow-lg px-4 hidden text-sm;
+    @apply shadow-lg hidden text-sm;
     @apply min-w-full absolute z-50;
     top: 100%;
 
     .navbar-item {
-      @apply px-2 py-1 whitespace-nowrap;
+      @apply px-6 py-1 whitespace-nowrap;
     }
 
     a.navbar-item {
