@@ -1,10 +1,10 @@
 @import '~@fortawesome/fontawesome-free/scss/fontawesome.scss';
 @import '~@fortawesome/fontawesome-free/scss/solid.scss';
 
-$navbar-height: theme('height.16');
+$navbar-height: theme('height.20');
 
 .navbar {
-  @apply bg-bgray-800 text-bgray-200 border-bgray-600 border-b;
+  @apply bg-bgray-800 text-bgray-200;
   min-height: $navbar-height;
   @apply relative;
   @apply z-40;

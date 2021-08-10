@@ -1,12 +1,17 @@
-@import 'tailwindcss/base';
-@import 'tailwindcss/components';
-@import 'tailwindcss/utilities';
+@import './base.scss';
 
-// Components
-@import './components/page_loader.scss';
-@import './components/navbar.scss';
+header.page-header {
+  @apply flex flex-row mt-4 mx-8 items-center mb-6;
 
-html,
-body {
-  @apply bg-bgray-700;
+  .left {
+    @apply justify-start flex-1;
+  }
+
+  .right {
+    @apply justify-end flex-1;
+  }
+}
+
+body > .container {
+  @apply px-8;
 }

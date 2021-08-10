@@ -13,14 +13,14 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-  return view('store');
-});
-
-Route::get('/client', function () {
+Route::get('/client/{any?}', function () {
   return view('client');
-});
+})->where('any', '.*');
 
-Route::get('/admin', function () {
+Route::get('/admin/{any?}', function () {
   return view('admin');
-});
+})->where('any', '.*');
+
+Route::get('/{any?}', function () {
+  return view('store');
+})->where('any', '.*');

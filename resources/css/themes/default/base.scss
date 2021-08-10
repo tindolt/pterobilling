@@ -1,0 +1,51 @@
+@import 'tailwindcss/base';
+@import 'tailwindcss/components';
+@import 'tailwindcss/utilities';
+
+// Components
+@import './components/page_loader.scss';
+@import './components/navbar.scss';
+@import './components/breadcrumb.scss';
+@import './components/icons.scss';
+
+html,
+body {
+  @apply text-white;
+  background-color: #454d55;
+}
+
+.container {
+  @apply max-w-screen-lg mx-auto;
+}
+
+.wrapper {
+  @apply flex flex-col h-screen;
+}
+
+.content-wrapper {
+  @apply flex-1 p-4;
+}
+
+h1 {
+  @apply mb-3 text-4xl;
+}
+
+h2 {
+  @apply mb-3 text-3xl;
+}
+
+h3 {
+  @apply mb-2 text-2xl;
+}
+
+h4 {
+  @apply mb-2 text-xl;
+}
+
+h5 {
+  @apply mb-2 text-lg;
+}
+
+h6 {
+  @apply mb-2 text-base;
+}

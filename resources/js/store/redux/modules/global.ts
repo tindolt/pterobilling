@@ -30,6 +30,7 @@ export interface GlobalState {
     id: number
     name: string
   }[]
+  currentRoute?: string
 }
 
 const initialState: GlobalState = {
@@ -45,11 +46,22 @@ export function setGlobal(
   return typedAction('global/SET_GLOBAL', state)
 }
 
-type GlobalAction = ReturnType<typeof setGlobal>
+export function setCurrentRouteName(
+  routeName: string
+): ActionWithPayload<'global/SET_CURRENT_ROUTE', typeof routeName> {
+  return typedAction('global/SET_CURRENT_ROUTE', routeName)
+}
+
+type GlobalAction = ReturnType<typeof setGlobal | typeof setCurrentRouteName>
 
 export function useReducer(state = initialState, actions: GlobalAction): GlobalState {
   switch (actions.type) {
     case 'global/SET_GLOBAL':
+      return state
+
+    case 'global/SET_CURRENT_ROUTE':
+      state.currentRoute = actions.payload
+      document.title = state.currentRoute + ' - ' + state.appName
       return state
 
     default:

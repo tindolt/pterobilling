@@ -33,6 +33,12 @@ class Navbar extends React.Component<NavbarProps, NavbarState> {
     return this.state.submenu === sub
   }
 
+  private setLang(lang: string): void {
+    if (lang != this.props.i18n.language) {
+      this.props.i18n.changeLanguage(lang)
+    }
+  }
+
   public render(): JSX.Element {
     const i18n = this.props.i18n
 
@@ -113,7 +119,11 @@ class Navbar extends React.Component<NavbarProps, NavbarState> {
                   })}
                 >
                   {this.props.i18n.languages.map((language, index) => (
-                    <button className="navbar-item" key={index}>
+                    <button
+                      className="navbar-item"
+                      key={index}
+                      onClick={() => this.setLang(language)}
+                    >
                       {i18n.t(`langs.${language}`)}
                     </button>
                   ))}

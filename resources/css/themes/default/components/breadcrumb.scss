@@ -1,0 +1,57 @@
+.breadcrumb {
+  @apply whitespace-nowrap;
+
+  a {
+    @apply text-blue-500 flex content-center py-0 px-3 items-center;
+
+    a:hover {
+      @apply text-blue-400;
+    }
+  }
+
+  li {
+    @apply items-center flex;
+
+    &:first-child {
+      @apply pl-0;
+    }
+
+    &.is-active a {
+      @apply text-gray-100 cursor-default pointer-events-none;
+    }
+
+    & + li::before {
+      @apply text-bgray-200;
+      content: '\0002f';
+    }
+  }
+
+  ul,
+  ol {
+    @apply items-start flex flex-wrap justify-start;
+
+    .icon {
+      &:first-child {
+        @apply mr-2;
+      }
+
+      &:last-child {
+        @apply ml-2;
+      }
+    }
+  }
+
+  &.is-centered {
+    ol,
+    ul {
+      @apply justify-center;
+    }
+  }
+
+  &.is-right {
+    ol,
+    ul {
+      @apply justify-end;
+    }
+  }
+}

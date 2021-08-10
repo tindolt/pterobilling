@@ -12,5 +12,9 @@
       "register": "Register",
       "forgot_password": "Forgot Password"
     }
+  },
+  "routes": {
+    "home": "Home",
+    "contact": "Contact Us"
   }
 }
