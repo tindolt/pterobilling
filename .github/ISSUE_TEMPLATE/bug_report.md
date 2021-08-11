@@ -23,7 +23,7 @@ Steps to reproduce the behavior:
 A clear and concise description of what you expected to happen.
 
 **Error logs**
-Open the `./storage/logs/laravel.log` file. Copy and paste the content to https://hastebin.com/. Then paste the link of the file here:
+Open the `./storage/logs/laravel.log` file. Copy and paste the content to https://hastebin.pterobilling.org/. Then paste the link of the file here:
 
 
 **Screenshots**
