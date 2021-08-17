@@ -5,13 +5,19 @@
 // Components
 @import './components/page_loader.scss';
 @import './components/navbar.scss';
+@import './components/footer.scss';
 @import './components/breadcrumb.scss';
 @import './components/icons.scss';
+@import './components/card.scss';
 
-html,
 body {
   @apply text-white;
   background-color: #454d55;
+}
+
+body,
+#app {
+  @apply flex flex-col h-screen;
 }
 
 .container {
@@ -48,4 +54,12 @@ h5 {
 
 h6 {
   @apply mb-2 text-base;
+}
+
+a {
+  @apply text-bblue-400;
+
+  &:hover {
+    @apply text-bblue-300;
+  }
 }

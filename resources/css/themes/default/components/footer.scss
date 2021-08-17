@@ -1,0 +1,43 @@
+.footer {
+  @apply bg-bgray-800 text-gray-200 p-4;
+
+  &,
+  & > .container {
+    @apply flex flex-row;
+  }
+
+  .left {
+    @apply flex-1 justify-start;
+  }
+  .center {
+    @apply flex-1 justify-center text-center;
+  }
+  .right {
+    @apply flex-1 justify-end text-right;
+
+    a {
+      @apply mx-1;
+    }
+  }
+
+  a {
+    @apply text-blue-500;
+
+    &:hover {
+      @apply text-blue-400;
+    }
+  }
+
+  @media screen and (max-width: calc(theme('screens.lg') - 1px)) {
+    &,
+    & > .container {
+      @apply flex-col;
+    }
+
+    .left,
+    .center,
+    .right {
+      @apply justify-center text-center mb-2;
+    }
+  }
+}

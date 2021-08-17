@@ -11,10 +11,27 @@
       "logout": "Logout",
       "register": "Register",
       "forgot_password": "Forgot Password"
+    },
+    "footer": {
+      "copyright": "Copyright © {{year}} ",
+      "powered": "Powered by <1>Pterobilling</1>",
+      "status": "Status",
+      "terms": "Terms of Service",
+      "privacy": "Privacy Policy"
     }
   },
   "routes": {
     "home": "Home",
     "contact": "Contact Us"
+  },
+  "pages": {
+    "login": {
+      "emailLabel": "Email Address",
+      "passwordLabel": "Password",
+      "rememberLabel": "Remember me",
+      "register": "Don't have an account?",
+      "forgot-password": "Forgot your password?",
+      "login": "Login"
+    }
   }
 }

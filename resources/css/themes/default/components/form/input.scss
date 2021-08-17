@@ -1,0 +1,23 @@
+.input-field {
+  @apply relative flex;
+
+  .input {
+    @apply border bg-transparent flex-1 appearance-none rounded-lg border-bgray-700 w-full py-1 px-4 text-bgray-300 placeholder-bgray-500 text-base;
+
+    &:focus {
+      @apply outline-none ring-2 ring-bblue-400 border-transparent;
+    }
+
+    &:disabled {
+      @apply bg-bgray-600;
+    }
+  }
+
+  .input-icon {
+    @apply rounded-l-lg inline-flex items-center px-3 border border-r-0 border-bgray-700 text-bgray-300 text-sm;
+  }
+
+  &.with-icon .input {
+    @apply rounded-l-none;
+  }
+}

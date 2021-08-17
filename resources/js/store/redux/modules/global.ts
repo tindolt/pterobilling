@@ -1,5 +1,5 @@
 /*
- * Global module store will allow us to share application data trhough the whole application
+ * Global module store will allow us to share application data through the whole application
  */
 
 interface Action<T extends string> {

@@ -1,0 +1,36 @@
+.card {
+  @apply rounded bg-bgray-800 shadow;
+
+  .card-header {
+    @apply rounded-t px-4 py-2;
+    background-color: #3f6791;
+  }
+
+  .card-title {
+    @apply text-white m-0 text-xl;
+  }
+
+  .card-body {
+    @apply px-4 py-2;
+
+    & + :not(.card-footer) {
+      @apply rounded-b;
+    }
+  }
+
+  .card-footer {
+    @apply rounded-b px-4 py-2 bg-black bg-opacity-10;
+
+    &.left {
+      @apply text-left;
+    }
+
+    &.center {
+      @apply text-center;
+    }
+
+    &.right {
+      @apply text-right;
+    }
+  }
+}

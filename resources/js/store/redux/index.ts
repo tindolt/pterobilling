@@ -1,5 +1,6 @@
 import { applyMiddleware, combineReducers, createStore, compose } from 'redux'
 import * as global from './modules/global'
+import * as user from './modules/user'
 import thunk from 'redux-thunk'
 import { createLogger } from 'redux-logger'
 
@@ -9,6 +10,7 @@ const logger = createLogger()
 // Applying modules
 export const rootReducer = combineReducers({
   global: global.useReducer,
+  user: user.useReducer,
 })
 
 /*

@@ -6,5 +6,6 @@
 import Axios from 'axios'
 
 Axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest'
+Axios.defaults.headers.withCredentials = true
 
 document.body.removeAttribute('r-load')

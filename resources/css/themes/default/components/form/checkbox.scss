@@ -1,0 +1,37 @@
+@import '~@fortawesome/fontawesome-free/scss/fontawesome.scss';
+@import '~@fortawesome/fontawesome-free/scss/solid.scss';
+
+.checkbox-field {
+  @apply flex items-center mx-2 my-2;
+
+  input.checkbox {
+    @apply mr-2 appearance-none bg-transparent h-5 w-5 border border-bgray-500 rounded-md;
+
+    &:checked {
+      @apply bg-bblue-500 border-transparent relative;
+
+      @extend %fa-icon;
+      @extend .fas;
+
+      &::before {
+        @apply absolute text-white w-3 h-3 left-1 top-1;
+
+        font-size: 0.75rem;
+
+        content: fa-content($fa-var-check);
+      }
+    }
+
+    &:focus {
+      @apply outline-none;
+    }
+
+    &:disabled {
+      @apply bg-bgray-300;
+    }
+
+    & + .label {
+      @apply text-sm select-none;
+    }
+  }
+}

@@ -18,3 +18,17 @@ declare module 'react-i18next' {
     }
   }
 }
+
+declare global {
+  interface Window {
+    X_CSRF_TOKEN: string
+  }
+}
+
+export interface UserInfo {
+  id: number
+  email: string
+  email_verified_at: Date
+  language: string
+  is_admin: boolean
+}

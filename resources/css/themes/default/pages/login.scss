@@ -1,0 +1,32 @@
+@import '../components/form/label.scss';
+@import '../components/form/input.scss';
+@import '../components/form/checkbox.scss';
+@import '../components/form/button.scss';
+@import '../components/form/error-handler.scss';
+
+#login {
+  @apply mx-auto my-8;
+
+  .card {
+    @apply max-w-lg m-auto;
+
+    .error-handler,
+    .checkbox-field {
+      @apply mb-6;
+    }
+  }
+
+  .remember-container {
+    .checkbox-field {
+      @apply mx-auto max-w-max;
+    }
+  }
+
+  p {
+    @apply text-center;
+
+    @screen md {
+      @apply text-left;
+    }
+  }
+}
