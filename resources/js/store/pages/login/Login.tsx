@@ -1,19 +1,25 @@
 import Card from '@/common/component/Card'
 import Input from '@/common/component/form/Input'
 import { RootState } from '@/store/redux'
-import { UserState } from '@/store/redux/modules/user'
+import { login } from '@/store/redux/modules/user'
+import { setCurrentRouteName } from '@/store/redux/modules/global'
 import React from 'react'
 import { I18nextProviderProps, withTranslation } from 'react-i18next'
 import { connect } from 'react-redux'
 import { CombinedState } from 'redux'
 import Checkbox from '@/common/component/form/Checkbox'
-import { Link } from 'react-router-dom'
+import { Link, RouteComponentProps, withRouter } from 'react-router-dom'
 import API from '@/common/utils/API'
 import ErrorHandler from '@/common/component/form/ErrorHandler'
 import { AxiosError } from 'axios'
+import { UserInfo } from '@/typings'
 
-const mapStateToProps = (state: RootState): CombinedState<UserState> => state.user
-type LoginProps = ReturnType<typeof mapStateToProps> & I18nextProviderProps
+const mapStateToProps = (state: RootState): CombinedState<RootState> => state
+const mapDispatchToProps = { login, setCurrentRouteName }
+type LoginProps = ReturnType<typeof mapStateToProps> &
+  I18nextProviderProps &
+  RouteComponentProps &
+  typeof mapDispatchToProps
 
 interface LoginState {
   email: string
@@ -36,16 +42,21 @@ class Login extends React.Component<LoginProps, LoginState> {
     this.loginSubmit = this.loginSubmit.bind(this)
   }
 
+  public componentDidMount(): void {
+    this.props.setCurrentRouteName(this.props.i18n.t('store:routes.login'))
+  }
+
   private loginSubmit(event: React.FormEvent): void {
     event.preventDefault()
 
-    API.post('/user/login', {
+    API.post<{ user: UserInfo }>('/user/login', {
       email: this.state.email,
       password: this.state.password,
       rememberMe: this.state.rememberMe,
     })
       .then((response) => {
-        console.log(response)
+        this.props.login(response.data.user)
+        this.props.history.push('/')
       })
       .catch((error: AxiosError) => {
         if (error.response) {
@@ -133,4 +144,6 @@ class Login extends React.Component<LoginProps, LoginState> {
   }
 }
 
-export default withTranslation('store')(connect()(Login))
+export default withTranslation('store')(
+  connect(mapStateToProps, mapDispatchToProps)(withRouter(Login))
+)

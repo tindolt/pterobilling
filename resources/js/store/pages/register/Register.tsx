@@ -3,16 +3,22 @@ import Checkbox from '@/common/component/form/Checkbox'
 import ErrorHandler from '@/common/component/form/ErrorHandler'
 import Input from '@/common/component/form/Input'
 import { RootState } from '@/store/redux'
-import { UserState } from '@/store/redux/modules/user'
+import { login, UserState } from '@/store/redux/modules/user'
+import { setCurrentRouteName } from '@/store/redux/modules/global'
 import React, { Component } from 'react'
 import { I18nextProviderProps, withTranslation } from 'react-i18next'
 import { connect } from 'react-redux'
-import { Link } from 'react-router-dom'
+import { Link, RouteComponentProps, withRouter } from 'react-router-dom'
 import { CombinedState } from 'redux'
 import API from '@/common/utils/API'
+import { UserInfo } from '@/typings'
 
 const mapStateToProps = (state: RootState): CombinedState<UserState> => state.user
-type RegisterProps = ReturnType<typeof mapStateToProps> & I18nextProviderProps
+const mapDispatchToProps = { login, setCurrentRouteName }
+type RegisterProps = ReturnType<typeof mapStateToProps> &
+  I18nextProviderProps &
+  RouteComponentProps &
+  typeof mapDispatchToProps
 
 interface RegisterState {
   email: string
@@ -39,17 +45,22 @@ class Register extends Component<RegisterProps, RegisterState> {
     this.submitRegister = this.submitRegister.bind(this)
   }
 
+  public componentDidMount(): void {
+    this.props.setCurrentRouteName(this.props.i18n.t('store:routes.login'))
+  }
+
   private submitRegister(event: React.FormEvent): void {
     event.preventDefault()
 
-    API.post('/user/register', {
+    API.post<{ user: UserInfo }>('/user/register', {
       email: this.state.email,
       password: this.state.password,
       password_confirmation: this.state.password_confirmation,
       agreement: this.state.agreement,
     })
       .then((response) => {
-        console.log(response)
+        this.props.login(response.data.user)
+        this.props.history.push('/')
       })
       .catch((error) => {
         this.setState({ errors: error.response.data })
@@ -150,4 +161,6 @@ class Register extends Component<RegisterProps, RegisterState> {
   }
 }
 
-export default withTranslation('store')(connect()(Register))
+export default withTranslation('store')(
+  connect(mapStateToProps, mapDispatchToProps)(withRouter(Register))
+)

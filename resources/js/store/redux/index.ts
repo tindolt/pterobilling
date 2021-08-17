@@ -1,6 +1,6 @@
 import { applyMiddleware, combineReducers, createStore, compose } from 'redux'
-import * as global from './modules/global'
-import * as user from './modules/user'
+import { globalReducer } from './modules/global'
+import { userReducer } from './modules/user'
 import thunk from 'redux-thunk'
 import { createLogger } from 'redux-logger'
 
@@ -9,8 +9,8 @@ const logger = createLogger()
 
 // Applying modules
 export const rootReducer = combineReducers({
-  global: global.useReducer,
-  user: user.useReducer,
+  global: globalReducer,
+  user: userReducer,
 })
 
 /*
@@ -18,12 +18,6 @@ export const rootReducer = combineReducers({
  * - if we are in production mode, use the redux composer
  * - else, use the redux devtool composer if present
  */
-declare global {
-  interface Window {
-    __REDUX_DEVTOOLS_EXTENSION_COMPOSE__?: typeof compose
-  }
-}
-
 let composeEnhancer: typeof compose
 if (process.env.NODE_ENV === 'production' && window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__) {
   composeEnhancer = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__

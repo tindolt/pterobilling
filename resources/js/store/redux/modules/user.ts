@@ -43,7 +43,7 @@ export function logout(): Action<'user/LOGOUT'> {
 
 type UserAction = ReturnType<typeof login | typeof logout>
 
-export function useReducer(state = initialState, action: UserAction): UserState {
+export function userReducer(state = initialState, action: UserAction): UserState {
   switch (action.type) {
     case 'user/LOGIN':
       return {

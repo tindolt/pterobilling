@@ -29,7 +29,6 @@ class UserController extends Controller
       return response()->json([
         'message' => 'invalid credentials',
         'errors' => $validator->errors(),
-        'object' => $request->all()
       ])->setStatusCode(400);
     }
 
@@ -43,5 +42,42 @@ class UserController extends Controller
     } else {
       return response()->json(['message' => 'Invalid email or password'], 401);
     }
+  }
+
+  /**
+   * User register method
+   *
+   * @param Request $request
+   * @return Response
+   */
+  public function register(Request $request)
+  {
+    $validator = Validator::make($request->all(), [
+      'email' => 'required|string|email|max:255|unique:users,email',
+      'password' => 'required|string|min:6|confirmed',
+      'agreement' => 'required|accepted'
+    ]);
+
+    if ($validator->fails()) {
+      return response()->json([
+        'message' => 'invalid credentials',
+        'errors' => $validator->errors(),
+      ])->setStatusCode(400);
+    }
+
+    $data = $validator->validated();
+
+    $user = User::create([
+      'email' => $data['email'],
+      'password' => $data['password'],
+      'language' => 'en'
+    ]);
+    $user->save();
+
+    Auth::loginUsingId($user->id);
+
+    return response()->json([
+      'user' => auth()->user()
+    ]);
   }
 }

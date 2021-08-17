@@ -54,7 +54,7 @@ export function setCurrentRouteName(
 
 type GlobalAction = ReturnType<typeof setGlobal | typeof setCurrentRouteName>
 
-export function useReducer(state = initialState, actions: GlobalAction): GlobalState {
+export function globalReducer(state = initialState, actions: GlobalAction): GlobalState {
   switch (actions.type) {
     case 'global/SET_GLOBAL':
       return state

@@ -22,7 +22,9 @@
   },
   "routes": {
     "home": "Home",
-    "contact": "Contact Us"
+    "contact": "Contact Us",
+    "login": "Login",
+    "register": "Register"
   },
   "pages": {
     "login": {

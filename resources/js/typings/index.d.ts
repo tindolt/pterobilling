@@ -22,6 +22,7 @@ declare module 'react-i18next' {
 declare global {
   interface Window {
     X_CSRF_TOKEN: string
+    __REDUX_DEVTOOLS_EXTENSION_COMPOSE__?: typeof compose
   }
 }
 
