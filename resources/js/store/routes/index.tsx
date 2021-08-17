@@ -11,6 +11,7 @@ import { GlobalState } from '../redux/modules/global'
 import Home from '../pages/home/Home'
 import Contact from '../pages/contact/Contact'
 import Login from '../pages/login/Login'
+import Register from '../pages/register/Register'
 
 const mapStateToProps = (state: RootState): CombinedState<GlobalState> => state.global
 
@@ -25,6 +26,7 @@ class AppRouter extends React.Component<AppRouterProps & RouteComponentProps> {
         <Route exact path="/" component={Home} />
         <Route exact path="/contact" component={Contact} />
         <Route exact path="/login" component={Login} />
+        <Route exact path="/register" component={Register} />
         <Route path="*" component={undefined} />
       </Switch>
     )

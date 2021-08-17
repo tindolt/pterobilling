@@ -69,7 +69,7 @@ class Login extends React.Component<LoginProps, LoginState> {
         <form className="container" onSubmit={this.loginSubmit}>
           <Card>
             <Card.Header>
-              <Card.Title>Login</Card.Title>
+              <Card.Title>{i18n.t('store:pages.login.title')}</Card.Title>
             </Card.Header>
             <Card.Body>
               <Card.Text>

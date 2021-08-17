@@ -1,6 +1,7 @@
 @import './base.scss';
 
 @import './pages/login.scss';
+@import './pages/register.scss';
 
 header.page-header {
   @apply flex flex-row mt-4 mx-8 items-center mb-6;

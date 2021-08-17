@@ -26,11 +26,21 @@
   },
   "pages": {
     "login": {
+      "title": "Login",
       "emailLabel": "Email Address",
       "passwordLabel": "Password",
       "rememberLabel": "Remember me",
       "register": "Don't have an account?",
       "forgot-password": "Forgot your password?",
+      "login": "Login"
+    },
+    "register": {
+      "title": "Register",
+      "emailLabel": "Email Address",
+      "passwordLabel": "Password",
+      "confirmPasswordLabel": "Confirm Password",
+      "agreementLabel": "I agree to the Terms of Service and Privacy Policy",
+      "register": "Register",
       "login": "Login"
     }
   }

@@ -1,9 +1,16 @@
+$btn-color: #3f6791 !default;
+
 .button {
   @apply appearance-none rounded-md px-4 py-2;
 
-  background-color: #3f6791;
+  background-color: $btn-color;
 
   &:hover {
-    background-color: mix(white, #3f6791, 0.1);
+    background-color: mix(white, $btn-color, 10%);
+  }
+
+  &:disabled {
+    @apply cursor-default;
+    background-color: mix(rgba(0, 0, 0, 30%), $btn-color, 60%);
   }
 }
