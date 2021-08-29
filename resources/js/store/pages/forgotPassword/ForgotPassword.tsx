@@ -3,6 +3,7 @@ import Input from '@/common/component/form/Input'
 import React from 'react'
 import { I18nextProviderProps, withTranslation } from 'react-i18next'
 import { RouteComponentProps, withRouter } from 'react-router-dom'
+import API from '@/common/utils/API'
 
 type ForgotPasswordProps = I18nextProviderProps & RouteComponentProps
 
@@ -35,6 +36,13 @@ class ForgotPassword extends React.Component<ForgotPasswordProps, ForgotPassword
 
   private forgotPasswordSubmit(e: React.FromEvent): void {
     e.preventDefault()
+
+    API.post('user/forgotpassword', {
+      email: this.state.email,
+    }).then(() => {
+      // TODO Email Action
+      this.props.history.push('/user/login')
+    })
   }
   public render(): JSX.Element {
     const i18n = this.props.i18n
