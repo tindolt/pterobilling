@@ -47,7 +47,8 @@
     },
     "forgot-password": {
       "title": "Reset Password",
-      "emailLabel": "Email Address from your account"
+      "emailLabel": "Email Address from your account",
+      "forgotpassword": "Reset Password"
     }
   }
 }

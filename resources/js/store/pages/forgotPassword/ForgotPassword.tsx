@@ -2,13 +2,9 @@ import Card from '@/common/component/Card'
 import Input from '@/common/component/form/Input'
 import React from 'react'
 import { I18nextProviderProps, withTranslation } from 'react-i18next'
-import { Link, RouteComponentProps, withRouter } from 'react-router-dom'
-import API from '@/common/utils/API'
-import { UserInfo } from '@/typings'
-import { connect } from 'tls'
+import { RouteComponentProps, withRouter } from 'react-router-dom'
 
-type ForgotPasswordProps = I18nextProviderProps &
-  RouteComponentProps 
+type ForgotPasswordProps = I18nextProviderProps & RouteComponentProps
 
 /**
  * Interface of Forgot Password
@@ -29,7 +25,7 @@ class ForgotPassword extends React.Component<ForgotPasswordProps, ForgotPassword
    * Constructor
    */
   public constructor(props: ForgotPasswordProps) {
-    super(props);
+    super(props)
     this.forgotPasswordSubmit = this.forgotPasswordSubmit.bind(this)
   }
 
@@ -39,17 +35,7 @@ class ForgotPassword extends React.Component<ForgotPasswordProps, ForgotPassword
 
   private forgotPasswordSubmit(e: React.FromEvent): void {
     e.preventDefault()
-
-    API.post<{ user: UserInfo }>('user/forgotpassword', {
-      email: this.state.email
-    })
-
-      .then((response) => {
-        // TODO Email Action
-        this.props.history.push('/user/login')
-      })
   }
-
   public render(): JSX.Element {
     const i18n = this.props.i18n
     return (
@@ -64,16 +50,26 @@ class ForgotPassword extends React.Component<ForgotPasswordProps, ForgotPassword
                 <label htmlFor="email" className="label">
                   {i18n.t('store:pages.forgot-password.emailLabel')}
                 </label>
-                <Input id="email" name="email" type="text" placeholder={i18n.t('store:pages.forgot-password.emailLabel')} icon={"fas fa-at"} value={this.state.email} onChange={(e) => this.setState({ email: e.tar})}/>
+                <Input
+                  id="email"
+                  name="email"
+                  type="text"
+                  placeholder={i18n.t('store:pages.forgot-password.emailLabel')}
+                  icon={'fas fa-at'}
+                  value={this.state.email}
+                  onChange={(e) => this.setState({ email: e.target.value })}
+                />
               </Card.Text>
             </Card.Body>
+            <Card.Footer aligment="center">
+              <button type="submit" className="button">
+                {i18n.t('store:page.forgot-password.forgotpassword')}
+              </button>
+            </Card.Footer>
           </Card>
         </from>
       </div>
     )
   }
 }
-
-export default withTranslation('store') (
-  withRouter(ForgotPassword)
-)
+export default withTranslation('store')(withRouter(ForgotPassword))
