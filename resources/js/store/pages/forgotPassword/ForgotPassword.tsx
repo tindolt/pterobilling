@@ -1,22 +1,14 @@
 import Card from '@/common/component/Card'
 import Input from '@/common/component/form/Input'
-import ErrorHandler from '@/common/component/form/ErrorHandler'
-import { forgot_password } from '@/store/redux/modules/user'
 import React from 'react'
-import { RootState } from '@/store/redux'
-import { CombinedState } from 'redux'
 import { I18nextProviderProps, withTranslation } from 'react-i18next'
-import { setCurrentRouteName } from '@/store/redux/modules/global'
 import { Link, RouteComponentProps, withRouter } from 'react-router-dom'
 import API from '@/common/utils/API'
 import { UserInfo } from '@/typings'
+import { connect } from 'tls'
 
-const mapStateToProps = (state: RootState): CombinedState<RootState> => state
-const mapDispatchToProps = { forgot_password, setCurrentRouteName }
-type ForgotPasswordProps = ReturnType<typeof mapStateToProps> &
-  I18nextProviderProps &
-  RouteComponentProps &
-  typeof mapDispatchToProps
+type ForgotPasswordProps = I18nextProviderProps &
+  RouteComponentProps 
 
 /**
  * Interface of Forgot Password
@@ -38,7 +30,7 @@ class ForgotPassword extends React.Component<ForgotPasswordProps, ForgotPassword
    */
   public constructor(props: ForgotPasswordProps) {
     super(props);
-
+    this.forgotPasswordSubmit = this.forgotPasswordSubmit.bind(this)
   }
 
   public componentDisMount(): void {
@@ -82,4 +74,6 @@ class ForgotPassword extends React.Component<ForgotPasswordProps, ForgotPassword
   }
 }
 
-
+export default withTranslation('store') (
+  withRouter(ForgotPassword)
+)

@@ -40,9 +40,6 @@ export function login(u: UserInfo): ActionWithPayload<'user/LOGIN', typeof u> {
 export function logout(): Action<'user/LOGOUT'> {
   return typedAction('user/LOGOUT')
 }
-export function forgot_password(): Action<"user/FORGOT_PASSWORD"> {
-  return typedAction('user/FORGOT_PASSWORD')
-}
 
 type UserAction = ReturnType<typeof login | typeof logout>
 
@@ -55,12 +52,6 @@ export function userReducer(state = initialState, action: UserAction): UserState
         isLoggedIn: true,
       }
     case 'user/LOGOUT':
-      return {
-        ...state,
-        user: undefined,
-        isLoggedIn: false,
-      }
-    case 'user/FORGOT_PASSWORD':
       return {
         ...state,
         user: undefined,
