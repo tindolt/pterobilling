@@ -48,7 +48,11 @@
     "forgot-password": {
       "title": "Reset Password",
       "emailLabel": "Email Address from your account",
-      "forgotpassword": "Reset Password"
+      "forgotpassword": "Reset Password",
+      "messages": {
+        "invalidEmail": "Invalid email address",
+        "emailSendSuccess": "Email sent successfully"
+      }
     }
   }
 }

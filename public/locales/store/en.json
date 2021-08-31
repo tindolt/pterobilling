@@ -44,6 +44,15 @@
       "agreementLabel": "I agree to the Terms of Service and Privacy Policy",
       "register": "Register",
       "login": "Login"
+    },
+    "forgot-password": {
+      "title": "Reset Password",
+      "emailLabel": "Email Address from your account",
+      "forgotpassword": "Reset Password",
+      "messages": {
+        "invalidEmail": "Invalid email address",
+        "emailSendSuccess": "Email sent successfully"
+      }
     }
   }
 }

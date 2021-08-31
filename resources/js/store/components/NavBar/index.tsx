@@ -6,9 +6,11 @@ import { RootState } from '@/store/redux'
 import { connect } from 'react-redux'
 import { withTranslation, I18nextProviderProps } from 'react-i18next'
 import classNames from 'classnames'
+import { RouteComponentProps, withRouter } from 'react-router'
+import { UnregisterCallback } from 'history'
 
 const mapStateToProps = (state: RootState): CombinedState<GlobalState> => state.global
-type NavbarProps = ReturnType<typeof mapStateToProps> & I18nextProviderProps
+type NavbarProps = ReturnType<typeof mapStateToProps> & I18nextProviderProps & RouteComponentProps
 
 interface NavbarState {
   mobileOpen: boolean
@@ -20,6 +22,8 @@ class Navbar extends React.Component<NavbarProps, NavbarState> {
     mobileOpen: false,
     submenu: '',
   }
+
+  private unlisten: UnregisterCallback | undefined
 
   private openSub(sub: string): void {
     if (this.state.submenu === sub) {
@@ -36,6 +40,21 @@ class Navbar extends React.Component<NavbarProps, NavbarState> {
   private setLang(lang: string): void {
     if (lang != this.props.i18n.language) {
       this.props.i18n.changeLanguage(lang)
+    }
+  }
+
+  public componentDidMount(): void {
+    this.unlisten = this.props.history.listen(() => {
+      this.setState({
+        mobileOpen: false,
+        submenu: '',
+      })
+    })
+  }
+
+  public componentWillUnmount(): void {
+    if (this.unlisten) {
+      this.unlisten()
     }
   }
 
@@ -160,4 +179,4 @@ class Navbar extends React.Component<NavbarProps, NavbarState> {
   }
 }
 
-export default withTranslation('store')(connect(mapStateToProps)(Navbar))
+export default withRouter(withTranslation('store')(connect(mapStateToProps)(Navbar)))

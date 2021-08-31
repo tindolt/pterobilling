@@ -4,14 +4,26 @@ import React from 'react'
 import { I18nextProviderProps, withTranslation } from 'react-i18next'
 import { RouteComponentProps, withRouter } from 'react-router-dom'
 import API from '@/common/utils/API'
+import { setCurrentRouteName } from '@/store/redux/modules/global'
+import { AxiosError } from 'axios'
+import ErrorHandler from '@/common/component/form/ErrorHandler'
 
-type ForgotPasswordProps = I18nextProviderProps & RouteComponentProps
+const mapDispatchToProps = { setCurrentRouteName }
+type ForgotPasswordProps = I18nextProviderProps & RouteComponentProps & typeof mapDispatchToProps
+
+interface AxiosInvalidEmailError {
+  message: string
+  errors: {
+    [key: string]: string[]
+  }
+}
 
 /**
  * Interface of Forgot Password
  */
 interface ForgotPasswordState {
   email: string
+  error?: string
 }
 
 /**
@@ -34,21 +46,29 @@ class ForgotPassword extends React.Component<ForgotPasswordProps, ForgotPassword
     this.props.setCurrentRouteName(this.props.i18n.t('store:routes.forgotpassword'))
   }
 
-  private forgotPasswordSubmit(e: React.FromEvent): void {
+  private forgotPasswordSubmit(e: React.FormEvent): void {
     e.preventDefault()
 
-    API.post('user/forgotpassword', {
+    API.post('/user/forgot-password', {
       email: this.state.email,
-    }).then(() => {
-      // TODO Email Action
-      this.props.history.push('/user/login')
     })
+      .then(() => {
+        this.setState({ error: undefined })
+        this.props.history.push('/login')
+      })
+      .catch((err: AxiosError<AxiosInvalidEmailError>) => {
+        if (err.response?.status === 400) {
+          this.setState({
+            error: this.props.i18n.t('store:pages.forgot-password.messages.invalidEmail'),
+          })
+        }
+      })
   }
   public render(): JSX.Element {
     const i18n = this.props.i18n
     return (
-      <div id="forgotpassword">
-        <from className="container" onSubmit={this.forgotPasswordSubmit}>
+      <div id="forgot-password">
+        <form className="container" onSubmit={this.forgotPasswordSubmit}>
           <Card>
             <Card.Header>
               <Card.Title>{i18n.t('store:pages.forgot-password.title')}</Card.Title>
@@ -58,24 +78,26 @@ class ForgotPassword extends React.Component<ForgotPasswordProps, ForgotPassword
                 <label htmlFor="email" className="label">
                   {i18n.t('store:pages.forgot-password.emailLabel')}
                 </label>
-                <Input
-                  id="email"
-                  name="email"
-                  type="text"
-                  placeholder={i18n.t('store:pages.forgot-password.emailLabel')}
-                  icon={'fas fa-at'}
-                  value={this.state.email}
-                  onChange={(e) => this.setState({ email: e.target.value })}
-                />
+                <ErrorHandler errors={this.state.error ? [this.state.error] : []}>
+                  <Input
+                    id="email"
+                    name="email"
+                    type="text"
+                    placeholder={i18n.t('store:pages.forgot-password.emailLabel')}
+                    icon={'fas fa-at'}
+                    value={this.state.email}
+                    onChange={(e) => this.setState({ email: e.target.value })}
+                  />
+                </ErrorHandler>
               </Card.Text>
             </Card.Body>
             <Card.Footer aligment="center">
               <button type="submit" className="button">
-                {i18n.t('store:page.forgot-password.forgotpassword')}
+                {i18n.t('store:pages.forgot-password.forgotpassword')}
               </button>
             </Card.Footer>
           </Card>
-        </from>
+        </form>
       </div>
     )
   }

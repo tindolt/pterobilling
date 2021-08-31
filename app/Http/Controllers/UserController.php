@@ -6,8 +6,9 @@ use App\Models\User;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Password;
 use Illuminate\Support\Facades\Response;
+use Illuminate\Support\Facades\Log;
 
 class UserController extends Controller
 {
@@ -79,5 +80,49 @@ class UserController extends Controller
     return response()->json([
       'user' => auth()->user()
     ]);
+  }
+
+  /**
+   * Forgot password method
+   *
+   * @param Request $request
+   * @return Response
+   */
+  public function forgotPassword(Request $request)
+  {
+    $validator = Validator::make($request->all(), [
+      'email' => 'required|string|email|max:255|exists:users,email'
+    ]);
+
+    if ($validator->fails()) {
+      return response()->json([
+        'message' => 'invalid email address',
+        'errors' => $validator->errors(),
+      ])->setStatusCode(400);
+    }
+
+    Password::sendResetLink($request->only('email'));
+
+    return response()->json([]);
+  }
+
+  /**
+   * Reset password method
+   *
+   * @param Request $request
+   * @return Response
+   */
+  public function resetPassword(Request $request)
+  {
+    $validator = Validator::make($request->all(), []);
+
+    if ($validator->fails()) {
+      return response()->json([
+        'message' => 'invalid email address',
+        'errors' => $validator->errors(),
+      ])->setStatusCode(400);
+    }
+
+    return response()->json([]);
   }
 }

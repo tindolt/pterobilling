@@ -2,6 +2,7 @@
 
 @import './pages/login.scss';
 @import './pages/register.scss';
+@import './pages/forgotPassword.scss';
 
 header.page-header {
   @apply flex flex-row mt-4 mx-8 items-center mb-6;

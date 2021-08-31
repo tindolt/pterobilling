@@ -5,7 +5,6 @@ $navbar-height: theme('height.20');
 
 .navbar {
   @apply bg-bgray-800 text-bgray-200;
-  min-height: $navbar-height;
   @apply relative;
   @apply z-40;
 
