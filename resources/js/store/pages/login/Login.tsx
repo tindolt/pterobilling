@@ -128,7 +128,7 @@ class Login extends React.Component<LoginProps, LoginState> {
                   <Link to="/register">{i18n.t('store:pages.login.register')}</Link>
                 </p>
                 <p>
-                  <Link to="/forgot">{i18n.t('store:pages.login.forgot-password')}</Link>
+                  <Link to="/forgot-password">{i18n.t('store:pages.login.forgot-password')}</Link>
                 </p>
               </Card.Text>
             </Card.Body>

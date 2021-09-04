@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\ResetPasswordController;
 
 /*
 |--------------------------------------------------------------------------
@@ -22,6 +23,8 @@ Route::group(['prefix' => '/user'], function () {
     Route::post('/login', [UserController::class, 'login']);
     Route::post('/register', [UserController::class, 'register']);
     Route::post('/forgot-password', [UserController::class, 'forgotPassword']);
+
+    Route::get('/reset-password', [ResetPasswordController::class, 'redirect'])->name('password.reset');
   });
 
   Route::middleware(['auth:sanctum'])->group(function () {

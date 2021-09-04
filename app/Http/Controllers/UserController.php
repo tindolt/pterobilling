@@ -105,24 +105,4 @@ class UserController extends Controller
 
     return response()->json([]);
   }
-
-  /**
-   * Reset password method
-   *
-   * @param Request $request
-   * @return Response
-   */
-  public function resetPassword(Request $request)
-  {
-    $validator = Validator::make($request->all(), []);
-
-    if ($validator->fails()) {
-      return response()->json([
-        'message' => 'invalid email address',
-        'errors' => $validator->errors(),
-      ])->setStatusCode(400);
-    }
-
-    return response()->json([]);
-  }
 }

@@ -15,12 +15,12 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/client/{any?}', function () {
   return view('client');
-})->where('any', '.*');
+})->where('any', '^(?!api).*$');
 
 Route::get('/admin/{any?}', function () {
   return view('admin');
-})->where('any', '.*');
+})->where('any', '^(?!api).*$');
 
 Route::get('/{any?}', function () {
   return view('store');
-})->where('any', '.*');
+})->where('any', '^(?!api).*$');
