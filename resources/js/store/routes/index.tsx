@@ -13,6 +13,7 @@ import Contact from '../pages/contact/Contact'
 import Login from '../pages/login/Login'
 import Register from '../pages/register/Register'
 import ForgotPassword from '../pages/forgotPassword/ForgotPassword'
+import ResetPassword from '../pages/mail/resetPassword/ResetPassword'
 
 const mapStateToProps = (state: RootState): CombinedState<GlobalState> => state.global
 
@@ -29,6 +30,7 @@ class AppRouter extends React.Component<AppRouterProps & RouteComponentProps> {
         <Route exact path="/login" component={Login} />
         <Route exact path="/register" component={Register} />
         <Route exact path="/forgot-password" component={ForgotPassword} />
+        <Route exact path="/mail/reset-password" component={ResetPassword} />
         <Route path="*" component={undefined} />
       </Switch>
     )

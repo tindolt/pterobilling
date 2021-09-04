@@ -24,7 +24,9 @@
     "home": "Home",
     "contact": "Contact Us",
     "login": "Login",
-    "register": "Register"
+    "register": "Register",
+    "forgotpassword": "Reset your password",
+    "reset": "Reset Password"
   },
   "pages": {
     "login": {
@@ -53,6 +55,13 @@
         "invalidEmail": "Invalid email address",
         "emailSendSuccess": "Email sent successfully"
       }
+    },
+    "reset": {
+      "title": "Reset Password",
+      "emailLabel": "Email Address",
+      "passwordLabel": "Password",
+      "confirmPasswordLabel": "Confirm Password",
+      "reset": "Reset your password"
     }
   }
 }

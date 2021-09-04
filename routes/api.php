@@ -25,6 +25,7 @@ Route::group(['prefix' => '/user'], function () {
     Route::post('/forgot-password', [UserController::class, 'forgotPassword']);
 
     Route::get('/reset-password', [ResetPasswordController::class, 'redirect'])->name('password.reset');
+    Route::post('/reset-password', [ResetPasswordController::class, 'reset']);
   });
 
   Route::middleware(['auth:sanctum'])->group(function () {

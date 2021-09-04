@@ -54,7 +54,6 @@ class ForgotPassword extends React.Component<ForgotPasswordProps, ForgotPassword
     })
       .then(() => {
         this.setState({ error: undefined })
-        this.props.history.push('/login')
       })
       .catch((err: AxiosError<AxiosInvalidEmailError>) => {
         if (err.response?.status === 400) {
