@@ -55,6 +55,7 @@ class Login extends React.Component<LoginProps, LoginState> {
       rememberMe: this.state.rememberMe,
     })
       .then((response) => {
+        console.log(response.data)
         this.props.login(response.data.user)
         this.props.history.push('/')
       })

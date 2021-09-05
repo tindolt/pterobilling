@@ -10,7 +10,11 @@
       "login": "Login",
       "logout": "Logout",
       "register": "Register",
-      "forgot_password": "Forgot Password"
+      "forgot_password": "Forgot Password",
+      "client": "Client area",
+      "client-credits": "Account credits",
+      "client-account": "Account settings",
+      "admin": "Admin area"
     },
     "footer": {
       "copyright": "Copyright © {{year}} ",

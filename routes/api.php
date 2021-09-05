@@ -29,9 +29,11 @@ Route::group(['prefix' => '/user'], function () {
   });
 
   Route::middleware(['auth:sanctum'])->group(function () {
-    Route::post('/logout', [UserController::class, 'logout']);
-    Route::get('/user', function (Request $request) {
-      return $request->user();
-    });
+    Route::delete('/', [UserController::class, 'logout']);
+    Route::get('/', [UserController::class, 'fetchUser']);
   });
+
+  Route::any('/{any?}', function () {
+    return response()->setStatusCode(404);
+  })->where('any', '.*');;
 });

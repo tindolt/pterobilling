@@ -3,8 +3,26 @@ import { Route } from 'react-router-dom'
 import Footer from './components/Footer/Footer'
 import Navbar from './components/NavBar'
 import MainRoutes from './routes'
+import API from '@/common/utils/API'
+import { UserInfo } from '@/typings'
+import { login } from './redux/modules/user'
+import { connect } from 'react-redux'
 
-export default class App extends React.Component {
+const mapDispatchToProps = { login }
+
+type AppProps = typeof mapDispatchToProps
+
+class App extends React.Component<AppProps> {
+  public componentDidMount(): void {
+    API.get<{ user: UserInfo }>('/user')
+      .then((response) => {
+        if (response.data.user) {
+          this.props.login(response.data.user)
+        }
+      })
+      .catch((error) => console.error(error))
+  }
+
   public render(): JSX.Element {
     return (
       <>
@@ -17,3 +35,5 @@ export default class App extends React.Component {
     )
   }
 }
+
+export default connect(undefined, mapDispatchToProps)(App)

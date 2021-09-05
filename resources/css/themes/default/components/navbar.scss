@@ -43,7 +43,7 @@ $navbar-height: theme('height.20');
 
 .navbar-item,
 .navbar-link {
-  @apply block leading-5 py-2 px-3 relative text-left;
+  @apply block leading-5 py-2 px-3 relative text-left text-white;
   align-items: center;
 
   .icon:only-child {
@@ -51,7 +51,7 @@ $navbar-height: theme('height.20');
   }
 }
 
-a.navbar-item,
+.navbar-item,
 .navbar-link {
   @apply cursor-pointer;
 
@@ -164,7 +164,7 @@ a.navbar-item,
     @apply flex;
   }
 
-  a.navbar-item,
+  .navbar-item,
   .navbar-link {
     &:not(.logo) {
       @apply w-auto;
@@ -203,13 +203,13 @@ a.navbar-item,
     top: 100%;
 
     .navbar-item {
-      @apply px-6 py-1 whitespace-nowrap;
+      @apply px-6 py-1 whitespace-nowrap min-w-full;
     }
 
-    a.navbar-item {
+    .navbar-item {
       &:focus,
       &:hover,
-      &.active {
+      &.is-active {
         @apply text-blue-400;
       }
     }
@@ -238,22 +238,22 @@ a.navbar-item,
   .navbar-dropdown {
     @apply bg-gray-800;
 
-    a.navbar-item {
+    .navbar-item {
       &:focus,
       &:hover,
-      &.active {
+      &.is-active {
         @apply text-blue-400;
       }
     }
   }
 
-  a.navbar-item,
+  .navbar-item,
   .navbar-link {
     &:focus,
     &:focus-within,
     &:hover,
     &.is-active {
-      @apply text-blue-300;
+      @apply text-blue-400;
     }
   }
 

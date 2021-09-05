@@ -8,7 +8,6 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Password;
 use Illuminate\Support\Facades\Response;
-use Illuminate\Support\Facades\Log;
 
 class UserController extends Controller
 {
@@ -102,6 +101,36 @@ class UserController extends Controller
     }
 
     Password::sendResetLink($request->only('email'));
+
+    return response()->json([]);
+  }
+
+  /**
+   * Fetch user method
+   *
+   * @param Request $request
+   * @return Response
+   */
+  public function fetchUser(Request $request)
+  {
+    return response()->json([
+      'user' => $request->user(),
+    ]);
+  }
+
+  /**
+   * Logout method
+   *
+   * @param Request $request
+   * @return Response
+   */
+  public function logout(Request $request)
+  {
+    Auth::guard('web')->logout();
+
+    $request->session()->invalidate();
+
+    $request->session()->regenerateToken();
 
     return response()->json([]);
   }
