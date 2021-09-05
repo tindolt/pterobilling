@@ -57,7 +57,10 @@ type GlobalAction = ReturnType<typeof setGlobal | typeof setCurrentRouteName>
 export function globalReducer(state = initialState, actions: GlobalAction): GlobalState {
   switch (actions.type) {
     case 'global/SET_GLOBAL':
-      return state
+      return {
+        ...state,
+        ...actions.payload,
+      }
 
     case 'global/SET_CURRENT_ROUTE':
       state.currentRoute = actions.payload

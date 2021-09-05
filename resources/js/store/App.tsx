@@ -7,8 +7,9 @@ import API from '@/common/utils/API'
 import { UserInfo } from '@/typings'
 import { login } from './redux/modules/user'
 import { connect } from 'react-redux'
+import { GlobalState, setGlobal } from './redux/modules/global'
 
-const mapDispatchToProps = { login }
+const mapDispatchToProps = { login, setGlobal }
 
 type AppProps = typeof mapDispatchToProps
 
@@ -19,6 +20,12 @@ class App extends React.Component<AppProps> {
         if (response.data.user) {
           this.props.login(response.data.user)
         }
+      })
+      .catch((error) => console.error(error))
+
+    API.get<GlobalState>('/')
+      .then((response) => {
+        this.props.setGlobal(response.data)
       })
       .catch((error) => console.error(error))
   }

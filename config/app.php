@@ -14,6 +14,8 @@ return [
     */
 
   'name' => env('APP_NAME', 'Pterobilling'),
+  'icon' => env('APP_ICON', '/images/icon.png'),
+  'version' => '0.1.0',
 
   /*
     |--------------------------------------------------------------------------

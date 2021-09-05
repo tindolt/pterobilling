@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\GlobalsController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
@@ -32,8 +33,10 @@ Route::group(['prefix' => '/user'], function () {
     Route::delete('/', [UserController::class, 'logout']);
     Route::get('/', [UserController::class, 'fetchUser']);
   });
-
-  Route::any('/{any?}', function () {
-    return response()->setStatusCode(404);
-  })->where('any', '.*');;
 });
+
+Route::get('/', [GlobalsController::class, 'fetch']);
+
+Route::any('/{any?}', function () {
+  return response()->setStatusCode(404);
+})->where('any', '.*');;
