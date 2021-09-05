@@ -58,7 +58,6 @@ class Navbar extends React.Component<NavbarProps, NavbarState> {
       .then(() => {
         this.props.logout()
         this.props.history.push('/')
-        console.log(this.props.user)
       })
       .catch((error) => console.error(error))
   }

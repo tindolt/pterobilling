@@ -10,13 +10,15 @@ import { connect } from 'react-redux'
 import { CombinedState } from 'redux'
 import API from '@/common/utils/API'
 import { AxiosError } from 'axios'
+import { RouteComponentProps, withRouter } from 'react-router'
 
 const mapStateToProps = (state: RootState): CombinedState<GlobalState> => state.global
 const mapDispatchToProps = { setCurrentRouteName }
 
 type ContactProps = ReturnType<typeof mapStateToProps> &
   typeof mapDispatchToProps &
-  I18nextProviderProps
+  I18nextProviderProps &
+  RouteComponentProps
 
 interface ContactState {
   email: string
@@ -50,7 +52,7 @@ class Contact extends React.Component<ContactProps, ContactState> {
 
     API.post('/contact', this.state)
       .then(() => {
-        console.log('%cOk !', 'border-radius:10px;background:#D0662F;padding:4px;')
+        this.props.history.push('/')
       })
       .catch((error: AxiosError) => {
         if (error.response) {
@@ -151,4 +153,6 @@ class Contact extends React.Component<ContactProps, ContactState> {
   }
 }
 
-export default withTranslation('store')(connect(mapStateToProps, mapDispatchToProps)(Contact))
+export default withTranslation('store')(
+  connect(mapStateToProps, mapDispatchToProps)(withRouter(Contact))
+)

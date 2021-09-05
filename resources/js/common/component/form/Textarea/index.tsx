@@ -36,7 +36,6 @@ class Textarea extends Component<TextareaProps> {
 
   public componentDidMount(): void {
     if (this.props.autosize && this.textareaRef.current) {
-      console.log(this.textareaRef.current)
       autosize(this.textareaRef.current)
     }
   }
