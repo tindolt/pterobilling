@@ -66,6 +66,15 @@
       "passwordLabel": "Password",
       "confirmPasswordLabel": "Confirm Password",
       "reset": "Reset your password"
+    },
+    "contact": {
+      "title": "Contact Us",
+      "subject": "Subject",
+      "name": "Name",
+      "email": "Email Address",
+      "message": "Message",
+      "messagePlaceholder": "Please enter your message...",
+      "send": "Send"
     }
   }
 }

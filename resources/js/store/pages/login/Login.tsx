@@ -92,7 +92,7 @@ class Login extends React.Component<LoginProps, LoginState> {
                   <Input
                     id="email"
                     name="email"
-                    type="text"
+                    type="email"
                     placeholder={i18n.t('store:pages.login.emailLabel')}
                     icon="fas fa-at"
                     value={this.state.email}

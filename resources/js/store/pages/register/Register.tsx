@@ -94,7 +94,7 @@ class Register extends Component<RegisterProps, RegisterState> {
                   <Input
                     id="email"
                     name="email"
-                    type="text"
+                    type="email"
                     placeholder={i18n.t('store:pages.register.emailLabel')}
                     icon="fas fa-at"
                     value={this.state.email}
