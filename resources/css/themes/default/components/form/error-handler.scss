@@ -1,5 +1,6 @@
 .error {
-  input {
+  .input,
+  .textarea {
     @apply ring-2 ring-red-500 border-transparent;
   }
 

@@ -3,8 +3,9 @@
 use App\Http\Controllers\GlobalsController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\UserController;
-use App\Http\Controllers\ResetPasswordController;
+use App\Http\Controllers\Auth\UserController;
+use App\Http\Controllers\Auth\ResetPasswordController;
+use App\Http\Controllers\Store\StoreController;
 
 /*
 |--------------------------------------------------------------------------
@@ -34,6 +35,8 @@ Route::group(['prefix' => '/user'], function () {
     Route::get('/', [UserController::class, 'fetchUser']);
   });
 });
+
+Route::post('/contact', [StoreController::class, 'contactPost']);
 
 Route::get('/', [GlobalsController::class, 'fetch']);
 

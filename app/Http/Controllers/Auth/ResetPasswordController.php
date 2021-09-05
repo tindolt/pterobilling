@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Auth;
 
 use App\Models\User;
 use Illuminate\Auth\Events\PasswordReset;
@@ -9,6 +9,7 @@ use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Password;
+use App\Http\Controllers\Controller;
 
 class ResetPasswordController extends Controller
 {
@@ -60,7 +61,7 @@ class ResetPasswordController extends Controller
       return response()->json([
         'message' => 'password reset successfully',
         'status' => trans($status),
-      ])->setStatusCode(200);
+      ]);
     } else {
       return response()->json([
         'message' => 'password reset failed',

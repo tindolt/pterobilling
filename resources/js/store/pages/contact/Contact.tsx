@@ -8,6 +8,8 @@ import React from 'react'
 import { I18nextProviderProps, withTranslation } from 'react-i18next'
 import { connect } from 'react-redux'
 import { CombinedState } from 'redux'
+import API from '@/common/utils/API'
+import { AxiosError } from 'axios'
 
 const mapStateToProps = (state: RootState): CombinedState<GlobalState> => state.global
 const mapDispatchToProps = { setCurrentRouteName }
@@ -34,14 +36,42 @@ class Contact extends React.Component<ContactProps, ContactState> {
     message: '',
   }
 
+  public constructor(props: ContactProps) {
+    super(props)
+    this.contactSubmit = this.contactSubmit.bind(this)
+  }
+
   public componentDidMount(): void {
     this.props.setCurrentRouteName(this.props.i18n.t('store:routes.contact'))
   }
+
+  public contactSubmit(event: React.FormEvent): void {
+    event.preventDefault()
+
+    API.post('/contact', this.state)
+      .then(() => {
+        console.log('%cOk !', 'border-radius:10px;background:#D0662F;padding:4px;')
+      })
+      .catch((error: AxiosError) => {
+        if (error.response) {
+          const data = error.response.data
+
+          if (data.errors) {
+            this.setState({
+              errors: data.errors,
+            })
+          }
+        } else {
+          console.error(error)
+        }
+      })
+  }
+
   public render(): JSX.Element {
     const i18n = this.props.i18n
     return (
       <div id="contact-us">
-        <form onSubmit={() => null} className="container">
+        <form onSubmit={this.contactSubmit} className="container">
           <Card>
             <Card.Header>
               <Card.Title>{i18n.t('store:pages.contact.title')}</Card.Title>

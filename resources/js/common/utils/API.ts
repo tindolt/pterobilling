@@ -1,6 +1,6 @@
 import Axios, { AxiosInstance } from 'axios'
 
-const instance: AxiosInstance = Axios.create({
+const API: AxiosInstance = Axios.create({
   timeout: 200000,
   baseURL: '/api',
   headers: {
@@ -11,4 +11,4 @@ const instance: AxiosInstance = Axios.create({
   },
 })
 
-export default instance
+export default API

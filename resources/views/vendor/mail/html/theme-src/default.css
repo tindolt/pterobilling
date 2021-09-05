@@ -40,24 +40,15 @@ a img {
 /* Typography */
 
 h1 {
-  font-size: 18px;
-  font-weight: bold;
-  margin-top: 0;
-  text-align: left;
+  @apply mt-0 mb-2 text-lg text-left font-bold;
 }
 
 h2 {
-  font-size: 16px;
-  font-weight: bold;
-  margin-top: 0;
-  text-align: left;
+  @apply mt-0 mb-2 text-base text-left font-bold;
 }
 
 h3 {
-  font-size: 14px;
-  font-weight: bold;
-  margin-top: 0;
-  text-align: left;
+  @apply mt-0 mb-2 text-sm text-left font-bold;
 }
 
 p {
@@ -249,13 +240,11 @@ img {
 }
 
 .panel-content {
-  background-color: #edf2f7;
-  color: #718096;
-  padding: 16px;
+  @apply bg-bgray-900 text-bgray-200 p-4 rounded-md;
 }
 
 .panel-content p {
-  color: #718096;
+  @apply text-bgray-200;
 }
 
 .panel-item {
