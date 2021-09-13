@@ -15,13 +15,11 @@
     <body data-compagny="Pterobilling" r-load>
         <div id="app"></div>
 
-        @if($plugin_scripts and $loading_script)
-          @foreach($plugin_scripts as $script)
-            <script type="application/javascript"  src="{{ $script }}"></script>
-          @endforeach
+        @foreach($plugin_scripts as $script)
+          <script type="application/javascript"  src="{{ $script }}"></script>
+        @endforeach
 
-          <script type="application/javascript">{{ $loading_script }}</script>
-        @endif
+        <script type="application/javascript">{{ $loading_script }}</script>
 
         <script src="{{ mix('js/store.js') }}" defer></script>
     </body>
