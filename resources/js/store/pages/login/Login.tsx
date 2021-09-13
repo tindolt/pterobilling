@@ -13,13 +13,15 @@ import API from '@/common/utils/API'
 import ErrorHandler from '@/common/component/form/ErrorHandler'
 import { AxiosError } from 'axios'
 import { UserInfo } from '@/typings'
+import { withPlugins, WithPluginsProps } from 'react-pluggable'
 
 const mapStateToProps = (state: RootState): CombinedState<RootState> => state
 const mapDispatchToProps = { login, setCurrentRouteName }
 type LoginProps = ReturnType<typeof mapStateToProps> &
   I18nextProviderProps &
   RouteComponentProps &
-  typeof mapDispatchToProps
+  typeof mapDispatchToProps &
+  WithPluginsProps
 
 interface LoginState {
   email: string
@@ -74,7 +76,9 @@ class Login extends React.Component<LoginProps, LoginState> {
   }
 
   public render(): JSX.Element {
-    const i18n = this.props.i18n
+    console.log(this.props)
+    const { i18n, pluginStore } = this.props
+
     return (
       <div id="login">
         <form className="container" onSubmit={this.loginSubmit}>
@@ -124,12 +128,20 @@ class Login extends React.Component<LoginProps, LoginState> {
                   />
                 </div>
 
-                <p>
-                  <Link to="/register">{i18n.t('store:pages.login.register')}</Link>
-                </p>
-                <p>
-                  <Link to="/forgot-password">{i18n.t('store:pages.login.forgot-password')}</Link>
-                </p>
+                <div className="plugin-container">
+                  {pluginStore.executeFunction('plugins:registerAuth').map((output, index) => (
+                    <p key={index}>{output}</p>
+                  ))}
+                </div>
+
+                <div className="links-container">
+                  <p>
+                    <Link to="/register">{i18n.t('store:pages.login.register')}</Link>
+                  </p>
+                  <p>
+                    <Link to="/forgot-password">{i18n.t('store:pages.login.forgot-password')}</Link>
+                  </p>
+                </div>
               </Card.Text>
             </Card.Body>
             <Card.Footer aligment="center">
@@ -145,5 +157,5 @@ class Login extends React.Component<LoginProps, LoginState> {
 }
 
 export default withTranslation('store')(
-  connect(mapStateToProps, mapDispatchToProps)(withRouter(Login))
+  connect(mapStateToProps, mapDispatchToProps)(withPlugins(withRouter(Login)))
 )

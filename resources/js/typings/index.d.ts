@@ -3,6 +3,7 @@ import _default from '../locales/default/en.json'
 import store from '../locales/store/en.json'
 import admin from '../locales/admin/en.json'
 import client from '../locales/client/en.json'
+import { IPlugin } from 'react-pluggable'
 
 declare module 'react-i18next' {
   // and extend them!
@@ -23,6 +24,7 @@ declare global {
   interface Window {
     X_CSRF_TOKEN: string
     __REDUX_DEVTOOLS_EXTENSION_COMPOSE__?: typeof compose
+    plugins: IPlugin[]
   }
 }
 

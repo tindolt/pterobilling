@@ -3,20 +3,24 @@ import '../common/bootstrap'
 import React, { Suspense } from 'react'
 import ReactDOM from 'react-dom'
 import { BrowserRouter, Route } from 'react-router-dom'
+import { Provider } from 'react-redux'
+import './i18n'
+import pluginStore from '@/common/plugins'
 
 import App from './App'
 
 import PageLoader from '@/common/component/PageLoader'
-import { Provider } from 'react-redux'
 import store from './redux'
-import './i18n'
+import { PluginProvider } from 'react-pluggable'
 
 ReactDOM.render(
   <Provider store={store}>
     <Suspense fallback="Loading">
-      <BrowserRouter>
-        <Route component={App} />
-      </BrowserRouter>
+      <PluginProvider pluginStore={pluginStore}>
+        <BrowserRouter>
+          <Route component={App} />
+        </BrowserRouter>
+      </PluginProvider>
     </Suspense>
     <PageLoader needToLoad={true} />
   </Provider>,
