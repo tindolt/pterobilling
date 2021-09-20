@@ -20,7 +20,9 @@ class Extensions
     foreach ($this->instances as $instance) {
       if (method_exists($instance, 'script_link')) {
         $link = $instance->script_link();
-        if (gettype($link) == 'string') {
+        if (is_array($link)) {
+          $scripts = array_merge($scripts, $link);
+        } else if (gettype($link) == 'string') {
           $scripts[] = $link;
         }
       }

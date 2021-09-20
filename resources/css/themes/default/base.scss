@@ -2,6 +2,9 @@
 @import 'tailwindcss/components';
 @import 'tailwindcss/utilities';
 
+// Bases
+@import '../../common/font.scss';
+
 // Components
 @import './components/page_loader.scss';
 @import './components/navbar.scss';

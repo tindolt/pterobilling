@@ -20,7 +20,7 @@ i18n
     ns: ['default', 'store'],
 
     react: {
-      wait: true,
+      useSuspense: true,
     },
 
     // Backend options

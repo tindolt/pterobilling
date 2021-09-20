@@ -20,6 +20,7 @@ class CreateUsersTable extends Migration
       $table->string('password');
       $table->string('language', 4)->nullable();
       $table->boolean('is_admin')->default(false);
+      $table->string('custom_id')->nullable();
       $table->rememberToken();
       $table->timestamps();
     });

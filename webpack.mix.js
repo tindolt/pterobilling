@@ -36,7 +36,7 @@ mix.alias({
 })
 
 // ESLint / Prettier
-mix.webpackConfig({
+mix.webpackConfig((_webpack) => ({
   plugins: [
     new ESLintPlugin({
       context: path.resolve(__dirname, 'resources/js'),
@@ -45,7 +45,7 @@ mix.webpackConfig({
       threads: true,
     }),
   ],
-})
+}))
 
 // Admin files
 if (part === 'admin' || part === null) webpackConfig.admin(mix)
