@@ -14,7 +14,8 @@
     "guzzlehttp/guzzle": "^7.0.1",
     "laravel/framework": "^8",
     "laravel/sanctum": "^2.11",
-    "laravel/tinker": "^2.5"
+    "laravel/tinker": "^2.5",
+    "pterobilling/social-auth": "^1.0"
   },
   "require-dev": {
     "facade/ignition": "^2.5",
@@ -62,5 +63,14 @@
     "sort-packages": true
   },
   "minimum-stability": "dev",
-  "prefer-stable": true
+  "prefer-stable": true,
+  "repositories": [
+    {
+      "type": "path",
+      "url": "./extensions/social-auth",
+      "options": {
+        "symlink": false
+      }
+    }
+  ]
 }
