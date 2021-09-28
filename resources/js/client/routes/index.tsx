@@ -9,6 +9,10 @@ import { GlobalState } from '../redux/modules/global'
  * Routes
  */
 import Home from '../pages/home/Home'
+import Affiliate from '../pages/affiliate/Affliate'
+import Credit from '../pages/credit/Credit'
+import Server from '../pages/servers/Server'
+import Settings from '../pages/settings/Settings'
 
 const mapStateToProps = (state: RootState): CombinedState<GlobalState> => state.global
 
@@ -21,6 +25,10 @@ class AppRouter extends React.Component<AppRouterProps & RouteComponentProps> {
     return (
       <Switch>
         <Route exact path="/" component={Home} />
+        <Route exact path="/affiliate" component={Affiliate} />
+        <Route exact path="/credit" component={Credit} />
+        <Route exact path="/servers" component={Server} />
+        <Route exact path="/settings" component={Settings} />
         <Route path="*" component={undefined} />
       </Switch>
     )
