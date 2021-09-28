@@ -1,16 +1,21 @@
 $btn-color: #3f6791 !default;
 
 .button {
-  @apply appearance-none rounded-md px-4 py-2;
+  @apply appearance-none rounded-md px-4 py-2 block text-white;
 
   background-color: $btn-color;
 
   &:hover {
+    @apply text-white;
     background-color: mix(white, $btn-color, 10%);
   }
 
   &:disabled {
     @apply cursor-default;
     background-color: mix(rgba(0, 0, 0, 30%), $btn-color, 60%);
+  }
+
+  .icon {
+    @apply mr-1 h-4 w-6 text-center;
   }
 }

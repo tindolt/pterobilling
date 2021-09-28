@@ -15,6 +15,12 @@
     <body data-compagny="Pterobilling" r-load>
         <div id="app"></div>
 
-        <script src="{{ mix('js/store.js') }}"></script>
+        @foreach($plugin_scripts as $script)
+          <script type="application/javascript"  src="{{ $script }}"></script>
+        @endforeach
+
+        <script type="application/javascript">{{ $loading_script }}</script>
+
+        <script src="{{ mix('js/store.js') }}" defer></script>
     </body>
 </html>

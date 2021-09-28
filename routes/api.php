@@ -41,5 +41,5 @@ Route::post('/contact', [StoreController::class, 'contactPost']);
 Route::get('/', [GlobalsController::class, 'fetch']);
 
 Route::any('/{any?}', function () {
-  return response()->setStatusCode(404);
-})->where('any', '.*');;
+  return abort(404);
+})->where('any', '.*');

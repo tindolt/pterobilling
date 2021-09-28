@@ -10,9 +10,12 @@
   .card {
     @apply max-w-lg m-auto;
 
-    .error-handler,
-    .checkbox-field {
+    .error-handler {
       @apply mb-6;
+    }
+
+    .checkbox-field {
+      @apply mb-4;
     }
   }
 
@@ -25,6 +28,34 @@
 
     @screen md {
       @apply text-left;
+    }
+  }
+
+  .links-container p {
+    @apply text-center;
+  }
+
+  .plugin-container {
+    @apply mx-auto mt-4 bg-black bg-opacity-10 rounded-md px-3 py-2;
+
+    .container-title {
+      @apply mb-2 text-base text-center;
+    }
+
+    @screen md {
+      @apply mx-auto max-w-xs;
+
+      ul {
+        @apply grid-flow-col grid-cols-2 grid space-x-2;
+      }
+    }
+
+    li {
+      @apply mb-2 text-center;
+
+      .button {
+        @apply py-1;
+      }
     }
   }
 }

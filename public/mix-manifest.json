@@ -1,8 +1,16 @@
 {
+    "/js/admin.js": "/js/admin.js",
     "/js/store.js": "/js/store.js",
+    "/js/client.js": "/js/client.js",
+    "/css/themes/default/store.css": "/css/themes/default/store.css",
+    "/css/themes/flat-light/admin.css": "/css/themes/flat-light/admin.css",
+    "/css/themes/flat-dark/admin.css": "/css/themes/flat-dark/admin.css",
+    "/css/themes/default/admin.css": "/css/themes/default/admin.css",
+    "/css/themes/flat-light/client.css": "/css/themes/flat-light/client.css",
+    "/css/themes/flat-dark/client.css": "/css/themes/flat-dark/client.css",
+    "/css/themes/default/client.css": "/css/themes/default/client.css",
     "/css/themes/flat-light/store.css": "/css/themes/flat-light/store.css",
     "/css/themes/flat-dark/store.css": "/css/themes/flat-dark/store.css",
-    "/css/themes/default/store.css": "/css/themes/default/store.css",
     "/images/favicon.png": "/images/favicon.png",
     "/images/icon.png": "/images/icon.png"
 }

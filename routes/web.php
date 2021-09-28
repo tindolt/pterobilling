@@ -1,5 +1,6 @@
 <?php
 
+use App\Services\Extensions;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -22,5 +23,12 @@ Route::get('/admin/{any?}', function () {
 })->where('any', '^(?!api).*$');
 
 Route::get('/{any?}', function () {
-  return view('store');
+  $plugins_scripts = app(Extensions::class)->get_scripts();
+
+  $loading_script = app(Extensions::class)->generate_loader();
+
+  return view('store', [
+    'plugin_scripts' => $plugins_scripts,
+    'loading_script' => $loading_script
+  ]);
 })->where('any', '^(?!api).*$');

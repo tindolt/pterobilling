@@ -13,13 +13,17 @@ import API from '@/common/utils/API'
 import ErrorHandler from '@/common/component/form/ErrorHandler'
 import { AxiosError } from 'axios'
 import { UserInfo } from '@/typings'
+import { withPlugins, WithPluginsProps } from 'react-pluggable'
+import ButtonLink from '@/common/component/form/ButtonLink'
+import Button from '@/common/component/form/Button'
 
 const mapStateToProps = (state: RootState): CombinedState<RootState> => state
 const mapDispatchToProps = { login, setCurrentRouteName }
 type LoginProps = ReturnType<typeof mapStateToProps> &
   I18nextProviderProps &
   RouteComponentProps &
-  typeof mapDispatchToProps
+  typeof mapDispatchToProps &
+  WithPluginsProps
 
 interface LoginState {
   email: string
@@ -73,8 +77,32 @@ class Login extends React.Component<LoginProps, LoginState> {
       })
   }
 
+  private showAuthPlugins(): JSX.Element | undefined {
+    const authPlugins = this.props.pluginStore.executeFunction('plugins:registerAuth')
+
+    if (authPlugins.length > 0) {
+      return (
+        <div className="plugin-container">
+          <p className="container-title">Connect with:</p>
+          <ul>
+            {authPlugins.map(
+              (provider: { text: string; icon: string; url: string }, index: number) => (
+                <li key={index}>
+                  <ButtonLink to={provider.url} external icon={provider.icon}>
+                    {provider.text}
+                  </ButtonLink>
+                </li>
+              )
+            )}
+          </ul>
+        </div>
+      )
+    }
+  }
+
   public render(): JSX.Element {
-    const i18n = this.props.i18n
+    const { i18n } = this.props
+
     return (
       <div id="login">
         <form className="container" onSubmit={this.loginSubmit}>
@@ -124,18 +152,20 @@ class Login extends React.Component<LoginProps, LoginState> {
                   />
                 </div>
 
-                <p>
-                  <Link to="/register">{i18n.t('store:pages.login.register')}</Link>
-                </p>
-                <p>
-                  <Link to="/forgot-password">{i18n.t('store:pages.login.forgot-password')}</Link>
-                </p>
+                <div className="links-container">
+                  <p>
+                    <Link to="/register">{i18n.t('store:pages.login.register')}</Link>
+                  </p>
+                  <p>
+                    <Link to="/forgot-password">{i18n.t('store:pages.login.forgot-password')}</Link>
+                  </p>
+                </div>
+
+                {this.showAuthPlugins()}
               </Card.Text>
             </Card.Body>
             <Card.Footer aligment="center">
-              <button type="submit" className="button">
-                {i18n.t('store:pages.login.login')}
-              </button>
+              <Button type="submit">{i18n.t('store:pages.login.login')}</Button>
             </Card.Footer>
           </Card>
         </form>
@@ -145,5 +175,5 @@ class Login extends React.Component<LoginProps, LoginState> {
 }
 
 export default withTranslation('store')(
-  connect(mapStateToProps, mapDispatchToProps)(withRouter(Login))
+  connect(mapStateToProps, mapDispatchToProps)(withPlugins(withRouter(Login)))
 )

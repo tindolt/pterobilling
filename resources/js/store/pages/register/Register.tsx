@@ -12,6 +12,7 @@ import { Link, RouteComponentProps, withRouter } from 'react-router-dom'
 import { CombinedState } from 'redux'
 import API from '@/common/utils/API'
 import { UserInfo } from '@/typings'
+import Button from '@/common/component/form/Button'
 
 const mapStateToProps = (state: RootState): CombinedState<UserState> => state.user
 const mapDispatchToProps = { login, setCurrentRouteName }
@@ -150,9 +151,9 @@ class Register extends Component<RegisterProps, RegisterState> {
               </Card.Text>
             </Card.Body>
             <Card.Footer aligment="center">
-              <button type="submit" className="button" disabled={!this.isFormValid()}>
+              <Button type="submit" disabled={!this.isFormValid()}>
                 {i18n.t('store:pages.register.register')}
-              </button>
+              </Button>
             </Card.Footer>
           </Card>
         </form>
