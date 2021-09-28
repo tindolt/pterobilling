@@ -2,7 +2,7 @@
 
 namespace App\Services;
 
-use Illuminate\Support\HtmlString;
+use Illuminate\Support\Arr;
 
 class Extensions
 {
@@ -37,14 +37,15 @@ class Extensions
 
   public function generate_loader()
   {
-    $output_script = 'window.plugins = [';
+    $plugins = [];
 
     foreach ($this->instances as $instance) {
       if (method_exists($instance, 'loading_class')) {
-        $output_script .= "\nnew window." . $instance->loading_class() . "()";
+        $plugins[] = 'new window.' . $instance->loading_class() . '();';
       }
     }
-    $output_script .= "\n];";
-    return $output_script;
+    return json_encode([
+      'plugins' => $plugins
+    ]);
   }
 }

@@ -12,6 +12,7 @@ i18n
     lng: 'en',
     fallbackLng: 'en',
     debug: process.env.NODE_ENV === 'development',
+    compatibilityJSON: 'v3',
     interpolation: {
       escapeValue: false,
     },
